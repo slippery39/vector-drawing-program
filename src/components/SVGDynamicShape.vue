@@ -20,8 +20,8 @@
   />
   <ellipse
     v-else-if="data.type=='ellipse'"
-    :cx="data.x"
-    :cy="data.y"
+    :cx="data.position.x"
+    :cy="data.position.y"
     :rx="data.radius.x"
     :ry="data.radius.y"
     :fill="data.fillColor"
