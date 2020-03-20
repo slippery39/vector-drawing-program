@@ -1,6 +1,4 @@
-# Quasar App (vector-image-draw)
-
-A vector image drawing app
+### Vector Based Drawing App
 
 ## Install the dependencies
 ```bash
@@ -22,9 +20,10 @@ npm run lint
 quasar build
 ```
 
+### Run Unit Test With Jest
+```
+quasar test --unit jest 
+```
+
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
-
-### Run Unit Test With Jest
-quasar test --unit jest
-    
