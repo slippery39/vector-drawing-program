@@ -16,7 +16,7 @@ class VectorDrawing {
         }
     }
     AddShape(shapeObj) {
-        shapeObj = Object.assign({}, shapeObj); //making a copy of the object.
+        shapeObj = JSON.parse(JSON.stringify(shapeObj)); //making a copy of the object.
         shapeObj.id = this.uniqueIdCounter++;
         this.objects.push(shapeObj);
     }
@@ -27,6 +27,9 @@ class VectorDrawing {
                 return;
             }
         }
+    }
+    RemoveAllShapes() {
+        this.objects = [];
     }
 }
 

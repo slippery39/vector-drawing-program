@@ -4,7 +4,6 @@
     v-touch-pan.prevent.mouse="handlePan"
     width="640"
     height="480"
-    style="border:1px solid black;background:red;"
   >
     <SVGDynamicShape
       v-if="currentRectangle!=undefined"
@@ -15,28 +14,15 @@
 </template>
 
 <script>
-import SVGDynamicShape from "./SVGDynamicShape";
-
-var rectangle = {
-  type: "rectangle",
-  position: {
-    x: 0,
-    y: 0
-  },
-  width: 0,
-  height: 0,
-  fillColor: "black",
-  strokeColor: "black",
-  strokeWidth: "2"
-};
-
-// rectangle x,y is specifies the left and top position
+import SVGDynamicShape from "../SVGDynamicShape";
+import ToolMixIn from "./ToolMixIn";
 
 export default {
   name: "SVGEllipseDrawingCanvas",
   components: {
     SVGDynamicShape
   },
+  mixins: [ToolMixIn],
   data: function() {
     return {
       firstClickPoint: undefined,
@@ -44,9 +30,25 @@ export default {
     };
   },
   methods: {
+    createStartingRectangle: function(data) {
+      return {
+        type: "rectangle",
+        position: {
+          x: 0,
+          y: 0
+        },
+        width: 0,
+        height: 0,
+        fillColor: this.fillColor,
+        fillOpacity: this.fillOpacity,
+        strokeColor: this.strokeColor,
+        strokeOpacity: this.strokeOpacity,
+        strokeWidth: "2"
+      };
+    },
     handlePan: function(data) {
       if (data.isFirst) {
-        this.currentRectangle = Object.assign({}, rectangle);
+        this.currentRectangle = this.createStartingRectangle();
 
         const svgLeft = this.$refs.svg.getBoundingClientRect().left;
         const svgTop = this.$refs.svg.getBoundingClientRect().top;
@@ -66,13 +68,11 @@ export default {
       this.currentRectangle.position.y =
         this.firstClickPoint.top + Math.min(data.offset.y, 0);
 
-      //clear the ellipse when the user mouseups.
       if (data.isFinal) {
-        
-        // TODO: fire an event saying the rectangle has been completed.
+        // TODO: fire an event saying the rectangle has been
+        this.$emit("shapeCompleted", this.currentRectangle);
         this.firstClickPoint = undefined;
-        this.currentRectagle = undefined;
-        
+        this.currentRectangle = undefined;
       }
     }
   }

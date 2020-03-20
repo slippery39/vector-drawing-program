@@ -1,8 +1,11 @@
 import VectorDrawing from "../models/VectorDrawing"
+import UIState from "../models/UIState";
 
-// This is the app state we will use for our app for now. 
+// This will be our global app state.
+// If a component needs to access the state they should import this object.
 var state = {
-   drawing: new VectorDrawing()
+   drawing: new VectorDrawing(),
+   uiState: new UIState()
 }
 
 window.appState = state;
