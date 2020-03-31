@@ -1,7 +1,7 @@
 <template>
-    <svg width="640" height="480">
-      <SVGDynamicShape :data-id="shape.id" v-for="shape in shapes" :key="shape.id" :data="shape" />
-    </svg>
+  <svg style="cursor:pointer" :width="width" :height="height">
+    <SVGDynamicShape :data-id="shape.id" v-for="shape in shapes" :key="shape.id" :data="shape" />
+  </svg>
 </template>
 
 <script>
@@ -18,11 +18,12 @@ export default {
       default: function() {
         return [];
       }
-    }
-  },
-  methods: {
-    handlePan(data) {
-      console.log(data);
+    },
+    width: {
+      default: 640
+    },
+    height: {
+      default: 480
     }
   }
 };

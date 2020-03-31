@@ -2,29 +2,10 @@
   <div class="q-pa-md">
     <q-layout view="lHh lpr lFf" container style="height: 600px" class="shadow-2 rounded-borders">
       <q-header elevated>
-        <div class="q-pa-sm q-pl-md row items-center">
+        <div class="q-pa-sm q-pl-md row items-center" style='justify-content:space-between'>
           <q-btn @click="removeAllShapes">Clear Canvas</q-btn>
           <ToolsButtonGroup />
-          <div style="display:flex">
-            <div>
-              Fill Color:
-              <q-btn :style="styleColorInput(uiState.fillColor)" label="   ">
-                <q-popup-proxy transition-show="scale" transition-hide="scale">
-                  <q-color v-model="uiState.fillColor" />
-                </q-popup-proxy>
-              </q-btn>
-              <q-input filled v-model="uiState.fillOpacity" label="Fill Opacity" mask="###" />
-            </div>
-            <div>
-              Stroke Color:
-              <q-btn :style="styleColorInput(uiState.strokeColor)" label="   ">
-                <q-popup-proxy transition-show="scale" transition-hide="scale">
-                  <q-color v-model="uiState.strokeColor" />
-                </q-popup-proxy>
-              </q-btn>
-              <q-input filled v-model="uiState.strokeOpacity" label="Stroke Opacity" mask="###" />
-            </div>
-          </div>
+          <AppColorPicker/>
           <div>
             <q-btn @click="saveAsImg">Save Image</q-btn>
           </div>
@@ -41,12 +22,15 @@
 
 <script>
 import ToolsButtonGroup from "../components/ToolsButtonGroup";
+import AppColorPicker from "../components/AppColorPicker";
+
 import state from "../state/state";
 
 export default {
   name: "MainLayout",
   components: {
-    ToolsButtonGroup
+    ToolsButtonGroup,
+    AppColorPicker
   },
   data: function() {
     return {
@@ -55,12 +39,6 @@ export default {
     };
   },
   methods: {
-    styleColorInput(color) {
-      return {
-        "background-color": color,
-        border: "1px solid black"
-      };
-    },
     removeAllShapes() {
       this.drawing.RemoveAllShapes();
     },
@@ -85,9 +63,6 @@ export default {
       var canvas = document.createElement("canvas");
       canvas.width = svg.attributes.width.value;
       canvas.height = svg.attributes.height.value;
-      console.log(svg.attributes);
-      console.log(canvas.width);
-      console.log(canvas.height);
       var ctx = canvas.getContext("2d");
       var data = new XMLSerializer().serializeToString(svg);
       var DOMURL = window.URL || window.webkitURL || window;

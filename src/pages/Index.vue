@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div style="position:relative;border:1px solid black;">
+    <div class='canvas-container'>
       <SVGCanvas id="svg-image" :shapes="shapes.objects" />
       <ToolController
         @shapeCompleted="handleShapeComplete"
@@ -26,8 +26,18 @@ export default {
   },
   methods: {
     handleShapeComplete: function(data) {
+      //Create the shape here from the data?
       AppState.drawing.AddShape(data);
     }
   }
 };
 </script>
+
+<style scoped>
+.canvas-container{
+  position:relative;
+  border:1px solid black;
+  cursor:pointer;
+}
+
+</style>

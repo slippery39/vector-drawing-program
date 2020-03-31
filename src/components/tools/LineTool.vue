@@ -1,10 +1,5 @@
 <template>
-  <svg
-    ref="svg"
-    v-touch-pan.prevent.mouse="handlePan"
-    width="640"
-    height="480"
-  >
+  <svg ref="svg" v-touch-pan.prevent.mouse="handlePan" width="640" height="480">
     <SVGDynamicShape v-if="currentLine!=undefined" :data-id="currentLine.id" :data="currentLine" />
   </svg>
 </template>
@@ -41,18 +36,18 @@ export default {
     },
 
     handlePan: function(data) {
+      const relativeCoordinates = this.GetRelativeCoordinates(data);
+
       if (data.isFirst) {
         this.currentLine = this.createStartingLine();
 
-        const svgLeft = this.$refs.svg.getBoundingClientRect().left;
-        const svgTop = this.$refs.svg.getBoundingClientRect().top;
-
-        this.currentLine.x1 = data.position.left - svgLeft;
-        this.currentLine.y1 = data.position.top - svgTop;
+        //the first point on the line is the first point that is clicked.
+        this.currentLine.x1 = relativeCoordinates.x;
+        this.currentLine.y1 = relativeCoordinates.y;
       }
 
-      this.currentLine.x2 = this.currentLine.x1 + data.offset.x;
-      this.currentLine.y2 = this.currentLine.y1 + data.offset.y;
+      this.currentLine.x2 = relativeCoordinates.x; //this.currentLine.x1 + data.offset.x;
+      this.currentLine.y2 = relativeCoordinates.y; //this.currentLine.y1 + data.offset.y;
 
       if (data.isFinal) {
         this.$emit("shapeCompleted", this.currentLine);

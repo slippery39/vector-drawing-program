@@ -1,6 +1,6 @@
 class UIState {
     constructor() {
-        this.selectedTool = 'ellipse';
+        this.selectedTool = 'polygon';
         this.fillColor = "#FFFFFF";
         this.fillOpacity = 100;
         this.strokeColor = "#000000";

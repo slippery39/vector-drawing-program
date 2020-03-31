@@ -6,6 +6,8 @@
     :strokeOpacity="appState.strokeOpacity"
     :fillColor="appState.fillColor"
     :fillOpacity="appState.fillOpacity"
+    :width="drawingState.width"
+    :height="drawingState.height"
   />
   <RectangleTool
     @shapeCompleted="handleShapeComplete"
@@ -14,6 +16,8 @@
     :strokeOpacity="appState.strokeOpacity"
     :fillColor="appState.fillColor"
     :fillOpacity="appState.fillOpacity"
+    :width="drawingState.width"
+    :height="drawingState.height"
   />
   <LineTool
     @shapeCompleted="handleShapeComplete"
@@ -22,7 +26,20 @@
     :strokeOpacity="appState.strokeOpacity"
     :fillColor="appState.fillColor"
     :fillOpacity="appState.fillOpacity"
+    :width="drawingState.width"
+    :height="drawingState.height"
   />
+  <PolygonTool
+    @shapeCompleted="handleShapeComplete"
+    v-else-if="appState.selectedTool==='polygon'"
+    :strokeColor="appState.strokeColor"
+    :strokeOpacity="appState.strokeOpacity"
+    :fillColor="appState.fillColor"
+    :fillOpacity="appState.fillOpacity"
+    :width="drawingState.width"
+    :height="drawingState.height"
+  />
+  <MoveTool v-else-if="appState.selectedTool==='move'" />
   <div v-else>Error: No Tool Found for {{appState.selectedTool}}</div>
 </template>
 
@@ -33,6 +50,8 @@
 import EllipseTool from "./EllipseTool";
 import RectangleTool from "./RectangleTool";
 import LineTool from "./LineTool";
+import PolygonTool from "./PolygonTool";
+import MoveTool from "./MoveTool";
 
 import state from "~/state/state";
 
@@ -41,15 +60,15 @@ export default {
   components: {
     EllipseTool,
     RectangleTool,
-    LineTool
+    LineTool,
+    PolygonTool,
+    MoveTool
   },
   data: function() {
-    return { appState: state.uiState };
+    return { appState: state.uiState, drawingState: state.drawing };
   },
   methods: {
     handleShapeComplete: function(data) {
-      console.log("shapeCompleted");
-      console.log(data);
       this.$emit("shapeCompleted", data);
     }
   }

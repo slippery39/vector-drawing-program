@@ -8,7 +8,8 @@
           {value: 'move', slot: 'move'},
           {value: 'ellipse', slot: 'ellipse'},
           {value: 'rectangle', slot: 'rectangle'},
-          {value:'line',slot:'line'}
+          {value:'line',slot:'line'},
+          {value:'polygon',slot:'polygon'}
         ]"
   >
     <template v-slot:move>
@@ -27,6 +28,10 @@
     <template v-slot:line>
       <q-icon name="fas fa-grip-lines"></q-icon>
       <q-tooltip>Line</q-tooltip>
+    </template>
+       <template v-slot:polygon>
+      Polygon
+      <q-tooltip>Polygon</q-tooltip>
     </template>
   </q-btn-toggle>
 </template>

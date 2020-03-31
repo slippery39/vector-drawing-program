@@ -1,10 +1,5 @@
 <template>
-  <svg
-    ref="svg"
-    v-touch-pan.prevent.mouse="handlePan"
-    width="640"
-    height="480"
-  >
+  <svg ref="svg" v-touch-pan.prevent.mouse="handlePan" width="640" height="480">
     <SVGDynamicShape
       v-if="currentEllipse!=undefined"
       :data-id="currentEllipse.id"
@@ -42,20 +37,18 @@ export default {
           y: 0
         },
         fillColor: this.fillColor,
+        fillOpacity: this.fillOpacity,
         strokeColor: this.strokeColor,
+        strokeOpacity: this.strokeOpacity,
         strokeWidth: "2"
       };
     },
     handlePan: function(data) {
+      const relativeCoordinates = this.GetRelativeCoordinates(data);
+
       if (data.isFirst) {
         this.currentEllipse = this.createStartingEllipse();
-        const svgLeft = this.$refs.svg.getBoundingClientRect().left;
-        const svgTop = this.$refs.svg.getBoundingClientRect().top;
-
-        this.firstClickPoint = {
-          left: data.position.left - svgLeft,
-          top: data.position.top - svgTop
-        };
+        this.firstClickPoint = Object.assign({}, relativeCoordinates);
       }
       //radius is the offset from the original mousedown
       this.currentEllipse.radius.x = Math.abs(data.offset.x) / 2;
@@ -64,9 +57,9 @@ export default {
       //the center position will not be constant. it will change every time the user drags the mouse.
       //this is for copying the same behaviour for ellipse drawing from programs like mspaint and inkscape.
       this.currentEllipse.position.x =
-        this.firstClickPoint.left + data.offset.x / 2;
+        this.firstClickPoint.x + data.offset.x / 2;
       this.currentEllipse.position.y =
-        this.firstClickPoint.top + data.offset.y / 2;
+        this.firstClickPoint.y + data.offset.y / 2;
 
       //clear the ellipse when the user mouseups.
       if (data.isFinal) {
