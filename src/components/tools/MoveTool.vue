@@ -6,7 +6,7 @@
     width="640"
     height="480"
   >
-    <SVGBoundingBox :data="state.selectedShape" v-if="state.selectedShape!=undefined" />
+    <SVGBoundingBox :data="state.SelectedShape()" v-if="state.selectedShapeId!=undefined" />
   </svg>
 </template>
 
@@ -36,28 +36,33 @@ export default {
   },
   methods: {
     removeSelectedShape: function() {
-      if (this.state.selectedShape !== undefined) {
-        this.state.RemoveShape(state.selectedShape.id);
+      if (this.state.selectedShapeId !== undefined) {
+        this.state.RemoveShape(this.state.selectedShapeId);
       }
     },
     handleMouseDown: function(data) {
       const relativeCoordinates = this.GetRelativeCoordinates(data);
-      this.state.selectedShape = this.state.GetShapesAtPoint(
-        relativeCoordinates
-      )[0];
+      const shapesAtPoint = this.state.GetShapesAtPoint(relativeCoordinates);
+      if (shapesAtPoint.length === 0) {
+        this.state.selectedShapeId = undefined;
+        return;
+      }
+      this.state.selectedShapeId = shapesAtPoint[0].id;
     },
     handlePan: function(data) {
       const relativeCoordinates = this.GetRelativeCoordinates(data);
       if (data.isFirst) {
         //these should be ordered by lowest depth first.
-        this.state.selectedShape = this.state.GetShapesAtPoint(
-          relativeCoordinates
-        )[0];
+        const shapesAtPoint = this.state.GetShapesAtPoint(relativeCoordinates);
+        if (shapesAtPoint.length === 0) {
+          return;
+        }
+        this.state.selectedShapeId = shapesAtPoint[0].id;
       }
-      if (this.state.selectedShape === undefined) {
+      if (this.state.selectedShapeId === undefined) {
         return;
       }
-      this.state.selectedShape.Translate({
+      this.state.SelectedShape().Translate({
         x: data.delta.x,
         y: data.delta.y
       });

@@ -24,28 +24,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
@@ -110,7 +110,20 @@
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,10 +146,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,7 +198,7 @@
     width="640"
     height="480"
   &gt;
-    &lt;SVGBoundingBox :data="selectedShape" v-if="selectedShape!=undefined" /&gt;
+    &lt;SVGBoundingBox :data="state.selectedShape" v-if="state.selectedShape!=undefined" /&gt;
   &lt;/svg&gt;
 &lt;/template&gt;
 &nbsp;
@@ -186,16 +212,29 @@ export default {
   components: {
     SVGBoundingBox
   },
-  mixins: [ToolMixIn],
 <span class="fstat-no" title="function not covered" >  data: function() {</span>
 <span class="cstat-no" title="statement not covered" >    return {</span>
-      selectedShape: undefined
+      state: state.drawing
     };
   },
+  mixins: [ToolMixIn],
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  mounted: function() {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    window.addEventListener("keydown", e =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >      console.log(e);</span>
+<span class="cstat-no" title="statement not covered" >      if (e.code === "Delete") {</span>
+<span class="cstat-no" title="statement not covered" >        this.removeSelectedShape();</span>
+      }
+    });
+  },
   methods: {
+<span class="fstat-no" title="function not covered" >    removeSelectedShape: function() {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.state.selectedShape !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        this.state.RemoveShape(state.selectedShape.id);</span>
+      }
+    },
 <span class="fstat-no" title="function not covered" >    handleMouseDown: function(data) {</span>
 <span class="cstat-no" title="statement not covered" >      const relativeCoordinates = this.GetRelativeCoordinates(data);</span>
-<span class="cstat-no" title="statement not covered" >      this.selectedShape = state.drawing.GetShapesAtPoint(</span>
+<span class="cstat-no" title="statement not covered" >      this.state.selectedShape = this.state.GetShapesAtPoint(</span>
         relativeCoordinates
       )[0];
     },
@@ -203,14 +242,14 @@ export default {
 <span class="cstat-no" title="statement not covered" >      const relativeCoordinates = this.GetRelativeCoordinates(data);</span>
 <span class="cstat-no" title="statement not covered" >      if (data.isFirst) {</span>
         //these should be ordered by lowest depth first.
-<span class="cstat-no" title="statement not covered" >        this.selectedShape = state.drawing.GetShapesAtPoint(</span>
+<span class="cstat-no" title="statement not covered" >        this.state.selectedShape = this.state.GetShapesAtPoint(</span>
           relativeCoordinates
         )[0];
       }
-<span class="cstat-no" title="statement not covered" >      if (this.selectedShape === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.state.selectedShape === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
-<span class="cstat-no" title="statement not covered" >      this.selectedShape.Translate({</span>
+<span class="cstat-no" title="statement not covered" >      this.state.selectedShape.Translate({</span>
         x: data.delta.x,
         y: data.delta.y
       });
@@ -225,7 +264,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Mar 30 2020 23:01:02 GMT-0400 (Eastern Daylight Time)
+                at Tue Mar 31 2020 21:34:30 GMT-0400 (Eastern Daylight Time)
             </div>
         </div>
         <script src="..\..\prettify.js"></script>

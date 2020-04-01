@@ -6,16 +6,19 @@ class Ellipse extends ShapeObject {
         super(data);
         this.type = 'ellipse';
     }
-    
+
     CollidesWithPoint(point) {
         return this.GetBoundingBox().CollidesWithPoint(point);
     }
 
     Translate(translationVector) {
-        this.position.x += translationVector.x;
-        this.position.y += translationVector.y;
+        var newPosition = {
+            x: this.position.x += translationVector.x,
+            y: this.position.y += translationVector.y
+        }
+        this.position = newPosition;
+        super.Translate();       
     }
-
     GetBoundingBox() {
         var leftMostPoint = this.position.x - this.radius.x;
         var rightMostPoint = this.position.x + this.radius.x;

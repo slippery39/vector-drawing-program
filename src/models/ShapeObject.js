@@ -9,9 +9,7 @@ class ShapeObject {
         Object.assign(this, JSON.parse(JSON.stringify(data)));
         this.type = 'unknown-shape';
     }
-
     Translate(translationVector) {
-        console.error("not implemented");
     }
     CollidesWithPoint(point) {
         console.error("call to collides with point has not been implemented")

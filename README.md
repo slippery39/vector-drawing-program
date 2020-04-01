@@ -25,5 +25,10 @@ quasar build
 quasar test --unit jest 
 ```
 
+### Run Unit Test on One File
+npm run test:unit test/jest/__tests__/VectorDrawing.test.js
+
 ### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js)
+
+

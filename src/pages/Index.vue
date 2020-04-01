@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class='canvas-container'>
+    <div class="canvas-container">
       <SVGCanvas id="svg-image" :shapes="shapes.objects" />
       <ToolController
         @shapeCompleted="handleShapeComplete"
@@ -21,6 +21,16 @@ export default {
     SVGCanvas,
     ToolController
   },
+  mounted: function() {
+    window.addEventListener("keydown", event => {
+        if (event.ctrlKey && event.key === "z") {
+            AppState.drawing.Undo();
+        }
+        if (event.ctrlKey && event.key === "x") {
+          AppState.drawing.Redo();
+        }
+      });      
+  },
   data: function() {
     return { shapes: AppState.drawing };
   },
@@ -34,10 +44,9 @@ export default {
 </script>
 
 <style scoped>
-.canvas-container{
-  position:relative;
-  border:1px solid black;
-  cursor:pointer;
+.canvas-container {
+  position: relative;
+  border: 1px solid black;
+  cursor: pointer;
 }
-
 </style>
