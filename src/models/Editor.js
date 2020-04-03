@@ -4,7 +4,7 @@ import Line from "./Line";
 import Polygon from "./Polygon";
 import Rectangle from "./Rectangle";
 
-class VectorDrawing {
+class Editor {
     constructor(data) {
         if (data === undefined) {
             data = {};
@@ -13,15 +13,11 @@ class VectorDrawing {
 
         this.uniqueIdCounter = 1; //unique id assigned to each object.
         this.objects = [];
-        this.history = []; //need the initial object in there?
-        this.historyIndex = -1; //no index yet;
         this.width = 640;
         this.height = 480;
-        // i feel like the selectedShape variable doesn't belong here, since the concept of a selected shape
-        // only exists in the ui state, But i have no other place to put it at the moment
-        // where my components can easily access it. for example, i have a button
-        // that clears the canvas, if something is selected in the ui using the selection tool then this component
-        // will not know that everything is supposed to be unselected unless i control it here
+
+        this.commandHistory = []; //temp variable to track the history of our commands;
+        this.commandHistoryIndex = -1;
 
         //for now, we are changing this variable through the RemoveShape()
         //and RemoveAllShapes() function.
@@ -29,10 +25,9 @@ class VectorDrawing {
 
         if (data.objects) {
             data.objects.foreach((el, ind) => {
-                this.AddShape(el, true); //dont save the history for this initialization.
+                this.AddShape(el); //dont save the history for this initialization.
             });
         }
-        this.SaveHistory();
     }
     SelectedShape() {
         if (this.selectedShapeId === undefined) {
@@ -40,16 +35,17 @@ class VectorDrawing {
         }
         return this.objects.find(e => e.id === this.selectedShapeId);
     }
-    static CreateShape(data) {
+
+    CreateShape(data) {
         switch (data.type) {
             case 'rectangle': {
-                return new Rectangle(data)
+                return new Rectangle(data);
             }
             case 'ellipse': {
                 return new Ellipse(data)
             }
             case 'line': {
-                return new Line(data)
+                return new Line(data);
             }
             case 'polygon': {
                 return new Polygon(data)
@@ -60,23 +56,21 @@ class VectorDrawing {
             }
         }
     }
-    AddShape(shapeObj, dontSaveHistory) {
-        shapeObj = JSON.parse(JSON.stringify(shapeObj)); //making a copy of the object.
-        shapeObj.id = this.uniqueIdCounter++;
+
+    AddShape(shapeData, dontSaveHistory) {
+        shapeData = JSON.parse(JSON.stringify(shapeData));
+        const shape = this.CreateShape(shapeData);
+        shape.id = this.uniqueIdCounter++;
         this.objects = this.objects.slice();
-        const newShape = VectorDrawing.CreateShape(shapeObj);
-        this.objects.push(newShape);
-        if (!dontSaveHistory) {
-            this.SaveHistory();
-        }
+        this.objects.push(shape);
     }
-    SaveHistory() {
-        //Get rid of any history objects that are past the current history point.
-        //They will be overwritten this isn't working so well at the moment.
-        this.historyIndex++;
-        this.history.splice(this.historyIndex, this.history.length);
-        this.history.push({ historyId: this.historyIndex, objects: this.objects });
+
+    SaveCommandHistory(command) {
+        this.commandHistory.splice(this.commandHistoryIndex + 1, this.commandHistory.length);
+        this.commandHistory.push(command);
+        this.commandHistoryIndex++;
     }
+
     RemoveShape(shapeId) {
         for (var i = 0; i < this.objects.length; i++) {
             if (this.objects[i].id === shapeId) {
@@ -85,8 +79,6 @@ class VectorDrawing {
                 }
                 this.objects = Array.from(this.objects);
                 this.objects.splice(i, 1);
-                this.SaveHistory();
-
                 return;
             }
         }
@@ -96,15 +88,18 @@ class VectorDrawing {
         return this.objects.filter(el => el.CollidesWithPoint(point)).reverse();
     }
 
+    //UNDO/REDO should be the responsibility of a CommandHistory object.
     Undo() {
-        this.historyIndex -= 1;
-        this.historyIndex = Math.max(0, this.historyIndex);
-        this.objects = this.history[this.historyIndex].objects;
+        if (this.commandHistoryIndex >= 0) {
+            this.commandHistory[this.commandHistoryIndex].Undo();
+            this.commandHistoryIndex--;
+        }
     }
     Redo() {
-        this.historyIndex += 1;
-        this.historyIndex = Math.min(this.historyIndex, this.history.length - 1);
-        this.objects = this.history[this.historyIndex].objects;
+        if (this.commandHistoryIndex < this.commandHistory.length - 1) {
+            this.commandHistoryIndex++;
+            this.commandHistory[this.commandHistoryIndex].Redo();
+        }
     }
     RemoveAllShapes() {
         this.selectedShapeId = undefined;
@@ -112,4 +107,4 @@ class VectorDrawing {
     }
 }
 
-export default VectorDrawing;
+export default Editor;

@@ -23,6 +23,7 @@
 <script>
 import ToolsButtonGroup from "../components/ToolsButtonGroup";
 import AppColorPicker from "../components/AppColorPicker";
+import ClearCanvasCommand from "../models/Commands/ClearCanvasCommand";
 
 import state from "../state/state";
 
@@ -40,7 +41,9 @@ export default {
   },
   methods: {
     removeAllShapes() {
-      this.drawing.RemoveAllShapes();
+      const removeAllShapesCommand = new ClearCanvasCommand(this.drawing);
+      removeAllShapesCommand.Execute();
+      //this.drawing.RemoveAllShapes();
     },
     saveAsImg() {
       function triggerDownload(imgURI) {

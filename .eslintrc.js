@@ -56,6 +56,7 @@ module.exports = {
     'lines-between-class-members': 'off',
     'spaced-comment' : 'off',
     'eol-last':'off',
+    'brace-style': 'off',
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }

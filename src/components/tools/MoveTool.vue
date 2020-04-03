@@ -12,6 +12,7 @@
 
 <script>
 import state from "../../state/state";
+import DeleteShapeCommand from "../../models/Commands/DeleteShapeCommand";
 import ToolMixIn from "./ToolMixIn";
 import SVGBoundingBox from "../SVGBoundingBox";
 
@@ -37,7 +38,12 @@ export default {
   methods: {
     removeSelectedShape: function() {
       if (this.state.selectedShapeId !== undefined) {
-        this.state.RemoveShape(this.state.selectedShapeId);
+        const deleteCommand = new DeleteShapeCommand(
+           this.state,
+          this.state.selectedShapeId
+        );
+        deleteCommand.Execute();
+        //this.state.RemoveShape(this.state.selectedShapeId);
       }
     },
     handleMouseDown: function(data) {

@@ -10,6 +10,7 @@ class ShapeObject {
         this.type = 'unknown-shape';
     }
     Translate(translationVector) {
+        
     }
     CollidesWithPoint(point) {
         console.error("call to collides with point has not been implemented")

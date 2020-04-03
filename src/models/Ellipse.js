@@ -17,7 +17,7 @@ class Ellipse extends ShapeObject {
             y: this.position.y += translationVector.y
         }
         this.position = newPosition;
-        super.Translate();       
+        super.Translate();
     }
     GetBoundingBox() {
         var leftMostPoint = this.position.x - this.radius.x;

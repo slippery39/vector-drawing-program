@@ -14,6 +14,7 @@
 import SVGCanvas from "../components/SVGCanvas";
 import ToolController from "../components/tools/ToolController";
 import AppState from "../state/state.js";
+import CreateShapeCommand from "../models/Commands/CreateShapeCommand";
 
 export default {
   name: "PageIndex",
@@ -23,13 +24,13 @@ export default {
   },
   mounted: function() {
     window.addEventListener("keydown", event => {
-        if (event.ctrlKey && event.key === "z") {
-            AppState.drawing.Undo();
-        }
-        if (event.ctrlKey && event.key === "x") {
-          AppState.drawing.Redo();
-        }
-      });      
+      if (event.ctrlKey && event.key === "z") {
+        AppState.drawing.Undo();
+      }
+      if (event.ctrlKey && event.key === "x") {
+        AppState.drawing.Redo();
+      }
+    });
   },
   data: function() {
     return { shapes: AppState.drawing };
@@ -37,7 +38,9 @@ export default {
   methods: {
     handleShapeComplete: function(data) {
       //Create the shape here from the data?
-      AppState.drawing.AddShape(data);
+      const createShapeCommand = new CreateShapeCommand(AppState.drawing, data);
+      createShapeCommand.Execute();
+      //AppState.drawing.AddShape(data);
     }
   }
 };

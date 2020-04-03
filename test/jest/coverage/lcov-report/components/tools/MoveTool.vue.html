@@ -24,14 +24,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/19</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -45,7 +45,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/19</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
@@ -123,7 +123,18 @@
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
 <a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,6 +150,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -167,17 +179,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -198,12 +220,13 @@
     width="640"
     height="480"
   &gt;
-    &lt;SVGBoundingBox :data="state.selectedShape" v-if="state.selectedShape!=undefined" /&gt;
+    &lt;SVGBoundingBox :data="state.SelectedShape()" v-if="state.selectedShapeId!=undefined" /&gt;
   &lt;/svg&gt;
 &lt;/template&gt;
 &nbsp;
 &lt;script&gt;
 <span class="cstat-no" title="statement not covered" >import state from "../../state/state";</span>
+<span class="cstat-no" title="statement not covered" >import DeleteShapeCommand from "../../models/Commands/DeleteShapeCommand";</span>
 <span class="cstat-no" title="statement not covered" >import ToolMixIn from "./ToolMixIn";</span>
 <span class="cstat-no" title="statement not covered" >import SVGBoundingBox from "../SVGBoundingBox";</span>
 &nbsp;
@@ -228,28 +251,38 @@ export default {
   },
   methods: {
 <span class="fstat-no" title="function not covered" >    removeSelectedShape: function() {</span>
-<span class="cstat-no" title="statement not covered" >      if (this.state.selectedShape !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        this.state.RemoveShape(state.selectedShape.id);</span>
+<span class="cstat-no" title="statement not covered" >      if (this.state.selectedShapeId !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        const deleteCommand = new DeleteShapeCommand(</span>
+           this.state,
+          this.state.selectedShapeId
+        );
+<span class="cstat-no" title="statement not covered" >        deleteCommand.Execute();</span>
+        //this.state.RemoveShape(this.state.selectedShapeId);
       }
     },
 <span class="fstat-no" title="function not covered" >    handleMouseDown: function(data) {</span>
 <span class="cstat-no" title="statement not covered" >      const relativeCoordinates = this.GetRelativeCoordinates(data);</span>
-<span class="cstat-no" title="statement not covered" >      this.state.selectedShape = this.state.GetShapesAtPoint(</span>
-        relativeCoordinates
-      )[0];
+<span class="cstat-no" title="statement not covered" >      const shapesAtPoint = this.state.GetShapesAtPoint(relativeCoordinates);</span>
+<span class="cstat-no" title="statement not covered" >      if (shapesAtPoint.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >        this.state.selectedShapeId = undefined;</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      this.state.selectedShapeId = shapesAtPoint[0].id;</span>
     },
 <span class="fstat-no" title="function not covered" >    handlePan: function(data) {</span>
 <span class="cstat-no" title="statement not covered" >      const relativeCoordinates = this.GetRelativeCoordinates(data);</span>
 <span class="cstat-no" title="statement not covered" >      if (data.isFirst) {</span>
         //these should be ordered by lowest depth first.
-<span class="cstat-no" title="statement not covered" >        this.state.selectedShape = this.state.GetShapesAtPoint(</span>
-          relativeCoordinates
-        )[0];
+<span class="cstat-no" title="statement not covered" >        const shapesAtPoint = this.state.GetShapesAtPoint(relativeCoordinates);</span>
+<span class="cstat-no" title="statement not covered" >        if (shapesAtPoint.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >          return;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        this.state.selectedShapeId = shapesAtPoint[0].id;</span>
       }
-<span class="cstat-no" title="statement not covered" >      if (this.state.selectedShape === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.state.selectedShapeId === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
-<span class="cstat-no" title="statement not covered" >      this.state.selectedShape.Translate({</span>
+<span class="cstat-no" title="statement not covered" >      this.state.SelectedShape().Translate({</span>
         x: data.delta.x,
         y: data.delta.y
       });
@@ -264,7 +297,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Mar 31 2020 21:34:30 GMT-0400 (Eastern Daylight Time)
+                at Fri Apr 03 2020 00:56:58 GMT-0400 (Eastern Daylight Time)
             </div>
         </div>
         <script src="..\..\prettify.js"></script>
