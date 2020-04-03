@@ -13,6 +13,7 @@ class CreateShapeCommand {
         this.#shapeData = shapeData;
     }
     Execute() {
+        //todo: check if it was a legit shape. for example a 0-1px circle or rectangle makes no sense
         if (!this.#hasExecuted) {
             this.#editorSnapshotBefore = this.#editor.objects.slice();
             this.#editor.AddShape(this.#shapeData);

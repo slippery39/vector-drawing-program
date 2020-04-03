@@ -7,12 +7,6 @@ class Line extends ShapeObject {
         this.type = 'line'
     }
 
-    /* possible functions to add here:
-    GetSlope();
-    Width();
-    Height();
-    */
-
     GetPoints() {
         return [{
             x: this.x1, y: this.y1
