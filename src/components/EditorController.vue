@@ -1,24 +1,31 @@
 <template>
-  <div class="canvas-container">
-    <SVGCanvas id="svg-image" :shapes="shapes.objects" />
-    <ToolController
-      @shapeCompleted="handleShapeComplete"
-      style="position:absolute;left:0px;top:0px;"
-    />
+  <div style="display:flex;">
+    <ShapeList @item-clicked="handleListItemClick" @delete-item-clicked="handleDeleteClicked" :shapes="editor.objects" />
+    <div class="canvas-container">
+      <SVGCanvas id="svg-image" :width="editor.width" :height="editor.height" :shapes="editor.objects" />
+      <ToolController
+        @shapeCompleted="handleShapeComplete"
+        style="position:absolute;left:0px;top:0px;"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import ShapeList from "./ShapeList";
 import SVGCanvas from "../components/SVGCanvas";
 import ToolController from "../components/tools/ToolController";
 import AppState from "../state/state.js";
+
 import CreateShapeCommand from "../models/Commands/CreateShapeCommand";
+import DeleteShapeCommand from "../models/Commands/DeleteShapeCommand";
 
 export default {
   name: "PageIndex",
   components: {
     SVGCanvas,
-    ToolController
+    ToolController,
+    ShapeList
   },
   mounted: function() {
     window.addEventListener("keydown", event => {
@@ -31,12 +38,19 @@ export default {
     });
   },
   data: function() {
-    return { shapes: AppState.drawing };
+    return { editor: AppState.drawing };
   },
   methods: {
     handleShapeComplete: function(data) {
       const createShapeCommand = new CreateShapeCommand(AppState.drawing, data);
       createShapeCommand.Execute();
+    },
+    handleListItemClick: function(shape) {
+      AppState.drawing.selectedShapeId = shape.id;
+    },
+    handleDeleteClicked: function(shape) {
+      const deleteItemCommand = new DeleteShapeCommand(AppState.drawing, shape.id);
+      deleteItemCommand.Execute();
     }
   }
 };

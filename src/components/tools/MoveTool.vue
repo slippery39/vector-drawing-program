@@ -95,8 +95,6 @@ export default {
     },
     handlePan: function(data) {
       const relativeCoordinates = this.GetRelativeCoordinates(data);
-      console.log(data);
-
       //Hacky way of getting this implemented quickly
       //On handleMouseDown we store the initial position of the shape.
       //We translate the Shape using the Reference selected shape on pan (not using the translate command)

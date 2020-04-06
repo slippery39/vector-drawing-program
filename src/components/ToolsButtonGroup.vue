@@ -29,8 +29,8 @@
       <q-icon name="fas fa-grip-lines"></q-icon>
       <q-tooltip>Line</q-tooltip>
     </template>
-       <template v-slot:polygon>
-      Polygon
+    <template v-slot:polygon>
+      <q-icon name="fas fa-draw-polygon"></q-icon>
       <q-tooltip>Polygon</q-tooltip>
     </template>
   </q-btn-toggle>

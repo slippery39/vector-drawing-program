@@ -8,6 +8,8 @@ class ShapeObject {
         //the line below is to make sure that we are deep cloning any nested objects.
         Object.assign(this, JSON.parse(JSON.stringify(data)));
         this.type = 'unknown-shape';
+        this.isVisible = true;
+        this.isLocked = false;
     }
     Translate(translationVector) {
         
