@@ -11,17 +11,22 @@ class Editor {
         }
         Object.assign(this, data);
 
-        this.uniqueIdCounter = 1; //unique id assigned to each object.
+        this.uniqueIdCounter = 1; //unique id assigned to each object. for ids we are using an auto-increment assignment.
         this.objects = [];
         this.width = 640;
         this.height = 480;
 
+        //UI State 
+        this.selectedShapeId = undefined;
+        this.selectedTool = 'polygon';
+        this.fillColor = "#FFFFFF";
+        this.fillOpacity = 100;
+        this.strokeColor = "#000000";
+        this.strokeOpacity = 100;
+
+        //Command Objects
         this.commandHistory = []; //temp variable to track the history of our commands;
         this.commandHistoryIndex = -1;
-
-        //for now, we are changing this variable through the RemoveShape()
-        //and RemoveAllShapes() function.
-        this.selectedShapeId = undefined;
 
         if (data.objects) {
             data.objects.foreach((el, ind) => {
@@ -63,6 +68,10 @@ class Editor {
         shape.id = this.uniqueIdCounter++;
         this.objects = this.objects.slice();
         this.objects.push(shape);
+
+        //this functionality is to satisfy our requirement of selecting the shape after it is created.
+        this.selectedShapeId = shape.id;
+        this.selectedTool = 'move';
     }
 
     SaveCommandHistory(command) {
@@ -84,8 +93,25 @@ class Editor {
         }
     }
 
-    GetShapesAtPoint(point) {
-        return this.objects.filter(el => el.CollidesWithPoint(point)).reverse();
+    GetShapesAtPoint(point, options) {
+        /*
+            options: 
+            excludeHidden,
+            excludeLocked
+
+            In case the case that the UI calling this function does not want to include
+            hidden or locked objects, they can add these arguments to exlude them.
+            
+        */
+        var shapesAtPoint = this.objects.filter(el => el.CollidesWithPoint(point)).reverse();
+
+        if (options.excludeHidden) {
+            shapesAtPoint = shapesAtPoint.filter(el => el.isVisible)
+        }
+        if (options.excludeLocked) {
+            shapesAtPoint = shapesAtPoint.filter(el => !el.isLocked);
+        }
+        return shapesAtPoint;
     }
 
     //UNDO/REDO should be the responsibility of a CommandHistory object.

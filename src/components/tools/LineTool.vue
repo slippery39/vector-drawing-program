@@ -29,7 +29,8 @@ export default {
         x2: 0,
         y2: 0,
         strokeColor: this.strokeColor,
-        strokeWidth: 2
+        strokeWidth: 2,
+        isVisible: true
       };
 
       return line;

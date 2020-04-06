@@ -1,6 +1,6 @@
    <template>
   <q-btn-toggle
-    v-model="uiState.selectedTool"
+    v-model="editor.selectedTool"
     push
     glossy
     toggle-color="teal"
@@ -43,7 +43,7 @@ export default {
   name: "ToolsButtonGroup",
   data: function() {
     return {
-      uiState: state.uiState
+      editor: state.editor
     };
   }
 };

@@ -2,21 +2,21 @@
   <div style="display:flex;margin-right:5px;">
     <div>
       Fill Color:
-      <q-btn :style="styleColorInput(uiState.fillColor)" label="   ">
+      <q-btn :style="styleColorInput(editor.fillColor)" label="   ">
         <q-popup-proxy transition-show="scale" transition-hide="scale">
-          <q-color v-model="uiState.fillColor" />
+          <q-color v-model="editor.fillColor" />
         </q-popup-proxy>
       </q-btn>
-      <q-input type="number" dense bordered bg-color="white" v-model="uiState.fillOpacity" label="Fill Opacity" mask="###" />
+      <q-input type="number" dense bordered bg-color="white" v-model="editor.fillOpacity" label="Fill Opacity" mask="###" />
     </div>
     <div style='margin-left:5px;'>
       Stroke Color:
-      <q-btn :style="styleColorInput(uiState.strokeColor)" label="   ">
+      <q-btn :style="styleColorInput(editor.strokeColor)" label="   ">
         <q-popup-proxy transition-show="scale" transition-hide="scale">
-          <q-color v-model="uiState.strokeColor" />
+          <q-color v-model="editor.strokeColor" />
         </q-popup-proxy>
       </q-btn>
-      <q-input type="number" dense bordered bg-color="white" v-model="uiState.strokeOpacity" label="Stroke Opacity" mask="###" />
+      <q-input type="number" dense bordered bg-color="white" v-model="editor.strokeOpacity" label="Stroke Opacity" mask="###" />
     </div>
   </div>
 </template>
@@ -25,10 +25,10 @@
 import state from "../state/state";
 
 export default {
-  name: "SVGDynamicShape",
+  name: "AppColorPicker",
   data: function() {
     return {
-      uiState: state.uiState
+      editor: state.editor
     };
   },
   methods: {

@@ -38,7 +38,8 @@ export default {
         fillOpacity: this.fillOpacity,
         strokeColor: this.strokeColor,
         strokeOpacity: this.strokeOpacity,
-        strokeWidth: "2"
+        strokeWidth: "2",
+        isVisible: true
       };
     },
     handlePan: function(data) {

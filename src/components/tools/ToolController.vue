@@ -1,46 +1,46 @@
 <template>
   <EllipseTool
     @shapeCompleted="handleShapeComplete"
-    v-if="appState.selectedTool==='ellipse'"
-    :strokeColor="appState.strokeColor"
-    :strokeOpacity="appState.strokeOpacity"
-    :fillColor="appState.fillColor"
-    :fillOpacity="appState.fillOpacity"
-    :width="drawingState.width"
-    :height="drawingState.height"
+    v-if="editor.selectedTool==='ellipse'"
+    :strokeColor="editor.strokeColor"
+    :strokeOpacity="editor.strokeOpacity"
+    :fillColor="editor.fillColor"
+    :fillOpacity="editor.fillOpacity"
+    :width="editor.width"
+    :height="editor.height"
   />
   <RectangleTool
     @shapeCompleted="handleShapeComplete"
-    v-else-if="appState.selectedTool === 'rectangle'"
-    :strokeColor="appState.strokeColor"
-    :strokeOpacity="appState.strokeOpacity"
-    :fillColor="appState.fillColor"
-    :fillOpacity="appState.fillOpacity"
-    :width="drawingState.width"
-    :height="drawingState.height"
+    v-else-if="editor.selectedTool === 'rectangle'"
+    :strokeColor="editor.strokeColor"
+    :strokeOpacity="editor.strokeOpacity"
+    :fillColor="editor.fillColor"
+    :fillOpacity="editor.fillOpacity"
+    :width="editor.width"
+    :height="editor.height"
   />
   <LineTool
     @shapeCompleted="handleShapeComplete"
-    v-else-if="appState.selectedTool === 'line'"
-    :strokeColor="appState.strokeColor"
-    :strokeOpacity="appState.strokeOpacity"
-    :fillColor="appState.fillColor"
-    :fillOpacity="appState.fillOpacity"
-    :width="drawingState.width"
-    :height="drawingState.height"
+    v-else-if="editor.selectedTool === 'line'"
+    :strokeColor="editor.strokeColor"
+    :strokeOpacity="editor.strokeOpacity"
+    :fillColor="editor.fillColor"
+    :fillOpacity="editor.fillOpacity"
+    :width="editor.width"
+    :height="editor.height"
   />
   <PolygonTool
     @shapeCompleted="handleShapeComplete"
-    v-else-if="appState.selectedTool==='polygon'"
-    :strokeColor="appState.strokeColor"
-    :strokeOpacity="appState.strokeOpacity"
-    :fillColor="appState.fillColor"
-    :fillOpacity="appState.fillOpacity"
-    :width="drawingState.width"
-    :height="drawingState.height"
+    v-else-if="editor.selectedTool==='polygon'"
+    :strokeColor="editor.strokeColor"
+    :strokeOpacity="editor.strokeOpacity"
+    :fillColor="editor.fillColor"
+    :fillOpacity="editor.fillOpacity"
+    :width="editor.width"
+    :height="editor.height"
   />
-  <MoveTool v-else-if="appState.selectedTool==='move'" />
-  <div v-else>Error: No Tool Found for {{appState.selectedTool}}</div>
+  <MoveTool v-else-if="editor.selectedTool==='move'" />
+  <div v-else>Error: No Tool Found for {{editor.selectedTool}}</div>
 </template>
 
 <script>
@@ -65,7 +65,7 @@ export default {
     MoveTool
   },
   data: function() {
-    return { appState: state.uiState, drawingState: state.drawing };
+    return { editor: state.editor };
   },
   methods: {
     handleShapeComplete: function(data) {

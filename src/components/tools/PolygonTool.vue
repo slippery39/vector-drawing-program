@@ -46,7 +46,8 @@ export default {
         fillColor: this.fillColor,
         fillOpacity: this.fillOpacity,
         strokeColor: this.strokeColor,
-        strokeOpacity: this.strokeOpacity
+        strokeOpacity: this.strokeOpacity,
+        isVisible: true
       };
       return polygon;
     },

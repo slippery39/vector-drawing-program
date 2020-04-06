@@ -20,7 +20,7 @@ class CreateShapeCommand {
             this.#hasExecuted = true;
             this.#editorSnapshotAfter = this.#editor.objects.slice();
             //Remove any commands after this?
-            this.#editor.SaveCommandHistory(this);
+            this.#editor.SaveCommandHistory(this);            
         }
         else {
             this.#editor.objects = this.#editorSnapshotAfter;

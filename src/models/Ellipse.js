@@ -8,7 +8,15 @@ class Ellipse extends ShapeObject {
     }
 
     CollidesWithPoint(point) {
-        return this.GetBoundingBox().CollidesWithPoint(point);
+        // checking the equation of  
+        // ellipse with the given point       
+        
+        //x,y - point x / y
+        //a, b  a- horizontal radius, b, vertical radius
+        var check = (Math.pow((point.x - this.position.x), 2) / Math.pow(this.radius.x, 2)) +
+            (Math.pow((point.y - this.position.y), 2) / Math.pow(this.radius.y, 2));
+        return check <= 1
+        //return this.GetBoundingBox().CollidesWithPoint(point);
     }
 
     Translate(translationVector) {

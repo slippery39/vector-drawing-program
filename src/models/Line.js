@@ -12,10 +12,10 @@ class Line extends ShapeObject {
             x: this.x1, y: this.y1
         },
         { x: this.x2, y: this.y2 }]
-    }
+    }    
 
-    //This is a little misleading.
     CollidesWithPoint(point) {
+        //make a polygon
         return this.GetBoundingBox().CollidesWithPoint(point);
     }
 

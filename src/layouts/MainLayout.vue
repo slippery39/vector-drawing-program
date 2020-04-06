@@ -1,18 +1,19 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lHh lpr lFf" container style="height: 600px" class="shadow-2 rounded-borders">
+    <q-layout view="lHh lpr lFf" container style="height: 766px" class="shadow-2 rounded-borders">
       <q-header elevated>
-        <div class="q-pa-sm q-pl-md row items-center" style='justify-content:space-between'>
+        <div class="q-pa-sm q-pl-md row items-center" style="justify-content:space-between">
           <q-btn @click="removeAllShapes">Clear Canvas</q-btn>
+          <CanvasDimensionsInput/>
           <ToolsButtonGroup />
-          <AppColorPicker/>
+          <AppColorPicker />
           <div>
             <q-btn @click="saveAsImg">Save Image</q-btn>
           </div>
         </div>
       </q-header>
       <q-page-container>
-        <q-page class="q-pa-md">
+        <q-page>
           <router-view />
         </q-page>
       </q-page-container>
@@ -21,29 +22,32 @@
 </template>
 
 <script>
+//Component Imports
 import ToolsButtonGroup from "../components/ToolsButtonGroup";
 import AppColorPicker from "../components/AppColorPicker";
-import ClearCanvasCommand from "../models/Commands/ClearCanvasCommand";
+import CanvasDimensionsInput from "../components/CanvasDimensionsInput";
 
+//Javascript Imports
+import ClearCanvasCommand from "../models/Commands/ClearCanvasCommand";
 import state from "../state/state";
 
 export default {
   name: "MainLayout",
   components: {
     ToolsButtonGroup,
-    AppColorPicker
+    AppColorPicker,
+    CanvasDimensionsInput
   },
   data: function() {
     return {
-      drawing: state.drawing,
+      editor: state.drawing,
       uiState: state.uiState
     };
   },
   methods: {
     removeAllShapes() {
-      const removeAllShapesCommand = new ClearCanvasCommand(this.drawing);
+      const removeAllShapesCommand = new ClearCanvasCommand(this.editor);
       removeAllShapesCommand.Execute();
-      //this.drawing.RemoveAllShapes();
     },
     saveAsImg() {
       function triggerDownload(imgURI) {

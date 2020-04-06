@@ -24,7 +24,7 @@ export default {
   },
   data: function() {
     return {
-      editor: state.drawing,
+      editor: state.editor,
       originalShapePosition: undefined
     };
   },
@@ -83,7 +83,10 @@ export default {
     },
     handleMouseDown: function(data) {
       const relativeCoordinates = this.GetRelativeCoordinates(data);
-      const shapesAtPoint = this.editor.GetShapesAtPoint(relativeCoordinates);
+      const shapesAtPoint = this.editor.GetShapesAtPoint(relativeCoordinates, {
+        excludeHidden: true,
+        excludeLocked: true
+      });
       if (shapesAtPoint.length === 0) {
         this.editor.selectedShapeId = undefined;
         return;
@@ -104,7 +107,10 @@ export default {
       //instead of a lot.
 
       if (data.isFirst) {
-        const shapesAtPoint = this.editor.GetShapesAtPoint(relativeCoordinates);
+        const shapesAtPoint = this.editor.GetShapesAtPoint(
+          relativeCoordinates,
+          { excludeHidden: true, excludeLocked: true }
+        );
         if (shapesAtPoint.length === 0) {
           return;
         }
