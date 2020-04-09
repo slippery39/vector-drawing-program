@@ -37,11 +37,10 @@ class Rectangle extends ShapeObject {
 
         return points;
     }
-
     //note - if we introduce rotations into our app, then 
     //this collision algorithm may no longer make sense.
     CollidesWithPoint(point) {
-                return this.position.x <= point.x && this.position.x + this.width >= point.x && this.position.y <= point.y && this.position.y + this.height >= point.y
+        return this.position.x <= point.x && this.position.x + this.width >= point.x && this.position.y <= point.y && this.position.y + this.height >= point.y
     }
 
     //note that currently the bounding box just returns another rectangle
@@ -52,6 +51,10 @@ class Rectangle extends ShapeObject {
             width: this.width,
             height: this.height
         });
+    }
+    Scale(scaleVector) {
+        this.width *= scaleVector.x;
+        this.height *= scaleVector.y
     }
 }
 

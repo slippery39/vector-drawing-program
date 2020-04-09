@@ -20,6 +20,11 @@ var ToolMixIn = {
     methods: {
         //requires an svg element with the ref of 'svg'
         GetRelativeCoordinates: function (data) {
+            //there seems to be a bug that happens sometimes where this thing fires but the
+            //data variable is undefined. hopefully this fixes that.
+            if (!data) {
+                return;
+            }
             const svgLeft = this.$refs.svg.getBoundingClientRect().left;
             const svgTop = this.$refs.svg.getBoundingClientRect().top;
 

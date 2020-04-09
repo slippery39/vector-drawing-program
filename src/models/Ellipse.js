@@ -10,7 +10,7 @@ class Ellipse extends ShapeObject {
     CollidesWithPoint(point) {
         // checking the equation of  
         // ellipse with the given point       
-        
+
         //x,y - point x / y
         //a, b  a- horizontal radius, b, vertical radius
         var check = (Math.pow((point.x - this.position.x), 2) / Math.pow(this.radius.x, 2)) +
@@ -40,6 +40,10 @@ class Ellipse extends ShapeObject {
             width: Math.abs(rightMostPoint - leftMostPoint),
             height: Math.abs(topMostPoint - bottomMostPoint)
         });
+    }
+    Scale(scaleVector) {
+        this.radius.x *= scaleVector.x;
+        this.radius.y *= scaleVector.y;
     }
 }
 

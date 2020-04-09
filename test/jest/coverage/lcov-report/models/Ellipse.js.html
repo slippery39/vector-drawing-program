@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -93,7 +93,15 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -103,7 +111,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -115,12 +131,12 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -140,7 +156,15 @@ class Ellipse extends ShapeObject {
     }
 &nbsp;
     CollidesWithPoint(point) {
-        return this.GetBoundingBox().CollidesWithPoint(point);
+        // checking the equation of  
+        // ellipse with the given point       
+        
+        //x,y - point x / y
+        //a, b  a- horizontal radius, b, vertical radius
+        var check = (Math.pow((point.x - this.position.x), 2) / Math.pow(this.radius.x, 2)) +
+            (Math.pow((point.y - this.position.y), 2) / Math.pow(this.radius.y, 2));
+        return check &lt;= 1
+        //return this.GetBoundingBox().CollidesWithPoint(point);
     }
 &nbsp;
     Translate(translationVector) {
@@ -151,13 +175,13 @@ class Ellipse extends ShapeObject {
         this.position = newPosition;
         super.Translate();
     }
-    GetBoundingBox() {
-        var leftMostPoint = this.position.x - this.radius.x;
-        var rightMostPoint = this.position.x + this.radius.x;
-        var topMostPoint = this.position.y - this.radius.y;
-        var bottomMostPoint = this.position.y + this.radius.y;
+<span class="fstat-no" title="function not covered" >    Ge</span>tBoundingBox() {
+        var leftMostPoint = <span class="cstat-no" title="statement not covered" >this.position.x - this.radius.x;</span>
+        var rightMostPoint = <span class="cstat-no" title="statement not covered" >this.position.x + this.radius.x;</span>
+        var topMostPoint = <span class="cstat-no" title="statement not covered" >this.position.y - this.radius.y;</span>
+        var bottomMostPoint = <span class="cstat-no" title="statement not covered" >this.position.y + this.radius.y;</span>
 &nbsp;
-        return new Rectangle({
+<span class="cstat-no" title="statement not covered" >        return new Rectangle({</span>
             position: {
                 x: leftMostPoint, y: topMostPoint
             },
@@ -174,7 +198,7 @@ export default Ellipse;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Apr 03 2020 00:56:58 GMT-0400 (Eastern Daylight Time)
+                at Tue Apr 07 2020 00:00:07 GMT-0400 (Eastern Daylight Time)
             </div>
         </div>
         <script src="..\prettify.js"></script>

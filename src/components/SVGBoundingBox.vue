@@ -3,7 +3,7 @@
     <rect
       :x="GetBoundingBox().position.x"
       :y="GetBoundingBox().position.y"
-      fill-opacity="0.4"
+      fill-opacity="0.1"
       fill="red"
       stroke="red"
       stroke-width="1"

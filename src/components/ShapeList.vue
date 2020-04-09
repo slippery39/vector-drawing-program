@@ -1,9 +1,9 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md bg-primary text-white">
     <q-toolbar class="bg-primary text-white shadow-2">
       <q-toolbar-title>Shapes</q-toolbar-title>
     </q-toolbar>
-    <q-list bordered separator style="overflow-y:scroll;height:500px;">
+    <q-list bordered separator style="overflow-y:scroll;height:500px;" class='bg-white text-black'>
       <q-item
         :active="isSelected(shape)"
         active-class="selected-list-item"

@@ -61,7 +61,7 @@ describe('Ellipse Tests', () => {
         expect(ellipse.CollidesWithPoint(pointOutsideEllipse)).toBe(false);
         
         //move the ellipse to a place where the point would be inside it.
-        ellipse.Translate({x:400,y:400});
+        ellipse.Translate({x:450,y:450});
         expect(ellipse.CollidesWithPoint(pointOutsideEllipse)).toBe(true);
     });
 });

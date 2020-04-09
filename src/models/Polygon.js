@@ -37,6 +37,12 @@ class Polygon extends ShapeObject {
 
         });
     }
+    Scale(scaleVector) {
+        this.points.forEach(function (point) {
+            point.x *= scaleVector.x;
+            point.y *= scaleVector.y;
+        });
+    };
 }
 
 export default Polygon;

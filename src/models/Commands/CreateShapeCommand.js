@@ -30,6 +30,7 @@ class CreateShapeCommand {
         this.Execute();
     }
     Undo() {
+        console.log('undo');
         this.#editor.objects = this.#editorSnapshotBefore;
         //-1 is the starting index... this is a bit confusing though. maybe a getter and setter on the editor object would be better
     }

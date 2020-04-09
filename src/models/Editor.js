@@ -103,6 +103,9 @@ class Editor {
             hidden or locked objects, they can add these arguments to exlude them.
             
         */
+        if (options === undefined) {
+            options = {};
+        }
         var shapesAtPoint = this.objects.filter(el => el.CollidesWithPoint(point)).reverse();
 
         if (options.excludeHidden) {

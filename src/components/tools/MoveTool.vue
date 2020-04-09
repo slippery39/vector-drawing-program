@@ -25,16 +25,21 @@ export default {
   data: function() {
     return {
       editor: state.editor,
-      originalShapePosition: undefined
+      originalShapePosition: undefined,
+      focus: false
     };
   },
   mixins: [ToolMixIn],
   mounted: function() {
+    //removing this for now, since when we press delete on an input it fires this.
+    //need to find a way to make sure the canvas is in focus first.
+    /*
     window.addEventListener("keydown", e => {
       if (e.code === "Delete") {
         this.removeSelectedShape();
       }
     });
+    */
   },
   methods: {
     getShapePositionSnapshot: function(shape) {
@@ -82,6 +87,9 @@ export default {
       }
     },
     handleMouseDown: function(data) {
+      if (data === undefined) {
+        alert("data was undefined in handleMouseDown in MoveTool");
+      }
       const relativeCoordinates = this.GetRelativeCoordinates(data);
       const shapesAtPoint = this.editor.GetShapesAtPoint(relativeCoordinates, {
         excludeHidden: true,
@@ -97,6 +105,9 @@ export default {
       );
     },
     handlePan: function(data) {
+      if (data === undefined) {
+        alert("data was undefined in handlePan in MoveTool");
+      }
       const relativeCoordinates = this.GetRelativeCoordinates(data);
       //Hacky way of getting this implemented quickly
       //On handleMouseDown we store the initial position of the shape.

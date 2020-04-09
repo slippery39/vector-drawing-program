@@ -12,11 +12,20 @@ class Line extends ShapeObject {
             x: this.x1, y: this.y1
         },
         { x: this.x2, y: this.y2 }]
-    }    
+    }
 
     CollidesWithPoint(point) {
         //make a polygon
         return this.GetBoundingBox().CollidesWithPoint(point);
+    }
+    GetPosition() {
+        return this.GetBoundingBox().position;
+    }
+    SetPosition(positionVector) {
+        var currentPosition = this.GetPosition();
+        var diffX = positionVector.x - currentPosition.x;
+        var diffY = positionVector.y - currentPosition.y;
+        this.Translate({ x: diffX, y: diffY });
     }
 
     Translate(translationVector) {
@@ -34,6 +43,12 @@ class Line extends ShapeObject {
             width: Math.abs(this.x2 - this.x1),
             height: Math.abs(this.y2 - this.y1)
         });
+    }
+    Scale(scaleVector) {
+        this.x1 = this.x1 + (this.x1 * scaleVector.x);
+        this.x2 = this.x2 + (this.x2 * scaleVector.x);
+        this.y1 = this.y1 + (this.y1 * scaleVector.y);
+        this.y2 = this.y2 + (this.y2 * scaleVector.y);
     }
 }
 

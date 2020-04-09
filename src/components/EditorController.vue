@@ -1,6 +1,6 @@
 <template>
-  <div style="display:flex;width:100%;">
-    <q-card style="width:275px;">
+  <div style="display:flex;width:100%;justify-content:center;">
+    <q-card style="width:275px;" class='bg-primary'>
       <ShapeList
         @item-clicked="handleListItemClick"
         @delete-item-clicked="handleDeleteClicked"
@@ -9,7 +9,7 @@
         :shapes="editor.objects"
       />
     </q-card>
-    <q-scroll-area visible style="width:100%;height:600px;display:flex;justify-content:center;">
+    <q-scroll-area visible style="max-width:100%;min-width:600px;height:600px;display:flex;justify-content:center;">
       <div
         class="canvas-container"
         @mousemove="checkForHoveredShape"
@@ -31,14 +31,17 @@
         />
       </div>
     </q-scroll-area>
+    <ShapeAttributesSidebar :shape="editor.SelectedShape()" />
   </div>
 </template>
 
 <script>
+import state from "../state/state.js";
+
 import ShapeList from "./ShapeList";
 import SVGCanvas from "../components/SVGCanvas";
 import ToolController from "../components/tools/ToolController";
-import state from "../state/state.js";
+import ShapeAttributesSidebar from "../components/ShapeAttributesSidebar";
 
 import CreateShapeCommand from "../models/Commands/CreateShapeCommand";
 import DeleteShapeCommand from "../models/Commands/DeleteShapeCommand";
@@ -48,7 +51,8 @@ export default {
   components: {
     SVGCanvas,
     ToolController,
-    ShapeList
+    ShapeList,
+    ShapeAttributesSidebar
   },
   mounted: function() {
     window.addEventListener("keydown", event => {

@@ -1,14 +1,14 @@
 <template>
-  <div class="q-pa-md">
-    <q-layout view="lHh lpr lFf" container style="height: 766px" class="shadow-2 rounded-borders">
+  <div class="q-pa-md" style='height:100vh'>
+    <q-layout view="lHh lpr lFf" container class="shadow-2 rounded-borders">
       <q-header elevated>
         <div class="q-pa-sm q-pl-md row items-center" style="justify-content:space-between">
-          <q-btn @click="removeAllShapes">Clear Canvas</q-btn>
+          <q-btn @click="removeAllShapes">Clear</q-btn>
           <CanvasDimensionsInput/>
           <ToolsButtonGroup />
           <AppColorPicker />
           <div>
-            <q-btn @click="saveAsImg">Save Image</q-btn>
+            <q-btn @click="saveAsImg">Save</q-btn>
           </div>
         </div>
       </q-header>
