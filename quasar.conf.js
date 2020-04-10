@@ -81,7 +81,8 @@ module.exports = function (ctx) {
         }),
         cfg.resolve.alias = {
           ...cfg.resolve.alias,
-          '~': path.resolve(__dirname, './src')
+          'src': path.resolve(__dirname, './src'),
+          'state':path.resolve(__dirname,'./src/state')
         }
       }
     },

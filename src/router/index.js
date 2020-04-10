@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueKonva from 'vue-konva'
 
 import routes from './routes'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
+Vue.use(VueKonva);
 
 /*
  * If not building with SSR mode, you can

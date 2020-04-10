@@ -39,7 +39,6 @@
     :width="editor.width"
     :height="editor.height"
   />
-  <MoveTool v-else-if="editor.selectedTool==='move'" />
   <div v-else>Error: No Tool Found for {{editor.selectedTool}}</div>
 </template>
 
@@ -51,9 +50,8 @@ import EllipseTool from "./EllipseTool";
 import RectangleTool from "./RectangleTool";
 import LineTool from "./LineTool";
 import PolygonTool from "./PolygonTool";
-import MoveTool from "./MoveTool";
 
-import state from "~/state/state";
+import state from "../../state/state";
 
 export default {
   name: "ToolController",
@@ -61,8 +59,7 @@ export default {
     EllipseTool,
     RectangleTool,
     LineTool,
-    PolygonTool,
-    MoveTool
+    PolygonTool
   },
   data: function() {
     return { editor: state.editor };

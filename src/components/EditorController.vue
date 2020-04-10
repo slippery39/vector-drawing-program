@@ -1,6 +1,6 @@
 <template>
   <div style="display:flex;width:100%;justify-content:center;">
-    <q-card style="width:275px;" class='bg-primary'>
+    <q-card style="width:275px;" class="bg-primary">
       <ShapeList
         @item-clicked="handleListItemClick"
         @delete-item-clicked="handleDeleteClicked"
@@ -9,28 +9,20 @@
         :shapes="editor.objects"
       />
     </q-card>
-    <q-scroll-area visible style="max-width:100%;min-width:600px;height:600px;display:flex;justify-content:center;">
-      <div
-        class="canvas-container"
-        @mousemove="checkForHoveredShape"
-        @mouseleave="()=>hoveredShape=undefined"
-        style="max-width:100%;display:inline-block;"
-      >
-        <SVGCanvas
-          id="svg-image"
-          :width="editor.width"
-          :height="editor.height"
-          :shapes="editor.objects"
-          :highlightedShape="hoveredShape"
-        />
-        <ToolController
-          @shapeCompleted="handleShapeComplete"
-          :width="editor.width"
-          :height="editor.height"
-          style="position:absolute;left:0px;top:0px;"
-        />
-      </div>
-    </q-scroll-area>
+    <div
+      class="canvas-container"
+      @mousemove="checkForHoveredShape"
+      @mouseleave="()=>hoveredShape=undefined"
+      style="max-width:100%;display:inline-block;"
+    >
+      <MainLayer :shapes="editor.objects" :selectedShape="editor.selectedShapeId" />
+      <ToolController
+        @shapeCompleted="handleShapeComplete"
+        :width="editor.width"
+        :height="editor.height"
+        style="position:absolute;left:0px;top:0px;"
+      />
+    </div>
     <ShapeAttributesSidebar :shape="editor.SelectedShape()" />
   </div>
 </template>
@@ -38,8 +30,9 @@
 <script>
 import state from "../state/state.js";
 
+import MainLayer from "./konda/MainLayer";
+
 import ShapeList from "./ShapeList";
-import SVGCanvas from "../components/SVGCanvas";
 import ToolController from "../components/tools/ToolController";
 import ShapeAttributesSidebar from "../components/ShapeAttributesSidebar";
 
@@ -49,7 +42,7 @@ import DeleteShapeCommand from "../models/Commands/DeleteShapeCommand";
 export default {
   name: "PageIndex",
   components: {
-    SVGCanvas,
+    MainLayer,
     ToolController,
     ShapeList,
     ShapeAttributesSidebar
@@ -91,7 +84,7 @@ export default {
     },
     checkForHoveredShape: function(data) {
       //console.log("checkForHoveredShape");
-     //console.log(data);
+      //console.log(data);
       const shapesHovered = this.editor.objects.filter(e => {
         return e.CollidesWithPoint({
           x: data.offsetX,
