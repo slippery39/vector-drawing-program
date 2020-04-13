@@ -3,16 +3,65 @@
     :config="configKonva"
     @mousedown="handleStageMouseDown"
     @touchstart="handleStageMouseDown"
+    id="shapes-canvas"
   >
     <v-layer>
-      <v-rect
-        v-for="shape in shapes"
-        :config="GetConfig(shape)"
-        :key="shape.id"
-        @transformend="handleTransformEnd"
-        @dragend="handleTransformEnd"
-      ></v-rect>
-      <v-transformer ref="transformer" />
+      <template v-for="shape in shapes">
+        <template v-if="shape.isVisible">
+        <v-rect
+          v-if="shape.type==='rectangle'"
+          :config="GetConfig(shape)"
+          :key="shape.id"
+          @transformend="handleTransformEnd"
+          @dragend="handleTransformEnd"
+        ></v-rect>
+        <v-ellipse
+          v-else-if="shape.type==='ellipse'"
+          :config="GetConfig(shape)"
+          :key="shape.id"
+          @transformend="handleTransformEnd"
+          @dragend="handleTransformEnd"
+        ></v-ellipse>
+        <!--Maybe with groups, we can set the position to the original bounding box of the underlying
+        shape and then modify all the points by the original bounding box inside-->
+        <!-- basically this way we get to treat all the points inside as relative to the polygon/line container-->
+        <!-- this should give us the "position" of the polygon-->
+        <v-group
+          v-else-if="shape.type==='line'"
+          :key="shape.id"
+          @transformend="handleTransformEnd"
+          @dragend="handleTransformEnd"
+          :config="{
+            id:shape.id,
+            draggable: allowTransforms? true:false
+            }"
+        >
+          <v-line :config="GetConfig(shape)"></v-line>
+        </v-group>
+        <!--Setting the group position to 0 seems to work with proper coordinates, but not too sure why-->
+        <v-group
+          v-else-if="shape.type==='polygon'"
+          :key="shape.id"
+          @transformend="handleTransformEnd"
+          @dragend="handleTransformEnd"
+          :config="{
+            id:shape.id,
+            draggable: allowTransforms? true:false
+          }"
+        >
+          <v-line
+            :config="GetConfig(shape)"
+            @transformend="handleTransformEnd"
+            @dragend="handleTransformEnd"
+          ></v-line>
+        </v-group>
+        </template>
+      </template>
+      <v-transformer
+        ref="transformer"
+        :resizeEnabled="allowTransforms"
+        :rotateEnabled="allowTransforms"
+      />
     </v-layer>
   </v-stage>
 </template>
@@ -33,36 +82,17 @@ export default {
     },
     selectedShape: {
       type: Number
+    },
+    allowTransforms: {
+      type: Boolean
     }
   },
   watch: {
     selectedShape: function(val) {
       // here we need to manually attach or detach Transformer node
       this.selectedShapeName = val;
-
       this.$nextTick(e => {
         this.updateTransformer();
-        /*
-        const transformerNode = this.$refs.transformer.getNode();
-        const stage = transformerNode.getStage();        
-
-        const selectedNode = stage.find(el => {
-          return el.attrs && el.attrs.id === this.selectedShapeName;
-        })[0];
-
-        // do nothing if selected node is already attached
-        if (selectedNode === transformerNode.node()) {
-          return;
-        }
-        if (selectedNode) {
-          // attach to another node
-          transformerNode.attachTo(selectedNode);
-        } else {
-          // remove transformer
-          transformerNode.detach();
-        }
-        transformerNode.getLayer().batchDraw();
-        */
       });
     }
   },
@@ -72,44 +102,82 @@ export default {
         width: 640,
         height: 480
       },
-      selectedShapeName: ""
+      selectedShapeName: undefined,
+      editor: state.editor
     };
   },
   methods: {
+    //this is messy.
     GetConfig(shape) {
       //quick translator for the shape.
       var config = {};
       config.id = shape.id;
-      config.x = shape.position.x;
-      config.y = shape.position.y;
+      if (shape.position) {
+        config.x = shape.position.x;
+        config.y = shape.position.y;
+      }
       config.width = shape.width;
       config.height = shape.height;
       config.fill = shape.fillColor;
       config.stroke = shape.strokeColor;
       config.scaleX = 1;
       config.scaleY = 1;
-      config.draggable = true;
+      if (this.allowTransforms && shape.isVisible && !shape.isLocked) {
+        config.draggable = true;
+      }
+
+      //Radius for ellipses.
+      if (shape.type === "ellipse") {
+        config.radius = Object.assign({}, shape.radius);
+      }
+
+      //config for lines
+      if (shape.type === "line") {
+        config.points = [shape.x1, shape.y1, shape.x2, shape.y2];
+        config.hitStrokeWidth = Math.max(6, shape.strokeWidth);
+        config.id = undefined;
+        config.draggable = false;
+      }
+
+      if (shape.type === "polygon") {
+        config.closed = true;
+        config.points = shape.points
+          .map(el => {
+            return [el.x, el.y];
+          })
+          .flat();
+        //we are testing creating this shape by using groups.
+        config.id = undefined;
+        config.draggable = false;
+      }
 
       return config;
     },
     handleTransformEnd(e) {
       // shape is transformed, let us save new attrs back to the node
       // find element in our state
-      const rect = this.shapes.find(r => r.id === this.selectedShapeName);
-      // update the state
-      //UPDATE THE STATE OF THE RECT
-      rect.position.x = e.target.x();
-      rect.position.y = e.target.y();
-      rect.width = e.target.width();
-      rect.height = e.target.height();
-      rect.rotation = e.target.rotation();
-      rect.scale.x = e.target.scaleX();
-      rect.scale.y = e.target.scaleY();
+      const shape = this.shapes.find(r => r.id === this.selectedShapeName);
+
+      //UPDATE THE STATE OF THE SHAPE HERE.
+      console.log("transform update here");
+      console.log(e.target);
+      console.log(e.target.getClientRect());
+      console.log('transform is done');
+      if (shape.position) {
+        shape.position.x = e.target.x();
+        shape.position.y = e.target.y();
+      }
+      shape.width = e.target.width();
+      shape.height = e.target.height();
+      shape.rotation = e.target.rotation();
+      shape.scale.x = e.target.scaleX();
+      shape.scale.y = e.target.scaleY();
     },
     handleStageMouseDown(e) {
       // clicked on stage - clear selection
       if (e.target === e.target.getStage()) {
         this.selectedShapeName = "";
+        this.$emit("shape-selected", undefined);
         this.updateTransformer();
         return;
       }
@@ -121,17 +189,23 @@ export default {
         return;
       }
 
-      const id = e.target.attrs.id;
+      let id = e.target.attrs.id;
+      //Checking to see if it is in a grouped object.
+      //grouped objects will have their own id.
+      if (e.target.getParent().attrs.id) {
+        id = e.target.getParent().attrs.id;
+      }
 
-      const rect = this.shapes.find(function(r) {
-        return r.id === id;
+      const shape = this.shapes.find(function(r) {
+        return r.id === id && !r.isLocked;
       });
-      if (rect) {
+
+      if (shape) {
         this.selectedShapeName = id;
         //update selected shape in the editor.
-        state.editor.selectedShapeId = id;
+        this.$emit("shape-selected", id);
       } else {
-        this.selectedShapeName = "";
+        this.selectedShapeName = undefined;
       }
       this.updateTransformer();
     },
@@ -141,7 +215,11 @@ export default {
       const stage = transformerNode.getStage();
 
       const selectedNode = stage.find(el => {
-        return el.attrs && el.attrs.id === this.selectedShapeName;
+        return (
+          el.attrs &&
+          el.attrs.id === this.selectedShapeName &&
+          el.attrs.id !== undefined
+        );
       })[0];
 
       // do nothing if selected node is already attached

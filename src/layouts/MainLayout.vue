@@ -1,14 +1,14 @@
 <template>
-  <div class="q-pa-md" style='height:100vh'>
+  <div class="q-pa-md" style="height:100vh">
     <q-layout view="lHh lpr lFf" container class="shadow-2 rounded-borders">
       <q-header elevated>
         <div class="q-pa-sm q-pl-md row items-center" style="justify-content:space-between">
           <q-btn @click="removeAllShapes">Clear</q-btn>
-          <CanvasDimensionsInput/>
+          <CanvasDimensionsInput />
           <ToolsButtonGroup />
           <AppColorPicker />
           <div>
-            <q-btn @click="saveAsImg">Save</q-btn>
+            <q-btn @click="saveAsImg2">Save</q-btn>
           </div>
         </div>
       </q-header>
@@ -40,14 +40,44 @@ export default {
   },
   data: function() {
     return {
-      editor: state.drawing,
-      uiState: state.uiState
+      editor: state.editor
     };
   },
   methods: {
     removeAllShapes() {
       const removeAllShapesCommand = new ClearCanvasCommand(this.editor);
       removeAllShapesCommand.Execute();
+    },
+    saveAsImg2() {
+      function triggerDownload(imgURI) {
+        var evt = new MouseEvent("click", {
+          view: window,
+          bubbles: false,
+          cancelable: true
+        });
+
+        var a = document.createElement("a");
+        a.setAttribute("download", "MY_COOL_IMAGE.png");
+        a.setAttribute("href", imgURI);
+        a.setAttribute("target", "_blank");
+
+        a.dispatchEvent(evt);
+      }
+
+      var canvas = document
+        .getElementById("shapes-canvas")
+        .querySelector("canvas");
+        
+      var img = new Image();
+      img.onload = function() {
+        var imgURI = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+
+        triggerDownload(imgURI);
+      };
+
+      img.src = canvas.toDataURL();
     },
     saveAsImg() {
       function triggerDownload(imgURI) {

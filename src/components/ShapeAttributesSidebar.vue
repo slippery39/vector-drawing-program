@@ -38,7 +38,9 @@
         />
       </q-card>
     </div>
-    <div>
+    <!--Disabling this functionality for now while i figure out how I can make polygons and lines 
+    work properly-->
+    <div v-if="false">
       <q-card
         color="primary"
         class="q-pa-md bg-primary text-white"
@@ -67,7 +69,9 @@
         />
       </q-card>
     </div>
-    <div>
+    <!--Disabling this functionality for now while i figure out how I can make polygons and lines 
+    work properly-->
+    <div v-if="false">
       <q-card
         color="primary"
         class="q-pa-md bg-primary text-white"

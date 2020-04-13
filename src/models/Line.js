@@ -5,9 +5,20 @@ class Line extends ShapeObject {
     constructor(data) {
         super(data);
         this.type = 'line'
+
+        /*To test out here*/
+        //on initializing this shape, we grab our initial position and store it.
+        //then we have the points be offset from that original position.
+        //therefore storing it as some sort of container.
+
+        //we can have two functions
+        //getRelativePoints() and getAbsolutePoints() in case the front end does not want to use
+        //a container.
+
+        //when we want to translate our object, we will just need to translate the position, and not the points.
     }
 
-    GetPoints() {
+    GetPoints() { //points should be relative to the container object.
         return [{
             x: this.x1, y: this.y1
         },

@@ -39,7 +39,6 @@
     :width="editor.width"
     :height="editor.height"
   />
-  <div v-else>Error: No Tool Found for {{editor.selectedTool}}</div>
 </template>
 
 <script>

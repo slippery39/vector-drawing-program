@@ -15,7 +15,7 @@
       @mouseleave="()=>hoveredShape=undefined"
       style="max-width:100%;display:inline-block;"
     >
-      <MainLayer :shapes="editor.objects" :selectedShape="editor.selectedShapeId" />
+      <MainLayer :shapes="editor.objects" :allowTransforms="true" :selectedShape="editor.selectedShapeId" @shape-selected='(id)=>editor.selectedShapeId = id' />
       <ToolController
         @shapeCompleted="handleShapeComplete"
         :width="editor.width"
