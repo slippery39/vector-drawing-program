@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import SVGDynamicShape from "../SVGDynamicShape";
+import SVGDynamicShape from "../svg/SVGDynamicShape";
 import ToolMixIn from "./ToolMixIn";
 
 export default {
@@ -37,9 +37,7 @@ export default {
           y: 0
         },
         fillColor: this.fillColor,
-        fillOpacity: this.fillOpacity,
         strokeColor: this.strokeColor,
-        strokeOpacity: this.strokeOpacity,
         strokeWidth: "2",
         isVisible: true
       };

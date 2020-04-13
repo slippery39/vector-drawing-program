@@ -1,5 +1,5 @@
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
-import SVGCanvas from "~/src/components/SVGCanvas";
+import SVGCanvas from "~/src/components/svg/SVGCanvas";
 
 const localVue = createLocalVue()
 const wrapper = shallowMount(SVGCanvas, {

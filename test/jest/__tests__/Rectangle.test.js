@@ -1,4 +1,4 @@
-import Rectangle from 'src/models/Rectangle';
+import Rectangle from 'src/models/Shapes/Rectangle';
 
 
 describe('Rectangle Tests', () => {

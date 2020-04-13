@@ -30,7 +30,7 @@
 <script>
 import state from "../state/state.js";
 
-import MainLayer from "./konda/MainLayer";
+import MainLayer from "./konva/MainLayer";
 
 import ShapeList from "./ShapeList";
 import ToolController from "../components/tools/ToolController";

@@ -1,4 +1,4 @@
-import Polygon from "src/models/Polygon";
+import Polygon from "src/models/Shapes/Polygon";
 
 describe('Polygon Tests', () => {
 

@@ -1,41 +1,22 @@
 <template>
   <q-card
-    style="width:20%;max-width:300px;"
+    style="width:20%;max-width:200px;"
     v-if="shape!=undefined"
     color="primary"
     class="q-pa-md bg-primary text-white"
   >
     <!--<BackgroundContainer>-->
     <div>
-      <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">Fill</q-card>
-      <q-card style="display:flex;" class="q-pa-md bg-white text-black">
+      <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
+        Fill:
         <ColorPicker @color-changed="fillColorChanged" :selectedColor="shape.fillColor" />
-        <!--Opacity Input-->
-        <q-input
-          type="number"
-          dense
-          bordered
-          bg-color="white"
-          v-model="shape.fillOpacity"
-          label="Opacity"
-          mask="###"
-        />
       </q-card>
     </div>
     <!--</BackgroundContainer>-->
     <div>
-      <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">Border</q-card>
-      <q-card style="display:flex;" class="q-pa-md bg-white text-black">
+      <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
+        Border:
         <ColorPicker @color-changed="borderColorChanged" :selectedColor="shape.strokeColor" />
-        <q-input
-          type="number"
-          dense
-          bordered
-          bg-color="white"
-          v-model="shape.strokeOpacity"
-          label="Opacity"
-          mask="###"
-        />
       </q-card>
     </div>
     <!--Disabling this functionality for now while i figure out how I can make polygons and lines 
@@ -112,7 +93,7 @@
   </q-card>
   <q-card
     v-else
-    style="width:20%;max-width:300px;"
+    style="width:20%;max-width:200px;"
     color="primary"
     class="q-pa-md bg-primary text-white"
   >A shape has not been selected</q-card>

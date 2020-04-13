@@ -122,6 +122,7 @@ export default {
       config.stroke = shape.strokeColor;
       config.scaleX = 1;
       config.scaleY = 1;
+      config.strokeScaleEnabled = false;
       if (this.allowTransforms && shape.isVisible && !shape.isLocked) {
         config.draggable = true;
       }

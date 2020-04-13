@@ -5,7 +5,11 @@
     label="   "
   >
     <q-popup-proxy transition-show="scale" transition-hide="scale">
-      <q-color @change="$emit('color-changed',selectedColorData)" v-model="selectedColorData" />
+      <q-color
+        @change="$emit('color-changed',selectedColorData)"
+        v-model="selectedColorData"
+        format-model="rgba"
+      />
     </q-popup-proxy>
   </q-btn>
 </template>
@@ -31,8 +35,6 @@ export default {
   },
   methods: {
     styleColorInput() {
-        console.log('color input')
-        console.log(this.selectedColorData);
       return {
         "background-color": this.selectedColorData,
         border: "1px solid black"

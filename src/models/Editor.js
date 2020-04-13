@@ -1,8 +1,8 @@
-import ShapeObject from "./ShapeObject";
-import Ellipse from "./Ellipse";
-import Line from "./Line";
-import Polygon from "./Polygon";
-import Rectangle from "./Rectangle";
+import ShapeObject from "./Shapes/ShapeObject";
+import Ellipse from "./Shapes/Ellipse";
+import Line from "./Shapes/Line";
+import Polygon from "./Shapes/Polygon";
+import Rectangle from "./Shapes/Rectangle";
 
 class Editor {
     constructor(data) {
@@ -19,10 +19,8 @@ class Editor {
         //UI State 
         this.selectedShapeId = undefined;
         this.selectedTool = 'polygon';
-        this.fillColor = "#FFFFFF";
-        this.fillOpacity = 100;
+        this.fillColor = "#FFFFFF"; 
         this.strokeColor = "#000000";
-        this.strokeOpacity = 100;
 
         //Command Objects
         this.commandHistory = []; //temp variable to track the history of our commands;

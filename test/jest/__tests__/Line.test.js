@@ -1,4 +1,4 @@
-import Line from "src/models/Line";
+import Line from "src/models/Shapes/Line";
 
 describe('Line Tests', () => {
 

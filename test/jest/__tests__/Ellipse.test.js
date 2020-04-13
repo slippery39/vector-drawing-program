@@ -1,4 +1,4 @@
-import Ellipse from 'src/models/Ellipse';
+import Ellipse from 'src/models/Shapes/Ellipse';
 
 
 describe('Ellipse Tests', () => {

@@ -6,15 +6,9 @@ var ToolMixIn = {
             type: String,
             default: "#FFFFFF"
         },
-        fillOpacity: {
-            default: 100
-        },
         strokeColor: {
             type: String,
             default: "#000000"
-        },
-        strokeOpacity: {
-            default: 100
         }
     },
     methods: {

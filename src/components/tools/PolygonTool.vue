@@ -44,9 +44,7 @@ export default {
         type: "polygon",
         points: [],
         fillColor: this.fillColor,
-        fillOpacity: this.fillOpacity,
         strokeColor: this.strokeColor,
-        strokeOpacity: this.strokeOpacity,
         isVisible: true
       };
       return polygon;

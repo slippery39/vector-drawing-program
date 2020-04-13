@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SVGDynamicShape from "../SVGDynamicShape";
+import SVGDynamicShape from "../svg/SVGDynamicShape";
 import ToolMixIn from "./ToolMixIn";
 
 export default {
