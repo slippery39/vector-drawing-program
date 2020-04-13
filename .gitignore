@@ -33,4 +33,4 @@ yarn-error.log*
 *.sln
 
 #Jest coverage files
-src/test/coverage
+/src/test/coverage
