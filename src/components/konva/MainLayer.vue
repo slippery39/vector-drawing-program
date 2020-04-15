@@ -8,53 +8,54 @@
     <v-layer>
       <template v-for="shape in shapes">
         <template v-if="shape.isVisible">
-        <v-rect
-          v-if="shape.type==='rectangle'"
-          :config="GetConfig(shape)"
-          :key="shape.id"
-          @transformend="handleTransformEnd"
-          @dragend="handleTransformEnd"
-        ></v-rect>
-        <v-ellipse
-          v-else-if="shape.type==='ellipse'"
-          :config="GetConfig(shape)"
-          :key="shape.id"
-          @transformend="handleTransformEnd"
-          @dragend="handleTransformEnd"
-        ></v-ellipse>
-        <!--Maybe with groups, we can set the position to the original bounding box of the underlying
-        shape and then modify all the points by the original bounding box inside-->
-        <!-- basically this way we get to treat all the points inside as relative to the polygon/line container-->
-        <!-- this should give us the "position" of the polygon-->
-        <v-group
-          v-else-if="shape.type==='line'"
-          :key="shape.id"
-          @transformend="handleTransformEnd"
-          @dragend="handleTransformEnd"
-          :config="{
+          <v-rect
+            v-if="shape.type==='rectangle'"
+            :config="GetConfig(shape)"
+            :key="shape.id"
+            @transformend="handleTransformEnd"
+            @dragend="handleTransformEnd"
+          ></v-rect>
+          <v-ellipse
+            v-else-if="shape.type==='ellipse'"
+            :config="GetConfig(shape)"
+            :key="shape.id"
+            @transformend="handleTransformEnd"
+            @dragend="handleTransformEnd"
+          ></v-ellipse>
+          <!--Maybe with groups, we can set the position to the original bounding box of the underlying
+          shape and then modify all the points by the original bounding box inside-->
+          <!-- basically this way we get to treat all the points inside as relative to the polygon/line container-->
+          <!-- this should give us the "position" of the polygon-->
+          <v-group
+            v-else-if="shape.type==='line'"
+            :key="shape.id"
+            @transformend="handleTransformEnd"
+            @dragend="handleTransformEnd"
+            :config="{
             id:shape.id,
             draggable: allowTransforms? true:false
             }"
-        >
-          <v-line :config="GetConfig(shape)"></v-line>
-        </v-group>
-        <!--Setting the group position to 0 seems to work with proper coordinates, but not too sure why-->
-        <v-group
-          v-else-if="shape.type==='polygon'"
-          :key="shape.id"
-          @transformend="handleTransformEnd"
-          @dragend="handleTransformEnd"
-          :config="{
-            id:shape.id,
-            draggable: allowTransforms? true:false
-          }"
-        >
-          <v-line
-            :config="GetConfig(shape)"
+          >
+            <v-line :config="GetConfig(shape)"></v-line>
+          </v-group>
+          <!--Setting the group position to 0 seems to work with proper coordinates, but not too sure why-->
+          <v-group
+            v-else-if="shape.type==='polygon'"
+            :key="shape.id"
             @transformend="handleTransformEnd"
             @dragend="handleTransformEnd"
-          ></v-line>
-        </v-group>
+            :config="{
+            id:shape.id,
+            position:shape.position,
+            draggable: allowTransforms? true:false
+          }"
+          >
+            <v-line
+              :config="GetConfig(shape)"
+              @transformend="handleTransformEnd"
+              @dragend="handleTransformEnd"
+            ></v-line>
+          </v-group>
         </template>
       </template>
       <v-transformer
@@ -67,7 +68,8 @@
 </template>
 
 <script>
-import state from "../../state/state";
+import state from "src/state/state";
+import TransformShapeCommand from "src/models/Commands/TransformShapeCommand";
 //i need to track when the mouse moves over this thing.
 //and grab any shapes that have a mouseover applied to it.
 
@@ -107,12 +109,12 @@ export default {
     };
   },
   methods: {
-    //this is messy.
+    //this is messy lets store this in the actual classes.
     GetConfig(shape) {
       //quick translator for the shape.
       var config = {};
       config.id = shape.id;
-      if (shape.position) {
+      if (shape.position && shape.type !== "polygon" && shape.type !== "line") {
         config.x = shape.position.x;
         config.y = shape.position.y;
       }
@@ -120,11 +122,27 @@ export default {
       config.height = shape.height;
       config.fill = shape.fillColor;
       config.stroke = shape.strokeColor;
-      config.scaleX = 1;
-      config.scaleY = 1;
+      config.scaleX = shape.scale.x;
+      config.scaleY = shape.scale.y;
+      config.rotation = shape.rotation;
       config.strokeScaleEnabled = false;
       if (this.allowTransforms && shape.isVisible && !shape.isLocked) {
         config.draggable = true;
+      }
+
+      //these shapes have an origin that exists in the top left corner of the rectangle.
+      //we want to have it be in the center so that we can simplify the position's of these rectangular shapes.
+      if (
+        shape.type === "rectangle" ||
+        shape.type === "polygon" ||
+        shape.type === "line"
+      ) {
+        //trying this out.
+        config.offsetX = shape.GetBoundingBox().width / 2;
+        config.offsetY = shape.GetBoundingBox().height / 2;
+        //this moves it every time.
+        config.x += config.offsetX;
+        config.y += config.offsetY;
       }
 
       //Radius for ellipses.
@@ -142,7 +160,7 @@ export default {
 
       if (shape.type === "polygon") {
         config.closed = true;
-        config.points = shape.points
+        config.points = shape.relativePoints
           .map(el => {
             return [el.x, el.y];
           })
@@ -163,16 +181,44 @@ export default {
       console.log("transform update here");
       console.log(e.target);
       console.log(e.target.getClientRect());
-      console.log('transform is done');
+      console.log("transform is done");
+
+      var transform = {};
+
+      //for now this is to prevent bugs from happening with the line and polygon tools, where the positions that konva tells us
+      //don't really make sense.
+
       if (shape.position) {
-        shape.position.x = e.target.x();
-        shape.position.y = e.target.y();
+        transform.position = {
+          x: e.target.x(),
+          y: e.target.y()
+        };
       }
-      shape.width = e.target.width();
-      shape.height = e.target.height();
-      shape.rotation = e.target.rotation();
-      shape.scale.x = e.target.scaleX();
-      shape.scale.y = e.target.scaleY();
+      //accounting for the offset from the transformer
+      if (
+        shape.type === "rectangle" ||
+        shape.type === "polygon" ||
+        shape.type === "line"
+      ) {
+        //remove the offset and reset the position.
+        if (!transform.position) {
+          transform.position = {};
+        }
+        transform.position.x -= shape.GetBoundingBox().width / 2;
+        transform.position.y -= shape.GetBoundingBox().height / 2;
+      }
+      transform.rotation = e.target.rotation();
+      transform.scale = {
+        x: e.target.scaleX(),
+        y: e.target.scaleY()
+      };
+
+      const transformShapeCommand = new TransformShapeCommand(
+        this.editor,
+        shape,
+        transform
+      );
+      transformShapeCommand.Execute();
     },
     handleStageMouseDown(e) {
       // clicked on stage - clear selection

@@ -5,6 +5,19 @@ class Polygon extends ShapeObject {
     constructor(data) {
         super(data);
         this.type = 'polygon'
+
+        //Find out the position of the polygon by finding its top left point
+        //calculate the relative points
+        var topLeftPoint = {
+            x: this.GetBoundingBox().position.x,
+            y: this.GetBoundingBox().position.y
+        }
+        //relative points to the position. these should never have to change.
+        this.relativePoints = this.points.map(el => {
+            return { x: el.x - topLeftPoint.x, y: el.y - topLeftPoint.y }
+        });
+
+        this.position = topLeftPoint;
     }
 
     CollidesWithPoint(point) {

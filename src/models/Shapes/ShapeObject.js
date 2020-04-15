@@ -10,13 +10,34 @@ class ShapeObject {
         this.type = 'unknown-shape';
         this.isVisible = true;
         this.isLocked = false;
+
         this.scale = {
             x: 1,
             y: 1
-        }  
-         //We keep the objects original attributes in tact. to change the width / height we modify this "scale" object.
+        }
+        this.position = {
+            x: 0,
+            y: 0
+        }
+        this.rotation = 0;
+
+        //We keep the objects original attributes in tact. to change the width / height we modify this "scale" object.
         //when we need to return a width and height we take the bounding box * the scale.
     }
+    /**
+     * @param {{ x: number; y: number; }} position
+     */
+    /*
+    set position(position) {
+        this.position = Object.assign({}, position);
+    }
+    set scale(scale) {
+        this.scale = Object.assign({}, scale);
+    }
+    set rotation(rotation) {
+        this.rotation = rotation
+    }
+    */
     Translate(translationVector) {
 
     }

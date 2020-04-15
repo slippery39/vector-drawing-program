@@ -6,6 +6,11 @@ class Line extends ShapeObject {
         super(data);
         this.type = 'line'
 
+        this.position = {
+            x: this.GetBoundingBox().position.x,
+            y: this.GetBoundingBox().position.y
+        }
+
         /*To test out here*/
         //on initializing this shape, we grab our initial position and store it.
         //then we have the points be offset from that original position.

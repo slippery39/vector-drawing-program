@@ -12,6 +12,7 @@ class Rectangle extends ShapeObject {
         if (data.height === undefined) {
             console.error("no height found for rectangle");
         }
+        
         this.type = 'rectangle'
     }
     Translate(translationVector) {
