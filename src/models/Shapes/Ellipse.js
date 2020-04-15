@@ -11,7 +11,6 @@ class Ellipse extends Shape {
         this.strokeColor = config.strokeColor;
         this.stokeWidth = config.strokeWidth;
     }
-
     CollidesWithPoint(point) {
         // checking the equation of  
         // ellipse with the given point     
@@ -20,16 +19,13 @@ class Ellipse extends Shape {
         var check = (Math.pow((point.x - this.position.x), 2) / Math.pow(this.radius.x, 2)) +
             (Math.pow((point.y - this.position.y), 2) / Math.pow(this.radius.y, 2));
         return check <= 1
-        //return this.GetBoundingBox().CollidesWithPoint(point);
     }
-
     Translate(translationVector) {
         var newPosition = {
             x: this.position.x += translationVector.x,
             y: this.position.y += translationVector.y
         }
         this.position = newPosition;
-        super.Translate();
     }
     GetBoundingBox() {
         var leftMostPoint = this.position.x - this.radius.x;
@@ -43,10 +39,6 @@ class Ellipse extends Shape {
             width: Math.abs(rightMostPoint - leftMostPoint),
             height: Math.abs(topMostPoint - bottomMostPoint)
         });
-    }
-    Scale(scaleVector) {
-        this.radius.x *= scaleVector.x;
-        this.radius.y *= scaleVector.y;
     }
 }
 

@@ -60,7 +60,7 @@ class Editor {
         }
     }
 
-    AddShape(shapeData, dontSaveHistory) {
+    AddShape(shapeData) {
         shapeData = JSON.parse(JSON.stringify(shapeData));
         const shape = this.CreateShape(shapeData);
         shape.id = this.uniqueIdCounter++;

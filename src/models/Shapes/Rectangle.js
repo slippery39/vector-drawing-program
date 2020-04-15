@@ -3,7 +3,6 @@ import Shape from "./ShapeObject";
 class Rectangle extends Shape {
     constructor(config) {
         super(config);
-
         this.type = 'rectangle'
         this.position = { ...config.position };
         this.width = config.width;
@@ -16,7 +15,6 @@ class Rectangle extends Shape {
         this.position.x += translationVector.x;
         this.position.y += translationVector.y;
     }
-
     GetPoints() {
         //top left corner
         var minX = this.position.x
@@ -35,13 +33,11 @@ class Rectangle extends Shape {
 
         return points;
     }
-    //note - if we introduce rotations into our app, then 
-    //this collision algorithm may no longer make sense.
+    //this does not work with rotations.
     CollidesWithPoint(point) {
         return this.position.x <= point.x && this.position.x + this.width >= point.x && this.position.y <= point.y && this.position.y + this.height >= point.y
     }
-
-    //note that currently the bounding box just returns another rectangle
+    //note that currently this bounding box just returns another rectangle
     //that is more or less exactly the same.
     GetBoundingBox() {
         return new Rectangle({
@@ -49,10 +45,6 @@ class Rectangle extends Shape {
             width: this.width,
             height: this.height
         });
-    }
-    Scale(scaleVector) {
-        this.width *= scaleVector.x;
-        this.height *= scaleVector.y
     }
 }
 

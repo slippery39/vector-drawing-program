@@ -11,8 +11,6 @@
     </q-card>
     <div
       class="canvas-container"
-      @mousemove="checkForHoveredShape"
-      @mouseleave="()=>hoveredShape=undefined"
       style="max-width:100%;display:inline-block;"
     >
       <MainLayer :shapes="editor.objects" :allowTransforms="true" :selectedShape="editor.selectedShapeId" @shape-selected='(id)=>editor.selectedShapeId = id' />
@@ -60,8 +58,6 @@ export default {
   data: function() {
     return {
       editor: state.editor,
-      hoveredShape: undefined //we can't use css on the svg to determine if something is being hovered because of
-      //the layered svg drawings. so we need to control it here.
     };
   },
   methods: {
@@ -82,18 +78,6 @@ export default {
     handleLockClicked: function(shape) {
       shape.isLocked = !shape.isLocked;
     },
-    checkForHoveredShape: function(data) {
-      //console.log("checkForHoveredShape");
-      //console.log(data);
-      const shapesHovered = this.editor.objects.filter(e => {
-        return e.CollidesWithPoint({
-          x: data.offsetX,
-          y: data.offsetY
-        });
-      });
-      const hoveredShape = shapesHovered.reverse()[0];
-      this.hoveredShape = hoveredShape;
-    }
   }
 };
 </script>

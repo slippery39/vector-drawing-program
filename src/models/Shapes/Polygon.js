@@ -3,11 +3,7 @@ import Shape from "./ShapeObject";
 
 class Polygon extends Shape {
     constructor(config) {
-        /*
-           Config for Polygon
-        */
-        super(config);        
-
+        super(config);     
         this.type = 'polygon'
         this.id = config.id;
         this.points = config.points.slice();
@@ -26,18 +22,15 @@ class Polygon extends Shape {
 
         this.position = topLeftPoint;
     }
-
     CollidesWithPoint(point) {
         return this.GetBoundingBox().CollidesWithPoint(point);
     }
-
     Translate(translationVector) {
         this.points.forEach(function (el) {
             el.x += translationVector.x;
             el.y += translationVector.y;
         });
     }
-
     GetBoundingBox() {
         var xValues = this.points.map(el => el.x);
         var yValues = this.points.map(el => el.y);
@@ -54,16 +47,8 @@ class Polygon extends Shape {
             },
             width: Math.abs(maxX - minX),
             height: Math.abs(maxY - minY)
-
         });
     }
-    //depreciating these for now.
-    Scale(scaleVector) {
-        this.points.forEach(function (point) {
-            point.x *= scaleVector.x;
-            point.y *= scaleVector.y;
-        });
-    };
 }
 
 export default Polygon;

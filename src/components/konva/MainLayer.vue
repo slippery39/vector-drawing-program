@@ -33,7 +33,12 @@
             @dragend="handleTransformEnd"
             :config="{
             id:shape.id,
-            draggable: allowTransforms? true:false
+            draggable: allowTransforms? true:false,
+            x:shape.position.x,
+            y:shape.position.y,
+            scaleX:shape.scale.x,
+            scaleY:shape.scale.y,
+            rotation:shape.rotation
             }"
           >
             <v-line :config="GetConfig(shape)"></v-line>
@@ -46,8 +51,12 @@
             @dragend="handleTransformEnd"
             :config="{
             id:shape.id,
-            position:shape.position,
-            draggable: allowTransforms? true:false
+            x:shape.position.x - shape.GetBoundingBox().width/2,
+            y:shape.position.y - shape.GetBoundingBox().height/2,
+            rotation:shape.rotation,
+            draggable: allowTransforms? true:false,
+            offsetX:shape.GetBoundingBox().width/2,
+            offsetY:shape.GetBoundingBox().height/2,
           }"
           >
             <v-line
@@ -114,17 +123,25 @@ export default {
       //quick translator for the shape.
       var config = {};
       config.id = shape.id;
-      if (shape.position && shape.type !== "polygon" && shape.type !== "line") {
+      if (shape.type !== "polygon" && shape.type !== "line") {
+        console.log("are we reaching here?");
         config.x = shape.position.x;
         config.y = shape.position.y;
+        config.rotation = shape.rotation;
+        config.scaleX = shape.scale.x;
+        config.scaleY = shape.scale.y;
       }
-      config.width = shape.width;
-      config.height = shape.height;
+      if (shape.type === "polygon" || shape.type === "line") {
+        config.x = 0;
+        config.y = 0;
+      }
+
+      if (shape.width) {
+        config.width = shape.width;
+        config.height = shape.height;
+      }
       config.fill = shape.fillColor;
       config.stroke = shape.strokeColor;
-      config.scaleX = shape.scale.x;
-      config.scaleY = shape.scale.y;
-      config.rotation = shape.rotation;
       config.strokeScaleEnabled = false;
       if (this.allowTransforms && shape.isVisible && !shape.isLocked) {
         config.draggable = true;
@@ -132,17 +149,13 @@ export default {
 
       //these shapes have an origin that exists in the top left corner of the rectangle.
       //we want to have it be in the center so that we can simplify the position's of these rectangular shapes.
-      if (
-        shape.type === "rectangle" ||
-        shape.type === "polygon" ||
-        shape.type === "line"
-      ) {
+      if (shape.type === "rectangle") {
         //trying this out.
-        config.offsetX = shape.GetBoundingBox().width / 2;
-        config.offsetY = shape.GetBoundingBox().height / 2;
+        //config.offsetX = shape.GetBoundingBox().width / 2;
+        //config.offsetY = shape.GetBoundingBox().height / 2;
         //this moves it every time.
-        config.x += config.offsetX;
-        config.y += config.offsetY;
+        //config.x -= config.offsetX;
+        //config.y -= config.offsetY;
       }
 
       //Radius for ellipses.
@@ -152,7 +165,7 @@ export default {
 
       //config for lines
       if (shape.type === "line") {
-        config.points = [shape.x1, shape.y1, shape.x2, shape.y2];
+        config.points = shape.relativePoints.map(p => [p.x, p.y]).flat();
         config.hitStrokeWidth = Math.max(6, shape.strokeWidth);
         config.id = undefined;
         config.draggable = false;
@@ -187,13 +200,10 @@ export default {
 
       //for now this is to prevent bugs from happening with the line and polygon tools, where the positions that konva tells us
       //don't really make sense.
-
-      if (shape.position) {
-        transform.position = {
-          x: e.target.x(),
-          y: e.target.y()
-        };
-      }
+      transform.position = {
+        x: e.target.x(),
+        y: e.target.y()
+      };
       //accounting for the offset from the transformer
       if (
         shape.type === "rectangle" ||
@@ -201,11 +211,6 @@ export default {
         shape.type === "line"
       ) {
         //remove the offset and reset the position.
-        if (!transform.position) {
-          transform.position = {};
-        }
-        transform.position.x -= shape.GetBoundingBox().width / 2;
-        transform.position.y -= shape.GetBoundingBox().height / 2;
       }
       transform.rotation = e.target.rotation();
       transform.scale = {
@@ -275,6 +280,9 @@ export default {
       }
       if (selectedNode) {
         // attach to another node
+        console.log("transformer attaching here");
+        console.log(JSON.parse(JSON.stringify(selectedNode)));
+        console.log(selectedNode);
         transformerNode.attachTo(selectedNode);
       } else {
         // remove transformer

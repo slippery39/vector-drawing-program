@@ -1,5 +1,5 @@
 <template>
-  <g v-if="data.isVisible">
+  <g>
     <circle
       v-if="data.type=='circle'"
       :cx="data.position.x"

@@ -50,6 +50,8 @@ export default {
       this.currentLine.y2 = relativeCoordinates.y; //this.currentLine.y1 + data.offset.y;
 
       if (data.isFinal) {
+        console.log('line when created');
+        console.log(this.currentLine);
         this.$emit("shapeCompleted", this.currentLine);
         this.currentLine = undefined;
       }
