@@ -2,11 +2,6 @@ import Editor from 'src/models/Editor'
 import CreateShapeCommand from 'src/models/Commands/CreateShapeCommand';
 
 describe('Editor Tests', () => {
-
-    const createVectorDrawing = function () {
-        return new Editor();
-    }
-
     const createTestRectangle = function () {
         return {
             type: 'rectangle',

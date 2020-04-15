@@ -57,7 +57,7 @@ export default {
   },
   data: function() {
     return {
-      editor: state.editor,
+      editor: state.editor
     };
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
     },
     handleLockClicked: function(shape) {
       shape.isLocked = !shape.isLocked;
-    },
+    }
   }
 };
 </script>

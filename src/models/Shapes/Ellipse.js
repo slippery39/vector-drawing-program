@@ -5,7 +5,6 @@ class Ellipse extends Shape {
     constructor(config) {
         super(config);
         this.type = 'ellipse';
-        this.position = { ...config.position };
         this.radius = { ...config.radius };
         this.fillColor = config.fillColor;
         this.strokeColor = config.strokeColor;
@@ -20,13 +19,6 @@ class Ellipse extends Shape {
             (Math.pow((point.y - this.position.y), 2) / Math.pow(this.radius.y, 2));
         return check <= 1
     }
-    Translate(translationVector) {
-        var newPosition = {
-            x: this.position.x += translationVector.x,
-            y: this.position.y += translationVector.y
-        }
-        this.position = newPosition;
-    }
     GetBoundingBox() {
         var leftMostPoint = this.position.x - this.radius.x;
         var rightMostPoint = this.position.x + this.radius.x;
@@ -39,6 +31,24 @@ class Ellipse extends Shape {
             width: Math.abs(rightMostPoint - leftMostPoint),
             height: Math.abs(topMostPoint - bottomMostPoint)
         });
+    }
+    GetKonvaConfig() {
+        return {
+            id: this.id,
+            x: this.position.x,
+            y: this.position.y,
+            radius: {
+                x: this.radius.x,
+                y: this.radius.y
+            },
+            fill: this.fillColor,
+            stroke: this.strokeColor,
+            scaleX: this.scale.x,
+            scaleY: this.scale.y,
+            rotation: this.rotation,
+            strokeScaleEnabled: false,
+            draggable: true
+        }
     }
 }
 

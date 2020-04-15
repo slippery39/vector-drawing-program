@@ -11,10 +11,6 @@ class Rectangle extends Shape {
         this.strokeColor = config.strokeColor;
         this.strokeWidth = config.strokeWidth;
     }
-    Translate(translationVector) {
-        this.position.x += translationVector.x;
-        this.position.y += translationVector.y;
-    }
     GetPoints() {
         //top left corner
         var minX = this.position.x
@@ -23,7 +19,7 @@ class Rectangle extends Shape {
         //top right corner
         var maxX = this.position.x + this.width
         var maxY = this.position.y + this.height
- 
+
         const points = [
             { x: minX, y: minY },
             { x: maxX, y: minY },
@@ -45,6 +41,22 @@ class Rectangle extends Shape {
             width: this.width,
             height: this.height
         });
+    }
+    GetKonvaConfig() {
+        return {
+            id: this.id,
+            x: this.position.x,
+            y: this.position.y,
+            width: this.width,
+            height: this.height,
+            fill: this.fillColor,
+            stroke: this.strokeColor,
+            scaleX: this.scale.x,
+            scaleY: this.scale.y,
+            rotation: this.rotation,
+            strokeScaleEnabled: false,
+            draggable: true
+        }
     }
 }
 

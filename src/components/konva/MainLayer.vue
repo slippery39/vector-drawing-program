@@ -120,6 +120,10 @@ export default {
   methods: {
     //this is messy lets store this in the actual classes.
     GetConfig(shape) {
+      console.log(shape);
+      if (shape.type === "rectangle" || shape.type === "ellipse") {
+        return shape.GetKonvaConfig();
+      }
       //quick translator for the shape.
       var config = {};
       config.id = shape.id;

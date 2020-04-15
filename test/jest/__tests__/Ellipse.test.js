@@ -2,22 +2,7 @@ import Ellipse from 'src/models/Shapes/Ellipse';
 
 
 describe('Ellipse Tests', () => {
-    /*
-        type: "ellipse",
-        position: {
-          x: 0,
-          y: 0
-        },
-        radius: {
-          x: 0,
-          y: 0
-        },
-        fillColor: this.fillColor,
-        fillOpacity: this.fillOpacity,
-        strokeColor: this.strokeColor,
-        strokeOpacity: this.strokeOpacity,
-        strokeWidth: "2"
-    */
+
     const ellipseData = {
         position: {
             x: 50,
@@ -49,9 +34,6 @@ describe('Ellipse Tests', () => {
     });
     it('collides with point correctly', () => {
 
-        // note that for now we are just doing bounding box collisions
-        // so even though this is a circle, we are testing if the point
-        //collides with the bounding box around the circle.
         const ellipse = new Ellipse(ellipseData);
 
         var pointOutsideEllipse = {
@@ -66,21 +48,10 @@ describe('Ellipse Tests', () => {
     });
     it('creates bounding box correctly', () => {
         const ellipse = new Ellipse(ellipseData);
-        /*
-        const ellipseData = {
-            position: {
-                x: 50,
-                y: 75
-            },
-            radius: {
-                x: 50,
-                y: 75
-            }
-        };
-        */
-       expect(ellipse.GetBoundingBox().position.x).toBe(0);
-       expect(ellipse.GetBoundingBox().position.y).toBe(0);
-       expect(ellipse.GetBoundingBox().width).toBe(100);
-       expect(ellipse.GetBoundingBox().height).toBe(150);
+
+        expect(ellipse.GetBoundingBox().position.x).toBe(0);
+        expect(ellipse.GetBoundingBox().position.y).toBe(0);
+        expect(ellipse.GetBoundingBox().width).toBe(100);
+        expect(ellipse.GetBoundingBox().height).toBe(150);
     });
 });
