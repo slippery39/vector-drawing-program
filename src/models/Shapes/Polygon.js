@@ -1,11 +1,18 @@
 import Rectangle from "./Rectangle"
-import ShapeObject from "./ShapeObject";
+import Shape from "./ShapeObject";
 
-class Polygon extends ShapeObject {
-    constructor(data) {
-        super(data);
+class Polygon extends Shape {
+    constructor(config) {
+        /*
+           Config for Polygon
+        */
+        super(config);        
+
         this.type = 'polygon'
-
+        this.id = config.id;
+        this.points = config.points.slice();
+        this.fillColor = config.fillColor;
+        this.strokeColor = config.strokeColor;
         //Find out the position of the polygon by finding its top left point
         //calculate the relative points
         var topLeftPoint = {
@@ -13,7 +20,7 @@ class Polygon extends ShapeObject {
             y: this.GetBoundingBox().position.y
         }
         //relative points to the position. these should never have to change.
-        this.relativePoints = this.points.map(el => {
+        this._relativePoints = this.points.map(el => {
             return { x: el.x - topLeftPoint.x, y: el.y - topLeftPoint.y }
         });
 
@@ -50,6 +57,7 @@ class Polygon extends ShapeObject {
 
         });
     }
+    //depreciating these for now.
     Scale(scaleVector) {
         this.points.forEach(function (point) {
             point.x *= scaleVector.x;

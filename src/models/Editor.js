@@ -1,4 +1,4 @@
-import ShapeObject from "./Shapes/ShapeObject";
+import Shape from "./Shapes/ShapeObject";
 import Ellipse from "./Shapes/Ellipse";
 import Line from "./Shapes/Line";
 import Polygon from "./Shapes/Polygon";
@@ -55,7 +55,7 @@ class Editor {
             }
             default: {
                 console.error('Unknown shape type in call to create shape');
-                return new ShapeObject(data);
+                return new Shape(data);
             }
         }
     }

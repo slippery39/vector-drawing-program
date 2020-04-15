@@ -19,7 +19,7 @@
         :cy="point.y"
         rx="3"
         ry="3"
-        fill="black"
+        :fill="index===0? 'blue': 'white'"
         stroke="black"
       />
     </g>
@@ -44,8 +44,7 @@ export default {
         type: "polygon",
         points: [],
         fillColor: this.fillColor,
-        strokeColor: this.strokeColor,
-        isVisible: true
+        strokeColor: this.strokeColor
       };
       return polygon;
     },

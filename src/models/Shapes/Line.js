@@ -1,10 +1,17 @@
 import Rectangle from "./Rectangle"
-import ShapeObject from "./ShapeObject";
+import Shape from "./ShapeObject";
 
-class Line extends ShapeObject {
-    constructor(data) {
-        super(data);
-        this.type = 'line'
+class Line extends Shape {
+    constructor(config) {
+        super(config);
+        this.type = 'line';
+
+        this.x1 = config.x1;
+        this.x2 = config.x2;
+        this.y1 = config.y1;
+        this.y2 = config.y2;
+        this.strokeColor = config.strokeColor;
+        this.strokeWidth = config.strokeWidth;
 
         this.position = {
             x: this.GetBoundingBox().position.x,

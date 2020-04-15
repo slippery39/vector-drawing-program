@@ -3,22 +3,30 @@
 
 //Note that not much 
 
-class ShapeObject {
-    constructor(data) {
-        //the line below is to make sure that we are deep cloning any nested objects.
-        Object.assign(this, JSON.parse(JSON.stringify(data)));
+class Shape {
+    constructor(config) {
+        //Deep copy of the config for debugging purposes.
+        this.config = JSON.parse(JSON.stringify(config));
+        this.id = config.id;
         this.type = 'unknown-shape';
         this.isVisible = true;
         this.isLocked = false;
+
+        //All objects should have a position.
+        //for now each object will override this with whatever it considers its position to be
+        //for example, circles position starts in the center of the circle,
+        //rectangles position starts at the top left of the rectangle
+
+        this.position = {
+            x: 0,
+            y: 0
+        }
 
         this.scale = {
             x: 1,
             y: 1
         }
-        this.position = {
-            x: 0,
-            y: 0
-        }
+
         this.rotation = 0;
 
         //We keep the objects original attributes in tact. to change the width / height we modify this "scale" object.
@@ -84,4 +92,4 @@ class ShapeObject {
     }
 }
 
-export default ShapeObject;
+export default Shape;

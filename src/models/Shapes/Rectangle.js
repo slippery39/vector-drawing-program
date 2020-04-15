@@ -1,19 +1,16 @@
-import ShapeObject from "./ShapeObject";
+import Shape from "./ShapeObject";
 
-class Rectangle extends ShapeObject {
-    constructor(data) {
-        super(data);
-        if (data.position === undefined) {
-            console.error("no position found for rectangle");
-        }
-        if (data.width === undefined) {
-            console.error("no width found for rectangle");
-        }
-        if (data.height === undefined) {
-            console.error("no height found for rectangle");
-        }
-        
+class Rectangle extends Shape {
+    constructor(config) {
+        super(config);
+
         this.type = 'rectangle'
+        this.position = { ...config.position };
+        this.width = config.width;
+        this.height = config.height;
+        this.fillColor = config.fillColor;
+        this.strokeColor = config.strokeColor;
+        this.strokeWidth = config.strokeWidth;
     }
     Translate(translationVector) {
         this.position.x += translationVector.x;
@@ -28,7 +25,7 @@ class Rectangle extends ShapeObject {
         //top right corner
         var maxX = this.position.x + this.width
         var maxY = this.position.y + this.height
-
+ 
         const points = [
             { x: minX, y: minY },
             { x: maxX, y: minY },

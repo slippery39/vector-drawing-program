@@ -38,8 +38,7 @@ export default {
         },
         fillColor: this.fillColor,
         strokeColor: this.strokeColor,
-        strokeWidth: "2",
-        isVisible: true
+        strokeWidth: "2"
       };
     },
     handlePan: function(data) {

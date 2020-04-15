@@ -75,7 +75,7 @@ describe('Polygon Tests', () => {
         expect(polygon.CollidesWithPoint(pointOutsidePolygon)).toBe(false);
 
         //move the ellipse to a place where the point would be inside it.
-        polygon.Translate({ x: 125, y: 125 });
+        polygon.Translate({ x: 120, y: 120 });
         expect(polygon.CollidesWithPoint(pointOutsidePolygon)).toBe(true);
     });
 
