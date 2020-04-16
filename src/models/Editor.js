@@ -19,7 +19,7 @@ class Editor {
         //UI State 
         this.selectedShapeId = undefined;
         this.selectedTool = 'polygon';
-        this.fillColor = "#FFFFFF"; 
+        this.fillColor = "#FFFFFF";
         this.strokeColor = "#000000";
 
         //Command Objects
@@ -70,6 +70,7 @@ class Editor {
         //this functionality is to satisfy our requirement of selecting the shape after it is created.
         this.selectedShapeId = shape.id;
         this.selectedTool = 'move';
+        return shape; //returning the shape incase the caller of this code needs to reference it.
     }
 
     SaveCommandHistory(command) {
@@ -104,7 +105,7 @@ class Editor {
         if (options === undefined) {
             options = {};
         }
-        var shapesAtPoint = this.objects.filter(el => el.CollidesWithPoint(point)).reverse();
+        let shapesAtPoint = this.objects.filter(el => el.CollidesWithPoint(point)).reverse();
 
         if (options.excludeHidden) {
             shapesAtPoint = shapesAtPoint.filter(el => el.isVisible)
@@ -115,7 +116,6 @@ class Editor {
         return shapesAtPoint;
     }
 
-    //UNDO/REDO should be the responsibility of a CommandHistory object.
     Undo() {
         if (this.commandHistoryIndex >= 0) {
             this.commandHistory[this.commandHistoryIndex].Undo();

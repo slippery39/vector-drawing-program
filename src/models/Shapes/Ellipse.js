@@ -15,15 +15,15 @@ class Ellipse extends Shape {
         // ellipse with the given point     
         //x,y - point x / y
         //a, b  a- horizontal radius, b, vertical radius
-        var check = (Math.pow((point.x - this.position.x), 2) / Math.pow(this.radius.x, 2)) +
+        const check = (Math.pow((point.x - this.position.x), 2) / Math.pow(this.radius.x, 2)) +
             (Math.pow((point.y - this.position.y), 2) / Math.pow(this.radius.y, 2));
         return check <= 1
     }
     GetBoundingBox() {
-        var leftMostPoint = this.position.x - this.radius.x;
-        var rightMostPoint = this.position.x + this.radius.x;
-        var topMostPoint = this.position.y - this.radius.y;
-        var bottomMostPoint = this.position.y + this.radius.y;
+        const leftMostPoint = this.position.x - this.radius.x;
+        const rightMostPoint = this.position.x + this.radius.x;
+        const topMostPoint = this.position.y - this.radius.y;
+        const bottomMostPoint = this.position.y + this.radius.y;
         return new Rectangle({
             position: {
                 x: leftMostPoint, y: topMostPoint

@@ -65,8 +65,7 @@ class Polygon extends Shape {
         });
     }
     GetKonvaConfig() {
-        var points = this.relativePoints;
-        const flattenedArr = [].concat(...points.map(p => [p.x, p.y]));
+        const flattenedArr = [].concat(...this.relativePoints.map(p => [p.x, p.y]));
         return {
             id: this.id,
             x: this.position.x,

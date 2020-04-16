@@ -101,22 +101,6 @@
 
 <script>
 import ColorPicker from "./ColorPicker";
-/*
--We will need a ModifyShapeAttributesCommand.
-options:{
-    backgroundStuff,
-    borderStuff,
-    width/heightStuff
-    positionStuff
-
-//things we need in our shapes
-    //every object needs a position.
-        //position will be based on top left corner of bounding box
-        //for objects that don't have a position.
-    //ability to manipulate all shapes by width/height
-        //Shapes need a 'Scale' function
-    //(width/height is basically just scaling the object by x and y)
-*/
 
 export default {
   name: "ShapeAttributesSidebar",

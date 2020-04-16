@@ -13,12 +13,12 @@ class Rectangle extends Shape {
     }
     GetPoints() {
         //top left corner
-        var minX = this.position.x
-        var minY = this.position.y
+        const minX = this.position.x
+        const minY = this.position.y
 
         //top right corner
-        var maxX = this.position.x + this.width
-        var maxY = this.position.y + this.height
+        const maxX = this.position.x + this.width
+        const maxY = this.position.y + this.height
 
         const points = [
             { x: minX, y: minY },
