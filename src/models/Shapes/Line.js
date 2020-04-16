@@ -76,7 +76,9 @@ class Line extends Shape {
             scaleY: this.scale.y,
             rotation: this.rotation,
             strokeScaleEnabled: false,
-            draggable: true
+            draggable: true,
+            strokeWidth: this.strokeWidth,
+            hitStrokeWidth: Math.max(6, this.strokeWidth)
         }
     }
 }

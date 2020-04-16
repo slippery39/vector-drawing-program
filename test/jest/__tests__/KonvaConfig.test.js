@@ -89,7 +89,8 @@ describe('Konva Shape Config Tests', () => {
                 x: 3,
                 y: 2
             },
-            rotation: 100
+            rotation: 100,
+            strokeWidth:2
         });
         const config = line.GetKonvaConfig();
         expect(config.id).toBe(1);
@@ -97,13 +98,17 @@ describe('Konva Shape Config Tests', () => {
         expect(config.y).toBe(150);
         expect(config.points).toEqual([0, 0, 200, 200]) //the points should be relative.
         expect(config.stroke).toBe('#000000FF');
+        expect(config.strokeWidth).toBe(2);
         expect(config.scaleX).toBe(3);
         expect(config.scaleY).toBe(2);
         expect(config.rotation).toBe(100);
+        
 
         //this is stuff that should be set as well
         expect(config.strokeScaleEnabled).toBe(false);
         expect(config.draggable).toBe(true);
+        //minimum of 6 for the hit stroke.
+        expect(config.hitStrokeWidth).toBe(6);
     });
     it('creates correct polygon config', () => {
         const polygon = new Polygon({
@@ -143,6 +148,7 @@ describe('Konva Shape Config Tests', () => {
         //this is stuff that should be set as well
         expect(config.strokeScaleEnabled).toBe(false);
         expect(config.draggable).toBe(true);
+        expect(config.closed).toBe(true);        
     });
 
 });
