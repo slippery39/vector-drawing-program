@@ -124,6 +124,7 @@ export default {
       if (shape.type === "rectangle" || shape.type === "ellipse") {
         return shape.GetKonvaConfig();
       }
+      
       //quick translator for the shape.
       var config = {};
       config.id = shape.id;
