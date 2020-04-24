@@ -55,7 +55,7 @@ class Rectangle extends Shape {
             scaleY: this.scale.y,
             rotation: this.rotation,
             strokeScaleEnabled: false,
-            draggable: true
+            draggable: !this.isLocked
         }
     }
 }

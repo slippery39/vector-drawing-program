@@ -62,6 +62,8 @@ export default {
   },
   methods: {
     handleShapeComplete: function(data) {
+      console.log('shape completed');
+      console.log('data');
       const createShapeCommand = new CreateShapeCommand(this.editor, data);
       createShapeCommand.Execute();
     },

@@ -39,6 +39,17 @@
     :width="editor.width"
     :height="editor.height"
   />
+  <PathTool
+    @shapeCompleted="handleShapeComplete"
+    v-else-if="IsPathTool(editor.selectedTool)"
+    :strokeColor="editor.strokeColor"
+    :strokeOpacity="editor.strokeOpacity"
+    :fillColor="editor.fillColor"
+    :fillOpacity="editor.fillOpacity"
+    :width="editor.width"
+    :height="editor.height"
+    :pathData="GetPathData(editor.selectedTool)"
+  />
 </template>
 
 <script>
@@ -49,8 +60,10 @@ import EllipseTool from "./EllipseTool";
 import RectangleTool from "./RectangleTool";
 import LineTool from "./LineTool";
 import PolygonTool from "./PolygonTool";
+import PathTool from "./PathTool";
 
 import state from "../../state/state";
+import Paths from "../../models/Paths/Paths";
 
 export default {
   name: "ToolController",
@@ -58,7 +71,8 @@ export default {
     EllipseTool,
     RectangleTool,
     LineTool,
-    PolygonTool
+    PolygonTool,
+    PathTool
   },
   data: function() {
     return { editor: state.editor };
@@ -66,6 +80,21 @@ export default {
   methods: {
     handleShapeComplete: function(data) {
       this.$emit("shapeCompleted", data);
+    },
+    //our premade path tools will be stored as 'path-heart' or 'path-lightning' in our editor class, but we want
+    //to reuse the same tool for all paths, this helps us determine if the tool selected is a path.
+    IsPathTool: function(name) {
+      if (name === undefined) {
+        return false;
+      }
+      return name.split("-")[0] === "path";
+    },
+    GetPathData: function(name) {
+      var pathType = name.split("-")[1];
+      console.log(pathType);
+      console.log(name);
+      console.log(Paths[pathType]);
+      return Paths[pathType];
     }
   }
 };

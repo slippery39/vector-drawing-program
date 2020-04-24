@@ -19,8 +19,18 @@ var ToolMixIn = {
             if (!data) {
                 return;
             }
-            const svgLeft = this.$refs.svg.getBoundingClientRect().left;
-            const svgTop = this.$refs.svg.getBoundingClientRect().top;
+
+            //determine whether a $el exists or not for compatibility with both our svg and our konva based tools
+            let svgLeft;
+            let svgTop;
+            if (this.$refs.svg.$el) {
+                svgLeft = this.$refs.svg.$el.getBoundingClientRect().left;
+                svgTop = this.$refs.svg.$el.getBoundingClientRect().top;
+            }
+            else {
+                svgLeft = this.$refs.svg.getBoundingClientRect().left;
+                svgTop = this.$refs.svg.getBoundingClientRect().top;
+            }
 
             //for usage with Quasar Touch Events
             if (data.position) {

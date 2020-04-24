@@ -3,6 +3,7 @@ import Ellipse from "./Shapes/Ellipse";
 import Line from "./Shapes/Line";
 import Polygon from "./Shapes/Polygon";
 import Rectangle from "./Shapes/Rectangle";
+import Path from "./Shapes/Path";
 
 class Editor {
     constructor(data) {
@@ -18,7 +19,7 @@ class Editor {
 
         //UI State 
         this.selectedShapeId = undefined;
-        this.selectedTool = 'polygon';
+        this.selectedTool = 'path-heart'; //we need something for the different paths now?
         this.fillColor = "#FFFFFF";
         this.strokeColor = "#000000";
 
@@ -53,8 +54,11 @@ class Editor {
             case 'polygon': {
                 return new Polygon(data)
             }
+            case 'path': {
+                return new Path(data)
+            }
             default: {
-                console.error('Unknown shape type in call to create shape');
+                console.error('Unknown shape type in call to create shape. Please check the Editor.js file');
                 return new Shape(data);
             }
         }

@@ -31,6 +31,14 @@
             @transformend="handleTransformEnd"
             @dragend="handleTransformEnd"
           ></v-line>
+
+          <v-path
+            v-else-if="shape.type==='path'"
+            :key="shape.id"
+            @transformend="handleTransformEnd"
+            @dragend="handleTransformEnd"
+            :config="shape.GetKonvaConfig()"
+          />
         </template>
       </template>
       <v-transformer
@@ -88,7 +96,7 @@ export default {
       // shape is transformed, let us save new attrs back to the node
       // find element in our state
       const shape = this.shapes.find(r => r.id === this.selectedShapeName);
-      var transform = {};
+      const transform = {};
 
       //for now this is to prevent bugs from happening with the line and polygon tools, where the positions that konva tells us
       //don't really make sense.
