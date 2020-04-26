@@ -77,7 +77,7 @@ class Line extends Shape {
             strokeScaleEnabled: false,
             draggable: !this.isLocked,
             strokeWidth: this.strokeWidth,
-            hitStrokeWidth: Math.max(6, this.strokeWidth)
+            hitStrokeWidth: Math.max(25, this.strokeWidth)
         }
     }
 }

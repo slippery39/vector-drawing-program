@@ -9,11 +9,11 @@ class Path extends Shape {
         this.fillColor = config.fillColor;
         this.strokeColor = config.strokeColor;
     }
-
     CollidesWithPoint(point) {
         return this.GetBoundingBox().CollidesWithPoint(point);
     }
     GetBoundingBox() {
+
     }
     GetKonvaConfig() {
         return {

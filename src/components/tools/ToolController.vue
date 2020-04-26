@@ -1,54 +1,53 @@
 <template>
+  <!--Todo, we have a lot of repeated handlers here, lets use dynamic components and stuff-->
   <EllipseTool
-    @shapeCompleted="handleShapeComplete"
+    @shapeCompleted="HandleShapeComplete"
     v-if="editor.selectedTool==='ellipse'"
     :strokeColor="editor.strokeColor"
-    :strokeOpacity="editor.strokeOpacity"
     :fillColor="editor.fillColor"
-    :fillOpacity="editor.fillOpacity"
     :width="editor.width"
     :height="editor.height"
   />
   <RectangleTool
-    @shapeCompleted="handleShapeComplete"
+    @shapeCompleted="HandleShapeComplete"
     v-else-if="editor.selectedTool === 'rectangle'"
     :strokeColor="editor.strokeColor"
-    :strokeOpacity="editor.strokeOpacity"
     :fillColor="editor.fillColor"
-    :fillOpacity="editor.fillOpacity"
     :width="editor.width"
     :height="editor.height"
   />
   <LineTool
-    @shapeCompleted="handleShapeComplete"
+    @shapeCompleted="HandleShapeComplete"
     v-else-if="editor.selectedTool === 'line'"
     :strokeColor="editor.strokeColor"
-    :strokeOpacity="editor.strokeOpacity"
     :fillColor="editor.fillColor"
-    :fillOpacity="editor.fillOpacity"
     :width="editor.width"
     :height="editor.height"
   />
   <PolygonTool
-    @shapeCompleted="handleShapeComplete"
+    @shapeCompleted="HandleShapeComplete"
     v-else-if="editor.selectedTool==='polygon'"
     :strokeColor="editor.strokeColor"
-    :strokeOpacity="editor.strokeOpacity"
     :fillColor="editor.fillColor"
-    :fillOpacity="editor.fillOpacity"
     :width="editor.width"
     :height="editor.height"
   />
-  <PathTool
-    @shapeCompleted="handleShapeComplete"
+  <PremadePathTool
+    @shapeCompleted="HandleShapeComplete"
     v-else-if="IsPathTool(editor.selectedTool)"
     :strokeColor="editor.strokeColor"
-    :strokeOpacity="editor.strokeOpacity"
     :fillColor="editor.fillColor"
-    :fillOpacity="editor.fillOpacity"
     :width="editor.width"
     :height="editor.height"
     :pathData="GetPathData(editor.selectedTool)"
+  />
+  <FreePathTool
+    @shapeCompleted="HandleShapeComplete"
+    v-else-if="editor.selectedTool==='free-draw'"
+    :strokeColor="editor.strokeColor"
+    :fillColor="editor.fillColor"
+    :width="editor.width"
+    :height="editor.height"
   />
 </template>
 
@@ -60,7 +59,8 @@ import EllipseTool from "./EllipseTool";
 import RectangleTool from "./RectangleTool";
 import LineTool from "./LineTool";
 import PolygonTool from "./PolygonTool";
-import PathTool from "./PathTool";
+import PremadePathTool from "./PremadePathTool";
+import FreePathTool from "./FreePathTool";
 
 import state from "../../state/state";
 import Paths from "../../models/Paths/Paths";
@@ -72,13 +72,14 @@ export default {
     RectangleTool,
     LineTool,
     PolygonTool,
-    PathTool
+    PremadePathTool,
+    FreePathTool
   },
   data: function() {
     return { editor: state.editor };
   },
   methods: {
-    handleShapeComplete: function(data) {
+    HandleShapeComplete: function(data) {
       this.$emit("shapeCompleted", data);
     },
     //our premade path tools will be stored as 'path-heart' or 'path-lightning' in our editor class, but we want
@@ -91,9 +92,6 @@ export default {
     },
     GetPathData: function(name) {
       var pathType = name.split("-")[1];
-      console.log(pathType);
-      console.log(name);
-      console.log(Paths[pathType]);
       return Paths[pathType];
     }
   }

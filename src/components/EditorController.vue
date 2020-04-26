@@ -1,6 +1,6 @@
 <template>
   <div style="display:flex;width:100%;justify-content:center;">
-    <q-card style="width:275px;" class="bg-primary">
+    <q-card style="width:225px;" class="bg-primary">
       <ShapeList
         @item-clicked="handleListItemClick"
         @delete-item-clicked="handleDeleteClicked"
@@ -11,7 +11,7 @@
     </q-card>
     <div
       class="canvas-container"
-      style="max-width:100%;display:inline-block;"
+      style="max-width:50%;display:inline-block;"
     >
       <MainLayer :shapes="editor.objects" :allowTransforms="true" :selectedShape="editor.selectedShapeId" @shape-selected='(id)=>editor.selectedShapeId = id' />
       <ToolController

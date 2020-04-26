@@ -1,0 +1,92 @@
+<template>
+  <v-stage ref="stage" :config="stageConfig" v-touch-pan.prevent.mouse="HandlePan">
+    <v-layer>
+      <v-path v-if="currentPath!=undefined" :config="currentPath" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+import ToolMixIn from "./ToolMixIn";
+
+export default {
+  name: "FreePathTool",
+  mixins: [ToolMixIn],
+  props: {
+    width: {
+      default: 640
+    },
+    height: {
+      default: 480
+    }
+  },
+  data: function() {
+    return {
+      firstClickPoint: undefined,
+      currentPath: undefined,
+      pathArr: [],
+      stageConfig: {
+        width: this.width,
+        height: this.height
+      }
+    };
+  },
+  methods: {
+    HandlePan: function(data) {
+      if (!data) {
+        return;
+      }
+      //is there a way to handle drags on the stage?
+      const relativeCoordinates = this.GetRelativeCoordinates(data);
+
+      if (data.isFirst) {
+        this.currentPath = "";
+        this.firstClickPoint = Object.assign({}, relativeCoordinates);
+        this.pathArr.push(
+          `M ${this.firstClickPoint.x},${this.firstClickPoint.y}`
+        );
+      }
+      this.pathArr.push(`L ${relativeCoordinates.x},${relativeCoordinates.y}`);
+      //update the current path.
+      this.currentPath = {
+        data: this.pathArr.join(" "),
+        stroke: this.strokeColor,
+        fill: "rgba(255,255,255,0)" //this makes it
+      };
+
+      console.log(this.currentPath);
+
+      if (data.isFinal) {
+        /*
+        type: "path",
+        fill: this.fillColor,
+        stroke: this.strokeColor,
+        strokeWidth: 2,
+        strokeScaleEnabled: false,
+        scale: {
+          x: 1,
+          y: 1
+        },
+        position: {
+          x: 0,
+          y: 0
+        },
+        data: this.pathData
+      };
+
+          */
+        this.$emit("shapeCompleted", {
+          type: "path",
+          strokeColor: this.strokeColor,
+          strokeWidth: 2,
+          fillColor: "rgba(255,255,255,0)", //having a transparent fill fixes some mouse detection issues for the transformer.
+          data: this.pathArr.join(" ")
+        });
+        this.pathArr = [];
+        this.firstClickPoint = undefined;
+        this.currentPath = undefined;
+      }
+    }
+  }
+};
+</script>
