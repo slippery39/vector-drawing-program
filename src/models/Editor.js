@@ -33,7 +33,7 @@ class Editor {
             });
         }
     }
-    SelectedShape() {
+    GetSelectedShape() {
         if (this.selectedShapeId === undefined) {
             return undefined;
         }

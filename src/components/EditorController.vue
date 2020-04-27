@@ -2,10 +2,10 @@
   <div style="display:flex;width:100%;justify-content:center;">
     <q-card style="width:225px;" class="bg-primary">
       <ShapeList
-        @item-clicked="handleListItemClick"
-        @delete-item-clicked="handleDeleteClicked"
-        @visibility-clicked="handleVisibilityClicked"
-        @lock-clicked="handleLockClicked"
+        @item-clicked="HandleListItemClick"
+        @delete-item-clicked="HandleDeleteClicked"
+        @visibility-clicked="HandleVisibilityClicked"
+        @lock-clicked="HandleLockClicked"
         :shapes="editor.objects"
       />
     </q-card>
@@ -15,13 +15,34 @@
     >
       <MainLayer :shapes="editor.objects" :allowTransforms="true" :selectedShape="editor.selectedShapeId" @shape-selected='(id)=>editor.selectedShapeId = id' />
       <ToolController
-        @shapeCompleted="handleShapeComplete"
+        @shapeCompleted="HandleShapeComplete"
         :width="editor.width"
         :height="editor.height"
         style="position:absolute;left:0px;top:0px;"
       />
+      <!--Right Click Context Menu-->
+     <q-menu v-if="editor.selectedShapeId!=undefined" touch-position context-menu>
+      <q-list dense style="min-width: 100px">
+        <q-item clickable v-close-popup>
+          <q-item-section>Send to Front</q-item-section>
+        </q-item>
+        <q-item clickable v-close-popup>
+          <q-item-section>Send to back</q-item-section>
+        </q-item>
+        <q-item @click="HandleDeleteClicked(editor.GetSelectedShape())" clickable v-close-popup>
+          <q-item-section>Delete</q-item-section>
+        </q-item>
+        <q-item @click="HandleVisibilityClicked(editor.GetSelectedShape())" clickable v-close-popup>
+          <q-item-section>Hide</q-item-section>
+        </q-item>
+        <q-item @click="HandleLockClicked(editor.GetSelectedShape())" clickable v-close-popup>
+          <q-item-section>Lock</q-item-section>
+        </q-item>
+      </q-list>
+    </q-menu>
+
     </div>
-    <ShapeAttributesSidebar :shape="editor.SelectedShape()" />
+    <ShapeAttributesSidebar :shape="editor.GetSelectedShape()" />
   </div>
 </template>
 
@@ -61,23 +82,21 @@ export default {
     };
   },
   methods: {
-    handleShapeComplete: function(data) {
-      console.log('shape completed');
-      console.log('data');
+    HandleShapeComplete: function(data) {
       const createShapeCommand = new CreateShapeCommand(this.editor, data);
       createShapeCommand.Execute();
     },
-    handleListItemClick: function(shape) {
+    HandleListItemClick: function(shape) {
       this.editor.selectedShapeId = shape.id;
     },
-    handleDeleteClicked: function(shape) {
+    HandleDeleteClicked: function(shape) {
       const deleteItemCommand = new DeleteShapeCommand(this.editor, shape.id);
       deleteItemCommand.Execute();
     },
-    handleVisibilityClicked: function(shape) {
+    HandleVisibilityClicked: function(shape) {
       shape.isVisible = !shape.isVisible;
     },
-    handleLockClicked: function(shape) {
+    HandleLockClicked: function(shape) {
       shape.isLocked = !shape.isLocked;
     }
   }

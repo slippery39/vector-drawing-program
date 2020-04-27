@@ -7,6 +7,7 @@ class Path extends Shape {
         this.id = config.id;
         this.data = config.data
         this.fillColor = config.fillColor;
+        this.strokeWidth = config.strokeWidth;
         this.strokeColor = config.strokeColor;
     }
     CollidesWithPoint(point) {
@@ -28,7 +29,8 @@ class Path extends Shape {
             strokeScaleEnabled: false,
             draggable: !this.isLocked,
             strokeWidth: this.strokeWidth,
-            fill: this.fillColor
+            fill: this.fillColor,
+            hitStrokeWidth: Math.max(25, this.strokeWidth)
         }
     }
 }

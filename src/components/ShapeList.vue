@@ -3,7 +3,12 @@
     <q-toolbar class="bg-primary text-white shadow-2">
       <q-toolbar-title>Shapes</q-toolbar-title>
     </q-toolbar>
-    <q-list bordered separator style="overflow-y:scroll;height:500px; font-size:10px;" class='bg-white text-black'>
+    <q-list
+      bordered
+      separator
+      style="overflow-y:scroll;height:500px; font-size:10px;"
+      class="bg-white text-black"
+    >
       <q-item
         :active="isSelected(shape)"
         active-class="selected-list-item"
@@ -95,7 +100,7 @@ export default {
 .hoverable > .fas:hover {
   font-size: 14px;
 }
-.selected-list-item{
-    background-color:orange;
+.selected-list-item {
+  background-color: orange;
 }
 </style>

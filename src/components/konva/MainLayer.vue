@@ -1,8 +1,8 @@
 <template>
   <v-stage
     :config="stageConfig"
-    @mousedown="handleStageMouseDown"
-    @touchstart="handleStageMouseDown"
+    @mousedown="HandleStageMouseDown"
+    @touchstart="HandleStageMouseDown"
     id="shapes-canvas"
     style="border:2px solid black;"
   >
@@ -13,30 +13,30 @@
             v-if="shape.type==='rectangle'"
             :config="shape.GetKonvaConfig()"
             :key="shape.id"
-            @transformend="handleTransformEnd"
-            @dragend="handleTransformEnd"
+            @transformend="HandleTransformEnd"
+            @dragend="HandleTransformEnd"
           ></v-rect>
           <v-ellipse
             v-else-if="shape.type==='ellipse'"
             :config="shape.GetKonvaConfig()"
             :key="shape.id"
-            @transformend="handleTransformEnd"
-            @dragend="handleTransformEnd"
+            @transformend="HandleTransformEnd"
+            @dragend="HandleTransformEnd"
           ></v-ellipse>
           <!--Combining the line and polygon below because in Konva, a polygon is just a line with 'closed=true'-->
           <v-line
             v-else-if="shape.type==='line' || shape.type==='polygon'"
             :config="shape.GetKonvaConfig()"
             :key="shape.id"
-            @transformend="handleTransformEnd"
-            @dragend="handleTransformEnd"
+            @transformend="HandleTransformEnd"
+            @dragend="HandleTransformEnd"
           ></v-line>
 
           <v-path
             v-else-if="shape.type==='path'"
             :key="shape.id"
-            @transformend="handleTransformEnd"
-            @dragend="handleTransformEnd"
+            @transformend="HandleTransformEnd"
+            @dragend="HandleTransformEnd"
             :config="shape.GetKonvaConfig()"
           />
         </template>
@@ -77,7 +77,7 @@ export default {
       // here we need to manually attach or detach Transformer node
       this.selectedShapeName = val;
       this.$nextTick(e => {
-        this.updateTransformer();
+        this.UpdateTransformer();
       });
     }
   },
@@ -92,7 +92,10 @@ export default {
     };
   },
   methods: {
-    handleTransformEnd(e) {
+    TestingSelectedShapeName: function() {
+      return this.selectedShapeName !== undefined;
+    },
+    HandleTransformEnd(e) {
       // shape is transformed, let us save new attrs back to the node
       // find element in our state
       const shape = this.shapes.find(r => r.id === this.selectedShapeName);
@@ -116,12 +119,12 @@ export default {
       );
       transformShapeCommand.Execute();
     },
-    handleStageMouseDown(e) {
+    HandleStageMouseDown(e) {
       // clicked on stage - clear selection
       if (e.target === e.target.getStage()) {
         this.selectedShapeName = undefined;
         this.$emit("shape-selected", undefined);
-        this.updateTransformer();
+        this.UpdateTransformer();
         return;
       }
       // clicked on transformer - do nothing
@@ -143,9 +146,9 @@ export default {
       } else {
         this.selectedShapeName = undefined;
       }
-      this.updateTransformer();
+      this.UpdateTransformer();
     },
-    updateTransformer() {
+    UpdateTransformer() {
       // here we need to manually attach or detach Transformer node
       const transformerNode = this.$refs.transformer.getNode();
       const stage = transformerNode.getStage();
