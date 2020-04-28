@@ -4,7 +4,7 @@
     @mousedown="HandleStageMouseDown"
     @touchstart="HandleStageMouseDown"
     id="shapes-canvas"
-    style="border:2px solid black;"
+    style="border:1px solid black;width:640px;height:480px;"
   >
     <v-layer>
       <template v-for="shape in shapes">
@@ -76,6 +76,7 @@ export default {
     selectedShape: function(val) {
       // here we need to manually attach or detach Transformer node
       this.selectedShapeName = val;
+
       this.$nextTick(e => {
         this.UpdateTransformer();
       });
@@ -151,6 +152,14 @@ export default {
     UpdateTransformer() {
       // here we need to manually attach or detach Transformer node
       const transformerNode = this.$refs.transformer.getNode();
+
+      if (this.selectedShapeName === undefined) {
+        console.log('testing selected shape name detach');
+        transformerNode.detach();
+        transformerNode.getLayer().batchDraw();
+        return;
+      }
+
       const stage = transformerNode.getStage();
 
       const selectedNode = stage.find(el => {

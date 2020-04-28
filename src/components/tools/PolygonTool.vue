@@ -1,9 +1,9 @@
 <template>
   <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-  <svg ref="svg" v-touch-pan.prevent.mouse="handlePan" width="640" height="480">
+  <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
     <g v-if="currentPolygon!=undefined">
       <line
-        v-for="(line,index) in convertPointsToLines(currentPolygon)"
+        v-for="(line,index) in ConvertPointsToLines(currentPolygon)"
         :key="'li'+index"
         :x1="line.point1.x"
         :y1="line.point1.y"
@@ -38,7 +38,7 @@ export default {
     };
   },
   methods: {
-    createStartingPolygon: function() {
+    CreateStartingPolygon: function() {
       var polygon = {
         id: 1,
         type: "polygon",
@@ -49,7 +49,7 @@ export default {
       return polygon;
     },
     // Converts the points from the current polygon into an array of lines.
-    convertPointsToLines: function() {
+    ConvertPointsToLines: function() {
       var lines = [];
       for (var i = 0; i < this.currentPolygon.points.length; i++) {
         //if there is another point after this one,
@@ -74,7 +74,7 @@ export default {
     GetLastPoint: function() {
       return this.currentPolygon.points[this.currentPolygon.points.length - 1];
     },
-    handlePan: function(data) {
+    HandlePan: function(data) {
       const relativePosition = this.GetRelativeCoordinates(data);
 
       if (data.isFirst) {
@@ -85,7 +85,7 @@ export default {
         //this points location will be the current location of the mouse while it is held down.
 
         if (!this.IsPolygonInProgress()) {
-          this.currentPolygon = this.createStartingPolygon();
+          this.currentPolygon = this.CreateStartingPolygon();
           this.currentPolygon.points.push(Object.assign({}, relativePosition));
         }
         this.currentPolygon.points.push(Object.assign({}, relativePosition));

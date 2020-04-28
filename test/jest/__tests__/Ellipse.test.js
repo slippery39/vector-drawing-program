@@ -11,7 +11,10 @@ describe('Ellipse Tests', () => {
         radius: {
             x: 50,
             y: 75
-        }
+        },
+        strokeColor:'red',
+        strokeWidth:10,
+        fillColor:'blue'
     };
 
     it('initializes correctly', () => {
@@ -20,6 +23,7 @@ describe('Ellipse Tests', () => {
         expect(ellipse.position).toStrictEqual({ x: 50, y: 75 });
         expect(ellipse.radius.x).toBe(50);
         expect(ellipse.radius.y).toBe(75);
+        expect(ellipse.strokeWidth).toBe(10);
     });
     it('translates correctly', () => {
         const ellipse = new Ellipse(ellipseData);

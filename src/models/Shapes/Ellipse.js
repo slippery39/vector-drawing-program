@@ -5,10 +5,11 @@ class Ellipse extends Shape {
     constructor(config) {
         super(config);
         this.type = 'ellipse';
+        this.InitName();
         this.radius = { ...config.radius };
         this.fillColor = config.fillColor;
         this.strokeColor = config.strokeColor;
-        this.stokeWidth = config.strokeWidth;
+        this.strokeWidth = config.strokeWidth;
     }
     CollidesWithPoint(point) {
         // checking the equation of  

@@ -6,6 +6,7 @@ class Shape {
         this.config = JSON.parse(JSON.stringify(config));
         this.id = config.id;
         this.type = 'unknown-shape';
+        this.InitName();
         this.isVisible = true;
         this.isLocked = false;
 
@@ -18,6 +19,9 @@ class Shape {
             y: config.scale ? config.scale.y : 1
         }
         this.rotation = config.rotation ? config.rotation : 0;
+    }
+    InitName() {
+        this.name = this.config.name ? this.config.name : this.type;
     }
     Translate(translationVector) {
         this.position.x += translationVector.x;

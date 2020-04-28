@@ -1,5 +1,5 @@
 <template>
-  <svg ref="svg" v-touch-pan.prevent.mouse="handlePan" width="640" height="480">
+  <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
     <SVGDynamicShape
       v-if="currentEllipse!=undefined"
       :data-id="currentEllipse.id"
@@ -11,6 +11,8 @@
 <script>
 import SVGDynamicShape from "../svg/SVGDynamicShape";
 import ToolMixIn from "./ToolMixIn";
+
+//import Ellipse from "../../models/Shapes/Ellipse";
 
 export default {
   name: "SVGEllipseDrawingCanvas",
@@ -25,7 +27,7 @@ export default {
     };
   },
   methods: {
-    createStartingEllipse: function() {
+    CreateStartingEllipse: function() {
       return {
         type: "ellipse",
         position: {
@@ -38,14 +40,14 @@ export default {
         },
         fillColor: this.fillColor,
         strokeColor: this.strokeColor,
-        strokeWidth: "2"
+        strokeWidth: 2
       };
     },
-    handlePan: function(data) {
+    HandlePan: function(data) {
       const relativeCoordinates = this.GetRelativeCoordinates(data);
 
       if (data.isFirst) {
-        this.currentEllipse = this.createStartingEllipse();
+        this.currentEllipse = this.CreateStartingEllipse();
         this.firstClickPoint = Object.assign({}, relativeCoordinates);
       }
       //radius is the offset from the original mousedown

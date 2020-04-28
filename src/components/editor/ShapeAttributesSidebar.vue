@@ -5,18 +5,25 @@
     color="primary"
     class="q-pa-md bg-primary text-white"
   >
+    <!--Name-->
+    <div>
+      <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
+        Name:
+         <q-input filled v-model="shape.name" dense class='bg-white text-black' />
+      </q-card>
+    </div>
     <!--<BackgroundContainer>-->
     <div>
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
         Fill:
-        <ColorPicker @color-changed="fillColorChanged" :selectedColor="shape.fillColor" />
+        <ColorPicker @color-changed="FillColorChanged" :selectedColor="shape.fillColor" />
       </q-card>
     </div>
     <!--</BackgroundContainer>-->
     <div>
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
         Border:
-        <ColorPicker @color-changed="borderColorChanged" :selectedColor="shape.strokeColor" />
+        <ColorPicker @color-changed="BorderColorChanged" :selectedColor="shape.strokeColor" />
       </q-card>
     </div>
     <!--Disabling this functionality for now while i figure out how I can make polygons and lines 
@@ -33,7 +40,7 @@
           dense
           bordered
           bg-color="white"
-          @input="handleWidthChange"
+          @input="HandleWidthChange"
           :value="shape.GetWidth()"
           label="Width"
           mask="###"
@@ -43,7 +50,7 @@
           dense
           bordered
           bg-color="white"
-          @input="handleHeightChange"
+          @input="HandleHeightChange"
           :value="shape.GetHeight()"
           label="Height"
           mask="###"
@@ -64,7 +71,7 @@
           dense
           bordered
           bg-color="white"
-          @input="handleXPositionChange"
+          @input="HandleXPositionChange"
           :value="shape.GetPosition().x"
           label="X Position"
           mask="###"
@@ -74,7 +81,7 @@
           dense
           bordered
           bg-color="white"
-          @input="handleYPositionChange"
+          @input="HandleYPositionChange"
           v-model="shape.GetPosition().y"
           label="Y Position"
           mask="###"
@@ -100,7 +107,7 @@
 </template>
 
 <script>
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "src/components/generic/ColorPicker";
 
 export default {
   name: "ShapeAttributesSidebar",
@@ -114,28 +121,28 @@ export default {
     }
   },
   methods: {
-    styleColorInput(color) {
+    StyleColorInput(color) {
       return {
         "background-color": color,
         border: "1px solid black"
       };
     },
-    fillColorChanged(data) {
+    FillColorChanged(data) {
       this.shape.fillColor = data;
     },
-    borderColorChanged(data) {
+    BorderColorChanged(data) {
       this.shape.strokeColor = data;
     },
-    handleXPositionChange(data) {
+    HandleXPositionChange(data) {
       this.shape.SetPosition({ x: data, y: this.shape.GetPosition().y });
     },
-    handleYPositionChange(data) {
+    HandleYPositionChange(data) {
       this.shape.SetPosition({ x: this.shape.GetPosition().x, y: data });
     },
-    handleWidthChange(data) {
+    HandleWidthChange(data) {
       this.shape.SetWidth(data);
     },
-    handleHeightChange(data) {
+    HandleHeightChange(data) {
       this.shape.SetHeight(data);
     }
   }

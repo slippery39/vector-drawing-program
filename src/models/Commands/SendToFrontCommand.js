@@ -1,11 +1,13 @@
-class ClearCanvasCommand {
+class SendToFrontCommand {
     #editor
     #editorSnapshotBefore
     #editorSnapshotAfter
     #hasExecuted
+    #shapeId
 
-    constructor(editor) {
+    constructor(editor, shapeId) {
         this.#editor = editor;
+        this.#shapeId = shapeId;
         this.#editorSnapshotBefore = [];
         this.#editorSnapshotAfter = [];
         this.#hasExecuted = false;
@@ -13,7 +15,7 @@ class ClearCanvasCommand {
     Execute() {
         if (!this.#hasExecuted) {
             this.#editorSnapshotBefore = this.#editor.GetSnapshot();
-            this.#editor.RemoveAllShapes();
+            this.#editor.SendToFront(this.#editor.shapes.find(el => { return el.id === this.#shapeId }));
             this.#hasExecuted = true;
             this.#editorSnapshotAfter = this.#editor.GetSnapshot();
             this.#editor.SaveCommandHistory(this);
@@ -26,7 +28,7 @@ class ClearCanvasCommand {
         this.Execute();
     }
     Undo() {
-        this.#editor.RestoreSnapshot(this.#editorSnapshotBefore);        
+        this.#editor.RestoreSnapshot(this.#editorSnapshotBefore);
     }
 }
-export default ClearCanvasCommand;
+export default SendToFrontCommand

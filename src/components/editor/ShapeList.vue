@@ -10,7 +10,7 @@
       class="bg-white text-black"
     >
       <q-item
-        :active="isSelected(shape)"
+        :active="IsSelected(shape)"
         active-class="selected-list-item"
         class="q-my-sm"
         v-for="shape in shapes"
@@ -19,12 +19,11 @@
       >
         <q-item-section
           class="clickable"
-          @click.native.prevent="handleItemClicked(shape)"
-        >{{shape.type}}</q-item-section>
+          @click.native.prevent="HandleItemClicked(shape)"
+        >{{shape.name}}</q-item-section>
         <!--Note: the @click.capture.stop directive is to prevent the click from being applied to the whole list item-->
-        <!--Todo: implement some toggle components-->
         <q-item-section
-          @click.capture.stop="handleVisibilityClicked(shape)"
+          @click.capture.stop="HandleVisibilityClicked(shape)"
           class="clickable hoverable"
           side
         >
@@ -32,7 +31,7 @@
         </q-item-section>
         <!--Open / Locked Icons -->
         <q-item-section
-          @click.capture.stop="handleLockClicked(shape)"
+          @click.capture.stop="HandleLockClicked(shape)"
           class="clickable hoverable"
           side
         >
@@ -40,7 +39,7 @@
         </q-item-section>
         <!-- Delete Icon -->
         <q-item-section
-          @click.capture.stop="handleDeleteClicked(shape)"
+          @click.capture.stop="HandleDeleteClicked(shape)"
           class="clickable hoverable"
           side
         >
@@ -52,9 +51,9 @@
 </template>
 
 <script>
-import VisibilityIcon from "./toggleIcons/VisibilityIcon";
-import LockedIcon from "./toggleIcons/LockedIcon";
-import state from "../state/state";
+import VisibilityIcon from "src/components/toggleIcons/VisibilityIcon";
+import LockedIcon from "src/components/toggleIcons/LockedIcon";
+import state from "src/state/state";
 
 export default {
   name: "ShapesList",
@@ -71,19 +70,19 @@ export default {
     }
   },
   methods: {
-    isSelected(shape) {
+    IsSelected(shape) {
       return state.editor.selectedShapeId === shape.id;
     },
-    handleItemClicked: function(shape) {
+    HandleItemClicked: function(shape) {
       this.$emit("item-clicked", shape);
     },
-    handleDeleteClicked: function(shape) {
+   HandleDeleteClicked: function(shape) {
       this.$emit("delete-item-clicked", shape);
     },
-    handleVisibilityClicked: function(shape) {
+    HandleVisibilityClicked: function(shape) {
       this.$emit("visibility-clicked", shape);
     },
-    handleLockClicked: function(shape) {
+    HandleLockClicked: function(shape) {
       this.$emit("lock-clicked", shape);
     }
   }

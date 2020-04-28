@@ -14,21 +14,21 @@ class DeleteShapeCommand {
     }
     Execute() {
         if (!this.#hasExecuted) {
-            this.#editorSnapshotBefore = this.#editor.objects.slice();
+            this.#editorSnapshotBefore = this.#editor.GetSnapshot();
             this.#editor.RemoveShape(this.#shapeId);
             this.#hasExecuted = true;
-            this.#editorSnapshotAfter = this.#editor.objects.slice();
+            this.#editorSnapshotAfter = this.#editor.GetSnapshot();
             this.#editor.SaveCommandHistory(this);
         }
         else {
-            this.#editor.objects = this.#editorSnapshotAfter;
+            this.#editor.RestoreSnapshot(this.#editorSnapshotAfter);
         }
     }
     Redo() {
         this.Execute();
     }
     Undo() {
-        this.#editor.objects = this.#editorSnapshotBefore;
+        this.#editor.RestoreSnapshot(this.#editorSnapshotBefore);
     }
 }
 export default DeleteShapeCommand;

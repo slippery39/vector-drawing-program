@@ -18,21 +18,21 @@ describe('Editor Tests', () => {
         const vectorDrawing = new Editor();
         expect(vectorDrawing.width).toBe(640);
         expect(vectorDrawing.height).toBe(480);
-        expect(vectorDrawing.objects).toStrictEqual([]);
+        expect(vectorDrawing.shapes).toStrictEqual([]);
     });
     it('adds shapes correctly', () => {
         const vectorDrawing = new Editor();
         vectorDrawing.AddShape(createTestRectangle());
-        expect(vectorDrawing.objects.length).toBe(1);
-        expect(vectorDrawing.objects[0].type).toBe('rectangle');
-        expect(vectorDrawing.objects[0].id).toBe(1);
+        expect(vectorDrawing.shapes.length).toBe(1);
+        expect(vectorDrawing.shapes[0].type).toBe('rectangle');
+        expect(vectorDrawing.shapes[0].id).toBe(1);
 
     });
     it('removes a shape correctly', () => {
         const vectorDrawing = new Editor();
         vectorDrawing.AddShape(createTestRectangle());
         vectorDrawing.RemoveShape(1);
-        expect(vectorDrawing.objects.length).toBe(0);
+        expect(vectorDrawing.shapes.length).toBe(0);
     });
     it('clears shapes correctly', () => {
         const vectorDrawing = new Editor();
@@ -40,10 +40,10 @@ describe('Editor Tests', () => {
         vectorDrawing.AddShape(createTestRectangle());
         vectorDrawing.AddShape(createTestRectangle());
 
-        expect(vectorDrawing.objects.length).toBe(3);
+        expect(vectorDrawing.shapes.length).toBe(3);
 
         vectorDrawing.RemoveAllShapes();
-        expect(vectorDrawing.objects.length).toBe(0);
+        expect(vectorDrawing.shapes.length).toBe(0);
 
     });
     it('gets a shape at a point correctly', () => {
@@ -58,6 +58,39 @@ describe('Editor Tests', () => {
         expect(shapesAtPoint.length).toBe(1);
         expect(shapesAtPoint[0].id).toBe(1);
 
+    });
+
+    it('creates a snapshot correctly', ()=>{
+        const editor = new Editor();
+        editor.AddShape(createTestRectangle());
+        editor.AddShape(createTestRectangle());
+        editor.AddShape(createTestRectangle());
+        editor.AddShape(createTestRectangle());
+
+        const snapshot = editor.GetSnapshot();
+        expect(snapshot.shapes.length).toBe(4);
+
+        editor.selectedShapeId = 2;
+        const snapshot2 = editor.GetSnapshot();
+        expect(snapshot2.selectedShapeId).toBe(2);
+    });
+
+    it ('restores a snapshot correctly', ()=>{
+        const editor = new Editor();
+        editor.AddShape(createTestRectangle());
+        editor.AddShape(createTestRectangle());
+        editor.AddShape(createTestRectangle());
+        editor.AddShape(createTestRectangle());
+
+        const snapshot = editor.GetSnapshot();
+
+        //the shapes should have cleared here.
+        editor.RemoveAllShapes();
+        expect(editor.shapes.length).toBe(0);
+
+        editor.RestoreSnapshot(snapshot);
+
+        expect(editor.shapes.length).toBe(4);     
     });
 });
 
@@ -96,12 +129,12 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         const createShapeCommand = new CreateShapeCommand(editor, createRectangleData());
         createShapeCommand.Execute();
 
-        expect(editor.objects.length).toBe(1);
-        expect(editor.objects[0].id).toBe(1);
+        expect(editor.shapes.length).toBe(1);
+        expect(editor.shapes[0].id).toBe(1);
 
         editor.Undo();
 
-        expect(editor.objects.length).toBe(0);
+        expect(editor.shapes.length).toBe(0);
     });
 
     it ('undos correctly after already undoing and adding a shape again', ()=>{
@@ -114,7 +147,7 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         const createShapeCommand2 = new CreateShapeCommand(editor, createRectangleData());
         createShapeCommand2.Execute();
 
-        expect(editor.objects.length).toBe(2);
+        expect(editor.shapes.length).toBe(2);
         editor.Undo();
 
         //Lets add a circle
@@ -134,9 +167,37 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         createShapeCommand.Execute();
 
         editor.Undo();
-        expect(editor.objects.length).toBe(0);
+        expect(editor.shapes.length).toBe(0);
         editor.Redo();
-        expect(editor.objects.length).toBe(1);
+        expect(editor.shapes.length).toBe(1);
+    });
+
+    it('sends to back correctly', ()=>{
+        const editor = createEditor();
+         const rectangle = editor.AddShape({
+             type:'rectangle'
+         });
+         const line = editor.AddShape({
+             type:'line'
+         });
+
+         editor.SendToBack(line);
+
+         expect(editor.shapes[0]).toBe(line);         
+    });
+
+    it('sends to front correctly', ()=>{
+        const editor = createEditor();
+        const rectangle = editor.AddShape({
+            type:'rectangle'
+        });
+        const line = editor.AddShape({
+            type:'line'
+        });
+
+        editor.SendToFront(rectangle);
+
+        expect(editor.shapes[1]).toBe(rectangle);      
     });
 
     

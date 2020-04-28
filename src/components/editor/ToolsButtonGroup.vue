@@ -65,8 +65,8 @@
 </template>
 
         <script>
-import state from "../state/state";
-import paths from "../models/Paths/Paths";
+import state from "src/state/state";
+import paths from "src/models/Paths/Paths";
 
 export default {
   name: "ToolsButtonGroup",

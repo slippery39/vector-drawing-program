@@ -4,6 +4,7 @@ class Path extends Shape {
     constructor(config) {
         super(config);
         this.type = 'path'
+        this.InitName();
         this.id = config.id;
         this.data = config.data
         this.fillColor = config.fillColor;

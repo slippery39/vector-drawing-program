@@ -5,6 +5,7 @@ class Polygon extends Shape {
     constructor(config) {
         super(config);
         this.type = 'polygon'
+        this.InitName();
         this.id = config.id;
         this.fillColor = config.fillColor;
         this.strokeColor = config.strokeColor;

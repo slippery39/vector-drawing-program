@@ -1,6 +1,6 @@
    <template>
   <q-btn
-    :style="styleColorInput(selectedColorData)"
+    :style="StyleColorInput(selectedColorData)"
     style="min-width:40px;margin-right:10px;"
     label="   "
   >
@@ -34,8 +34,8 @@ export default {
     }
   },
   methods: {
-    styleColorInput() {
-      return {
+    StyleColorInput() {
+      return {        
         "background-color": this.selectedColorData,
         border: "1px solid black"
       };

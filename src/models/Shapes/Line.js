@@ -5,6 +5,8 @@ class Line extends Shape {
     constructor(config) {
         super(config);
         this.type = 'line';
+        this.InitName();
+        this.name = this.type;
 
         if (config.x1 === undefined || config.x2 === undefined || config.y1 === undefined || config.y2 === undefined) {
             console.error(`Attempted to initialize line with bad points [${config.x1},${config.y1},${config.x2},${config.y2}]`);

@@ -40,6 +40,7 @@
     :width="editor.width"
     :height="editor.height"
     :pathData="GetPathData(editor.selectedTool)"
+    :pathName="GetPathName(editor.selectedTool)"
   />
   <FreePathTool
     @shapeCompleted="HandleShapeComplete"
@@ -91,8 +92,11 @@ export default {
       return name.split("-")[0] === "path";
     },
     GetPathData: function(name) {
-      var pathType = name.split("-")[1];
+      const pathType = name.split("-")[1];
       return Paths[pathType];
+    },
+    GetPathName: function(name) {
+      return name.split("-")[1];
     }
   }
 };

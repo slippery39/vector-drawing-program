@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import state from "../state/state";
+import state from "src/state/state";
 
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "src/components/generic/ColorPicker";
 
 export default {
   name: "AppColorPicker",
@@ -33,7 +33,7 @@ export default {
     };
   },
   methods: {
-    styleColorInput(color) {
+    StyleColorInput(color) {
       return {
         "background-color": color,
         border: "1px solid black"

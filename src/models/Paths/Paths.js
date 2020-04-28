@@ -1,5 +1,5 @@
 /*
-This file includes any SVG Paths we might use throughout our program.
+This file includes any premade SVG Paths we might use throughout our program.
 */
 
 const paths = {

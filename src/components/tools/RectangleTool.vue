@@ -1,5 +1,5 @@
 <template>
-  <svg ref="svg" v-touch-pan.prevent.mouse="handlePan" width="640" height="480">
+  <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
     <SVGDynamicShape
       v-if="currentRectangle!=undefined"
       :data-id="currentRectangle.id"
@@ -25,7 +25,7 @@ export default {
     };
   },
   methods: {
-    createStartingRectangle: function(data) {
+    CreateStartingRectangle: function(data) {
       return {
         type: "rectangle",
         position: {
@@ -39,11 +39,11 @@ export default {
         strokeWidth: "2"
       };
     },
-    handlePan: function(data) {
+    HandlePan: function(data) {
       const relativeCoordinates = this.GetRelativeCoordinates(data);
 
       if (data.isFirst) {
-        this.currentRectangle = this.createStartingRectangle();
+        this.currentRectangle = this.CreateStartingRectangle();
         this.firstClickPoint = Object.assign({}, relativeCoordinates);
       }
 

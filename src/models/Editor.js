@@ -13,7 +13,7 @@ class Editor {
         Object.assign(this, data);
 
         this.uniqueIdCounter = 1; //unique id assigned to each object. for ids we are using an auto-increment assignment.
-        this.objects = [];
+        this.shapes = [];
         this.width = 640;
         this.height = 480;
 
@@ -37,7 +37,7 @@ class Editor {
         if (this.selectedShapeId === undefined) {
             return undefined;
         }
-        return this.objects.find(e => e.id === this.selectedShapeId);
+        return this.shapes.find(e => e.id === this.selectedShapeId);
     }
 
     CreateShape(data) {
@@ -68,8 +68,8 @@ class Editor {
         shapeData = JSON.parse(JSON.stringify(shapeData));
         const shape = this.CreateShape(shapeData);
         shape.id = this.uniqueIdCounter++;
-        this.objects = this.objects.slice();
-        this.objects.push(shape);
+        this.shapes = this.shapes.slice();
+        this.shapes.push(shape);
 
         //this functionality is to satisfy our requirement of selecting the shape after it is created.
         this.selectedShapeId = shape.id;
@@ -84,16 +84,37 @@ class Editor {
     }
 
     RemoveShape(shapeId) {
-        for (var i = 0; i < this.objects.length; i++) {
-            if (this.objects[i].id === shapeId) {
-                if (this.selectedShapeId && this.objects[i].id === this.selectedShapeId) {
+        for (var i = 0; i < this.shapes.length; i++) {
+            if (this.shapes[i].id === shapeId) {
+                if (this.selectedShapeId && this.shapes[i].id === this.selectedShapeId) {
                     this.selectedShapeId = undefined
                 }
-                this.objects = Array.from(this.objects);
-                this.objects.splice(i, 1);
+                this.shapes = Array.from(this.shapes);
+                this.shapes.splice(i, 1);
                 return;
             }
         }
+    }
+    RemoveAllShapes() {
+        this.selectedShapeId = undefined;
+        this.shapes = [];
+    }
+
+    SendToFront(shape) {
+        //find the shape in the list of objects
+        //save the shapes position.
+
+        //make a new array with the shape at the end of the list
+        const indexOfShape = this.shapes.indexOf(shape);
+        this.shapes.splice(indexOfShape, 1);
+        this.shapes.push(shape);
+    }
+
+    SendToBack(shape) {
+        //make a new array with the shape at the end of the list
+        const indexOfShape = this.shapes.indexOf(shape);
+        this.shapes.splice(indexOfShape, 1);
+        this.shapes.unshift(shape);
     }
 
     GetShapesAtPoint(point, options) {
@@ -109,7 +130,7 @@ class Editor {
         if (options === undefined) {
             options = {};
         }
-        let shapesAtPoint = this.objects.filter(el => el.CollidesWithPoint(point)).reverse();
+        let shapesAtPoint = this.shapes.filter(el => el.CollidesWithPoint(point)).reverse();
 
         if (options.excludeHidden) {
             shapesAtPoint = shapesAtPoint.filter(el => el.isVisible)
@@ -132,9 +153,20 @@ class Editor {
             this.commandHistory[this.commandHistoryIndex].Redo();
         }
     }
-    RemoveAllShapes() {
-        this.selectedShapeId = undefined;
-        this.objects = [];
+
+    //using the snapshot / memento pattern inside our command objects.
+    //any state from the editor that should be undoable / redoable should be saved inside the snapshot.
+    //for example, stuff like the shapes list is something that we might want to undp/redo
+    //but something like what fill color is currently selected is not something we are really interested in undoing/redoing (at least not for now);
+    GetSnapshot() {
+        return {
+            shapes: this.shapes.slice(), //copy of the shapes array, but notice the shapes themselves are not getting cloned
+            selectedShapeId: this.selectedShapeId
+        }
+    }
+    RestoreSnapshot(snapshot) {
+        this.shapes = snapshot.shapes;
+        this.selectedShapeId = snapshot.selectedShapeId;
     }
 }
 

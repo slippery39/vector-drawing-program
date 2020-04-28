@@ -107,8 +107,8 @@ describe('Konva Shape Config Tests', () => {
         //this is stuff that should be set as well
         expect(config.strokeScaleEnabled).toBe(false);
         expect(config.draggable).toBe(true);
-        //minimum of 6 for the hit stroke.
-        expect(config.hitStrokeWidth).toBe(6);
+        //minimum of 25 for the hit stroke.
+        expect(config.hitStrokeWidth).toBe(25);
     });
     it('creates correct polygon config', () => {
         const polygon = new Polygon({
