@@ -9,7 +9,7 @@
     <div>
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
         Name:
-         <q-input filled v-model="shape.name" dense class='bg-white text-black' />
+        <q-input filled v-model="shape.name" dense class="bg-white text-black" />
       </q-card>
     </div>
     <!--<BackgroundContainer>-->
@@ -24,6 +24,17 @@
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
         Border:
         <ColorPicker @color-changed="BorderColorChanged" :selectedColor="shape.strokeColor" />
+      </q-card>
+    </div>
+    <div>
+      <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
+          Border Width:
+          <q-input
+            class="bg-white text-black"
+            v-model.number="shape.strokeWidth"
+            type="number"
+            filled
+          />
       </q-card>
     </div>
     <!--Disabling this functionality for now while i figure out how I can make polygons and lines 

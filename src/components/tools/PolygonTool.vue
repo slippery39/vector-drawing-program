@@ -10,15 +10,15 @@
         :x2="line.point2.x"
         :y2="line.point2.y"
         :stroke="currentPolygon.strokeColor"
-        stroke-width="2"
+        :stroke-width="currentPolygon.strokeWidth"
       />
       <ellipse
         v-for="(point,index) in currentPolygon.points"
         :key="'el'+index"
         :cx="point.x"
         :cy="point.y"
-        rx="3"
-        ry="3"
+        :rx="4+currentPolygon.strokeWidth/2"
+        :ry="4+currentPolygon.strokeWidth/2"
         :fill="index===0? 'blue': 'white'"
         stroke="black"
       />
@@ -44,7 +44,8 @@ export default {
         type: "polygon",
         points: [],
         fillColor: this.fillColor,
-        strokeColor: this.strokeColor
+        strokeColor: this.strokeColor,
+        strokeWidth: this.strokeWidth
       };
       return polygon;
     },
@@ -99,8 +100,10 @@ export default {
         //if it is we will consider this shape completed.
         const firstPoint = this.currentPolygon.points[0];
         if (
-          Math.abs(relativePosition.x - firstPoint.x) <= 6 &&
-          Math.abs(relativePosition.y - firstPoint.y) <= 6
+          Math.abs(relativePosition.x - firstPoint.x) <=
+            this.currentPolygon.strokeWidth + 4 &&
+          Math.abs(relativePosition.y - firstPoint.y) <=
+            this.currentPolygon.strokeWidth + 4
         ) {
           // connecting the first and last points together.
           this.GetLastPoint().x = firstPoint.x;

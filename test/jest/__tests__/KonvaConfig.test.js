@@ -5,6 +5,7 @@ import Rectangle from "src/models/Shapes/Rectangle";
 import Ellipse from "src/models/Shapes/Ellipse";
 import Line from "src/models/Shapes/Line";
 import Polygon from "src/models/Shapes/Polygon";
+import Path from "src/models/Shapes/Path";
 
 describe('Konva Shape Config Tests', () => {
 
@@ -19,6 +20,7 @@ describe('Konva Shape Config Tests', () => {
             height: 300,
             fillColor: '#FF0000FF',
             strokeColor: '#000000FF',
+            strokeWidth:5,
             scale: {
                 x: 3,
                 y: 2
@@ -33,6 +35,7 @@ describe('Konva Shape Config Tests', () => {
         expect(config.height).toBe(300);
         expect(config.fill).toBe('#FF0000FF');
         expect(config.stroke).toBe('#000000FF');
+        expect(config.strokeWidth).toBe(5);
         expect(config.scaleX).toBe(3);
         expect(config.scaleY).toBe(2);
         expect(config.rotation).toBe(100);
@@ -54,6 +57,7 @@ describe('Konva Shape Config Tests', () => {
             },
             fillColor: '#FF0000FF',
             strokeColor: '#000000FF',
+            strokeWidth:10,
             scale: {
                 x: 3,
                 y: 2
@@ -69,6 +73,7 @@ describe('Konva Shape Config Tests', () => {
         expect(config.radius.y).toBe(200);
         expect(config.fill).toBe('#FF0000FF');
         expect(config.stroke).toBe('#000000FF');
+        expect(config.strokeWidth).toBe(10);
         expect(config.scaleX).toBe(3);
         expect(config.scaleY).toBe(2);
         expect(config.rotation).toBe(100);
@@ -90,7 +95,7 @@ describe('Konva Shape Config Tests', () => {
                 y: 2
             },
             rotation: 100,
-            strokeWidth:2
+            strokeWidth: 2
         });
         const config = line.GetKonvaConfig();
         expect(config.id).toBe(1);
@@ -102,7 +107,7 @@ describe('Konva Shape Config Tests', () => {
         expect(config.scaleX).toBe(3);
         expect(config.scaleY).toBe(2);
         expect(config.rotation).toBe(100);
-        
+
 
         //this is stuff that should be set as well
         expect(config.strokeScaleEnabled).toBe(false);
@@ -128,6 +133,7 @@ describe('Konva Shape Config Tests', () => {
             ],
             fillColor: '#FF0000FF',
             strokeColor: '#000000FF',
+            strokeWidth:6,
             scale: {
                 x: 3,
                 y: 2
@@ -138,9 +144,10 @@ describe('Konva Shape Config Tests', () => {
         expect(config.id).toBe(1);
         expect(config.x).toBe(100);
         expect(config.y).toBe(100);
-        expect(config.points).toEqual([0,0,100,0,50,100]) //the points should be relative.
+        expect(config.points).toEqual([0, 0, 100, 0, 50, 100]) //the points should be relative.
         expect(config.fill).toBe('#FF0000FF');
         expect(config.stroke).toBe('#000000FF');
+        expect(config.strokeWidth).toBe(6);
         expect(config.scaleX).toBe(3);
         expect(config.scaleY).toBe(2);
         expect(config.rotation).toBe(100);
@@ -148,7 +155,42 @@ describe('Konva Shape Config Tests', () => {
         //this is stuff that should be set as well
         expect(config.strokeScaleEnabled).toBe(false);
         expect(config.draggable).toBe(true);
-        expect(config.closed).toBe(true);        
+        expect(config.closed).toBe(true);
     });
+
+    it('creates correct path config', () => {
+        const path = new Path({
+            id: 1,
+            data: "M 10,150 L 70,10 L 130,150 z",
+            type: 'path',
+            name: 'test-path',
+            fillColor: 'blue',
+            strokeWidth: 2,
+            strokeColor: 'red',
+            position: {
+                x: 100,
+                y: 150
+            },
+            scale: {
+                x: 2,
+                y: 3
+            }
+        });
+
+        const config = path.GetKonvaConfig();
+        expect(config.id).toBe(1);
+        expect(config.data).toBe("M 10,150 L 70,10 L 130,150 z");
+        expect(config.fill).toBe('blue');
+        expect(config.stroke).toBe('red');
+        expect(config.strokeWidth).toBe(2);
+        expect(config.x).toBe(100);
+        expect(config.y).toBe(150);
+        expect(config.scaleX).toBe(2);
+        expect(config.scaleY).toBe(3);
+
+        //this is stuff that should be set as well
+        expect(config.strokeScaleEnabled).toBe(false);
+        expect(config.draggable).toBe(true);
+    })
 
 });

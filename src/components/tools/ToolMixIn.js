@@ -9,6 +9,10 @@ var ToolMixIn = {
         strokeColor: {
             type: String,
             default: "#000000"
+        },
+        strokeWidth: {
+            type: Number,
+            default: 2
         }
     },
     methods: {

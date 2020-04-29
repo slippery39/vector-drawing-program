@@ -11,7 +11,7 @@
     </q-card>
     <div
       class="canvas-container"
-      style="max-width:50%;height:100%;display:inline-block;overflow:scroll;"
+      style="max-width:80%;height:100%;display:inline-block;overflow:scroll;"
     >
       <MainCanvas
         :shapes="editor.shapes"

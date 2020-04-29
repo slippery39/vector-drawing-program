@@ -5,6 +5,7 @@
         <div class="q-pa-sm q-pl-md row items-center" style="justify-content:space-between">
           <FileMenu />
           <ToolsButtonGroup />
+          <StrokeWidthInput />
           <AppColorPicker />
         </div>
       </q-header>
@@ -22,13 +23,15 @@
 import ToolsButtonGroup from "src/components/editor/ToolsButtonGroup";
 import AppColorPicker from "src/components/editor/AppColorPicker";
 import FileMenu from "src/components/editor/FileMenu";
+import StrokeWidthInput from "src/components/editor/StrokeWidthInput";
 
 export default {
   name: "MainLayout",
   components: {
     ToolsButtonGroup,
     AppColorPicker,
-    FileMenu
+    FileMenu,
+    StrokeWidthInput
   }
 };
 </script>

@@ -11,12 +11,9 @@ class Path extends Shape {
         this.strokeWidth = config.strokeWidth;
         this.strokeColor = config.strokeColor;
     }
-    CollidesWithPoint(point) {
-        return this.GetBoundingBox().CollidesWithPoint(point);
-    }
-    GetBoundingBox() {
-
-    }
+    //note we do not have the GetBoundingBox() or CollidesWithPoint() functions defined on this Shape type.
+    //i am actually thinking of getting rid of those methods completely since I don't think we actually use them for
+    //anything anymore.
     GetKonvaConfig() {
         return {
             id: this.id,

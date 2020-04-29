@@ -58,7 +58,7 @@ export default {
         type: "path",
         fill: this.fillColor,
         stroke: this.strokeColor,
-        strokeWidth: 2,
+        strokeWidth: this.strokeWidth,
         strokeScaleEnabled: false,
         scale: {
           x: 1, //start the scaling at 0 to fix a bug.

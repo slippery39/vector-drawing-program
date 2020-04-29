@@ -36,7 +36,7 @@ export default {
         height: 0,
         fillColor: this.fillColor,
         strokeColor: this.strokeColor,
-        strokeWidth: "2"
+        strokeWidth: this.strokeWidth
       };
     },
     HandlePan: function(data) {

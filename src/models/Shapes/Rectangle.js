@@ -52,6 +52,7 @@ class Rectangle extends Shape {
             height: this.height,
             fill: this.fillColor,
             stroke: this.strokeColor,
+            strokeWidth: this.strokeWidth,
             scaleX: this.scale.x,
             scaleY: this.scale.y,
             rotation: this.rotation,

@@ -51,34 +51,15 @@ export default {
       this.currentPath = {
         data: this.pathArr.join(" "),
         stroke: this.strokeColor,
-        fill: "rgba(255,255,255,0)" //this makes it
+        fill: "rgba(255,255,255,0)",
+        strokeWidth: this.strokeWidth //this makes it so that the path is clickable inside for easier UI selecting functionality
       };
-
-      console.log(this.currentPath);
 
       if (data.isFinal) {
-        /*
-        type: "path",
-        fill: this.fillColor,
-        stroke: this.strokeColor,
-        strokeWidth: 2,
-        strokeScaleEnabled: false,
-        scale: {
-          x: 1,
-          y: 1
-        },
-        position: {
-          x: 0,
-          y: 0
-        },
-        data: this.pathData
-      };
-
-          */
         this.$emit("shapeCompleted", {
           type: "path",
           strokeColor: this.strokeColor,
-          strokeWidth: 2,
+          strokeWidth: this.strokeWidth,
           fillColor: "rgba(255,255,255,0)", //having a transparent fill fixes some mouse detection issues for the transformer.
           data: this.pathArr.join(" ")
         });

@@ -9,6 +9,7 @@ class Polygon extends Shape {
         this.id = config.id;
         this.fillColor = config.fillColor;
         this.strokeColor = config.strokeColor;
+        this.strokeWidth = config.strokeWidth;
         //original points?
         this._points = config.points.slice();
 
@@ -74,6 +75,7 @@ class Polygon extends Shape {
             points: flattenedArr,
             fill: this.fillColor,
             stroke: this.strokeColor,
+            strokeWidth: this.strokeWidth,
             scaleX: this.scale.x,
             scaleY: this.scale.y,
             rotation: this.rotation,

@@ -17,7 +17,7 @@
           @click="editor.Undo()"
         >
           <q-item-section>Undo</q-item-section>
-          <q-item-section side>Ctrl + X</q-item-section>
+          <q-item-section side>Ctrl + Z</q-item-section>
         </q-item>
         <q-item
           :style="!editor.CanRedo()? GetUnselectableStyle():{}"
@@ -26,7 +26,7 @@
           @click="editor.Redo()"
         >
           <q-item-section>Redo</q-item-section>
-          <q-item-section side>Ctrl + Z</q-item-section>
+          <q-item-section side>Ctrl + X</q-item-section>
         </q-item>
         <q-separator />
       </q-list>

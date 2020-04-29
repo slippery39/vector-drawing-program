@@ -44,6 +44,7 @@ class Ellipse extends Shape {
             },
             fill: this.fillColor,
             stroke: this.strokeColor,
+            strokeWidth: this.strokeWidth,
             scaleX: this.scale.x,
             scaleY: this.scale.y,
             rotation: this.rotation,

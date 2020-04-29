@@ -160,6 +160,29 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         expect(editor.commandHistory[1]).toStrictEqual(createShapeCommand2);
     });
 
+    it('CanUndo() and CanRedo() correctly return', ()=>{
+        const editor = createEditor();
+
+        //should not be able to undo or redo here.
+        expect(editor.CanUndo()).toBe(false);
+        expect(editor.CanRedo()).toBe(false);
+
+        //execute a command.
+        const createShapeCommand = new CreateShapeCommand(editor, createRectangleData());
+        createShapeCommand.Execute();
+
+        //should be able to undo but not redo
+        expect(editor.CanUndo()).toBe(true);
+        expect(editor.CanRedo()).toBe(false);
+
+        //undo the command, we should be able to redo but not undo
+        editor.Undo();
+        expect(editor.CanUndo()).toBe(false);
+        expect(editor.CanRedo()).toBe(false);
+
+
+    });
+
     it('redos correctly', ()=>{
         const editor = createEditor();
 

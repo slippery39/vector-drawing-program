@@ -29,7 +29,7 @@ export default {
         x2: 0,
         y2: 0,
         strokeColor: this.strokeColor,
-        strokeWidth: 2
+        strokeWidth: this.strokeWidth
       };
 
       return line;

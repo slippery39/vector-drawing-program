@@ -22,6 +22,7 @@ class Editor {
         this.selectedTool = 'path-heart'; //we need something for the different paths now?
         this.fillColor = "#FFFFFF";
         this.strokeColor = "#000000";
+        this.strokeWidth = 2;
 
         //Command Objects
         this.commandHistory = []; //temp variable to track the history of our commands;
