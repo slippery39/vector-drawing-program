@@ -142,16 +142,23 @@ class Editor {
     }
 
     Undo() {
-        if (this.commandHistoryIndex >= 0) {
+        if (this.CanUndo()) {
             this.commandHistory[this.commandHistoryIndex].Undo();
             this.commandHistoryIndex--;
         }
     }
     Redo() {
-        if (this.commandHistoryIndex < this.commandHistory.length - 1) {
+        if (this.CanRedo()) {
             this.commandHistoryIndex++;
             this.commandHistory[this.commandHistoryIndex].Redo();
         }
+    }
+
+    CanUndo() {
+        return this.commandHistoryIndex >= 0
+    }
+    CanRedo() {
+        return this.commandHistoryIndex < this.commandHistory.length - 1
     }
 
     //using the snapshot / memento pattern inside our command objects.

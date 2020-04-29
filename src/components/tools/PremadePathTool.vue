@@ -95,8 +95,6 @@ export default {
     HandlePathScaling: function(data) {
       //the path may not show on the first click, so we have to make sure it exists.
       const path = this.$refs.stage.getNode().find(".hidden-layer")[0].find("Path")[0];
-      console.log(this.$refs.stage.getNode());
-      console.log(path);
       if (path) {
         //for some reason the path needs to be in a v-group or else we can't get this clientRect properly...
         //not sure why.

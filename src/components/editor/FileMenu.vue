@@ -10,11 +10,21 @@
           <q-item-section>Clear Canvas</q-item-section>
         </q-item>
         <q-separator />
-        <q-item clickable v-close-popup @click="editor.Undo()">
+        <q-item
+          :style="!editor.CanUndo()? GetUnselectableStyle():{}"
+          :clickable="editor.CanUndo()"
+          :v-close-popup="editor.CanUndo()"
+          @click="editor.Undo()"
+        >
           <q-item-section>Undo</q-item-section>
           <q-item-section side>Ctrl + X</q-item-section>
         </q-item>
-        <q-item clickable v-close-popup @click="editor.Redo()">
+        <q-item
+          :style="!editor.CanRedo()? GetUnselectableStyle():{}"
+          :clickable="editor.CanRedo()"
+          :v-close-popup="editor.CanRedo()"
+          @click="editor.Redo()"
+        >
           <q-item-section>Redo</q-item-section>
           <q-item-section side>Ctrl + Z</q-item-section>
         </q-item>
@@ -46,6 +56,11 @@ export default {
     };
   },
   methods: {
+    GetUnselectableStyle() {
+      return {
+        color: "lightgrey"
+      };
+    },
     RemoveAllShapes() {
       const removeAllShapesCommand = new ClearCanvasCommand(this.editor);
       removeAllShapesCommand.Execute();
