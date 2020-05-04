@@ -31,8 +31,6 @@ class Line extends Shape {
                 y: this._y2 - this.position.y
             }
         ]
-        this.strokeColor = config.strokeColor;
-        this.strokeWidth = config.strokeWidth;
     }
     //the following getter variables return the absolute position of the values.
     get x1() {

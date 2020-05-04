@@ -9,7 +9,10 @@ describe('Rectangle Tests', () => {
             y: 150
         },
         width: 50,
-        height: 60
+        height: 60,
+        strokeColor:'red',
+        fillColor:'blue',
+        strokeWidth:8
     };
 
     it('initializes correctly', () => {
@@ -19,6 +22,11 @@ describe('Rectangle Tests', () => {
         expect(rectangle.position).toStrictEqual({ x: 100, y: 150 });
         expect(rectangle.width).toBe(50);
         expect(rectangle.height).toBe(60);
+
+        expect(rectangle.fillColor).toBe('blue');
+        expect(rectangle.strokeColor).toBe('red');
+        expect(rectangle.strokeWidth).toBe(8);
+        
     });
     it('translates correctly', () => {
         const rectangle = new Rectangle(rectangleData);

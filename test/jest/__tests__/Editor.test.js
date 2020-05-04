@@ -48,7 +48,7 @@ describe('Editor Tests', () => {
     });
     it('gets a shape at a point correctly', () => {
         const vectorDrawing = new Editor();
-        vectorDrawing.AddShape(createTestRectangle());
+        const rectangle = vectorDrawing.AddShape(createTestRectangle());
 
         const shapesAtPoint = vectorDrawing.GetShapesAtPoint({
             x: 110,
@@ -58,9 +58,32 @@ describe('Editor Tests', () => {
         expect(shapesAtPoint.length).toBe(1);
         expect(shapesAtPoint[0].id).toBe(1);
 
+        //test exclude hidden
+        rectangle.isVisible = false;
+
+        const shapesAtPoint2 = vectorDrawing.GetShapesAtPoint({
+            x: 110,
+            y: 160
+        },
+            { excludeHidden: true });
+
+        expect(shapesAtPoint2.length).toBe(0);
+
+
+        //test exclude locked
+        rectangle.isLocked = true;
+        const shapesAtPoint3 = vectorDrawing.GetShapesAtPoint({
+            x: 110,
+            y: 160
+        },
+            { excludeLocked: true });
+
+        expect(shapesAtPoint3.length).toBe(0);
+
+
     });
 
-    it('creates a snapshot correctly', ()=>{
+    it('creates a snapshot correctly', () => {
         const editor = new Editor();
         editor.AddShape(createTestRectangle());
         editor.AddShape(createTestRectangle());
@@ -75,7 +98,7 @@ describe('Editor Tests', () => {
         expect(snapshot2.selectedShapeId).toBe(2);
     });
 
-    it ('restores a snapshot correctly', ()=>{
+    it('restores a snapshot correctly', () => {
         const editor = new Editor();
         editor.AddShape(createTestRectangle());
         editor.AddShape(createTestRectangle());
@@ -90,7 +113,7 @@ describe('Editor Tests', () => {
 
         editor.RestoreSnapshot(snapshot);
 
-        expect(editor.shapes.length).toBe(4);     
+        expect(editor.shapes.length).toBe(4);
     });
 });
 
@@ -110,16 +133,16 @@ describe('Editor Commands / Undo / Redo Tests', () => {
             height: 60
         }
     }
-    const createEllipseData = function(){
+    const createEllipseData = function () {
         return {
-            type:'ellipse',
-            position:{
-                x:100,
-                y:100
+            type: 'ellipse',
+            position: {
+                x: 100,
+                y: 100
             },
-            radius:{
-                x:50,
-                y:50
+            radius: {
+                x: 50,
+                y: 50
             }
         }
     }
@@ -137,7 +160,7 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         expect(editor.shapes.length).toBe(0);
     });
 
-    it ('undos correctly after already undoing and adding a shape again', ()=>{
+    it('undos correctly after already undoing and adding a shape again', () => {
         const editor = createEditor();
 
         const createShapeCommand = new CreateShapeCommand(editor, createRectangleData());
@@ -151,7 +174,7 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         editor.Undo();
 
         //Lets add a circle
-        const createCircleCommand = new CreateShapeCommand(editor,createEllipseData());
+        const createCircleCommand = new CreateShapeCommand(editor, createEllipseData());
         createCircleCommand.Execute();
 
         //lets make sure the CommandHistory only contains 2 objects now.
@@ -160,7 +183,7 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         expect(editor.commandHistory[1]).toStrictEqual(createShapeCommand2);
     });
 
-    it('CanUndo() and CanRedo() correctly return', ()=>{
+    it('CanUndo() and CanRedo() correctly return', () => {
         const editor = createEditor();
 
         //should not be able to undo or redo here.
@@ -178,12 +201,12 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         //undo the command, we should be able to redo but not undo
         editor.Undo();
         expect(editor.CanUndo()).toBe(false);
-        expect(editor.CanRedo()).toBe(false);
+        expect(editor.CanRedo()).toBe(true);
 
 
     });
 
-    it('redos correctly', ()=>{
+    it('redos correctly', () => {
         const editor = createEditor();
 
         const createShapeCommand = new CreateShapeCommand(editor, createRectangleData());
@@ -195,33 +218,72 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         expect(editor.shapes.length).toBe(1);
     });
 
-    it('sends to back correctly', ()=>{
-        const editor = createEditor();
-         const rectangle = editor.AddShape({
-             type:'rectangle'
-         });
-         const line = editor.AddShape({
-             type:'line'
-         });
-
-         editor.SendToBack(line);
-
-         expect(editor.shapes[0]).toBe(line);         
-    });
-
-    it('sends to front correctly', ()=>{
+    it('sends to back correctly', () => {
         const editor = createEditor();
         const rectangle = editor.AddShape({
-            type:'rectangle'
+            type: 'rectangle'
         });
         const line = editor.AddShape({
-            type:'line'
+            type: 'line'
+        });
+
+        editor.SendToBack(line);
+
+        expect(editor.shapes[0]).toBe(line);
+    });
+
+    it('sends to front correctly', () => {
+        const editor = createEditor();
+        const rectangle = editor.AddShape({
+            type: 'rectangle'
+        });
+        const line = editor.AddShape({
+            type: 'line'
         });
 
         editor.SendToFront(rectangle);
 
-        expect(editor.shapes[1]).toBe(rectangle);      
+        expect(editor.shapes[1]).toBe(rectangle);
     });
 
-    
+    it('gets selected shape correctly', () => {
+        const editor = createEditor();
+
+        expect(editor.GetSelectedShape()).toBe(undefined);
+
+        const rectangle = editor.AddShape({
+            type: 'rectangle'
+        });
+        expect(editor.GetSelectedShape()).toBe(rectangle);
+    });
+
+    it('initializes with objects', () => {
+        const editor = new Editor({
+            objects: [
+                {
+                    type: 'path'
+                },
+                {
+                    type: 'polygon',
+                    points:[
+                        {x:0,
+                        y:0},
+                        {x:100,
+                        y:100},
+                        {x:200,y:200}
+                    ]
+                },
+                {
+                    type: 'line'
+                }
+            ]
+        });
+
+        expect(editor.shapes.length).toBe(3);
+        expect(editor.shapes[0].type).toBe('path');
+        expect(editor.shapes[1].type).toBe('polygon');
+        expect(editor.shapes[2].type).toBe('line');
+    });
+
+
 });

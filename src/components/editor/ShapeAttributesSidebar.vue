@@ -28,13 +28,16 @@
     </div>
     <div>
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
-          Border Width:
-          <q-input
-            class="bg-white text-black"
-            v-model.number="shape.strokeWidth"
-            type="number"
-            filled
-          />
+        Border Width:
+        <q-input
+          hide-bottom-space
+          style="height:30px;display:inline-block;"
+          class="bg-white text-black"
+          v-model.number="shape.strokeWidth"
+          type="number"
+          filled
+          input-style="height:30px;"
+        />
       </q-card>
     </div>
     <!--Disabling this functionality for now while i figure out how I can make polygons and lines 
@@ -119,6 +122,8 @@
 
 <script>
 import ColorPicker from "src/components/generic/ColorPicker";
+import state from "src/state/state";
+import TransformShapeCommand from "src/models/Commands/TransformShapeCommand";
 
 export default {
   name: "ShapeAttributesSidebar",
@@ -131,6 +136,11 @@ export default {
       default: undefined
     }
   },
+  data: function() {
+    return {
+      editor: state.editor
+    };
+  },
   methods: {
     StyleColorInput(color) {
       return {
@@ -139,11 +149,27 @@ export default {
       };
     },
     FillColorChanged(data) {
-      this.shape.fillColor = data;
+      //use commands here.
+      const fillChangeCommand = new TransformShapeCommand(
+        this.editor,
+        this.shape,
+        {
+          fillColor: data
+        }
+      );
+      fillChangeCommand.Execute();
     },
     BorderColorChanged(data) {
-      this.shape.strokeColor = data;
+      const borderChangeCommand = new TransformShapeCommand(
+        this.editor,
+        this.shape,
+        {
+          strokeColor: data
+        }
+      );
+      borderChangeCommand.Execute();
     },
+    //The below are not in use for now.
     HandleXPositionChange(data) {
       this.shape.SetPosition({ x: data, y: this.shape.GetPosition().y });
     },

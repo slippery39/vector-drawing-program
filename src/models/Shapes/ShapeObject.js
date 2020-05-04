@@ -10,6 +10,10 @@ class Shape {
         this.isVisible = true;
         this.isLocked = false;
 
+        this.fillColor = config.fillColor;
+        this.strokeColor = config.strokeColor;
+        this.strokeWidth = config.strokeWidth;
+
         this.position = {
             x: config.position ? config.position.x : 0,
             y: config.position ? config.position.y : 0
@@ -26,6 +30,24 @@ class Shape {
     Translate(translationVector) {
         this.position.x += translationVector.x;
         this.position.y += translationVector.y;
+    }
+    GetSnapshot() {
+        return {
+            fillColor: this.fillColor,
+            strokeColor: this.strokeColor,
+            strokeWidth: this.strokeWidth,
+            position: { ...this.position },
+            scale: { ...this.scale },
+            rotation: this.rotation
+        }
+    }
+    RestoreSnapshot(snapshot) {
+        this.fillColor = snapshot.fillColor;
+        this.strokeColor = snapshot.strokeColor;
+        this.strokeWidth = snapshot.strokeWidth;
+        this.position = { ...snapshot.position };
+        this.scale = { ...snapshot.scale };
+        this.rotation = snapshot.rotation;
     }
 }
 

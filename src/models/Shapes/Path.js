@@ -7,9 +7,6 @@ class Path extends Shape {
         this.InitName();
         this.id = config.id;
         this.data = config.data
-        this.fillColor = config.fillColor;
-        this.strokeWidth = config.strokeWidth;
-        this.strokeColor = config.strokeColor;
     }
     //note we do not have the GetBoundingBox() or CollidesWithPoint() functions defined on this Shape type.
     //i am actually thinking of getting rid of those methods completely since I don't think we actually use them for

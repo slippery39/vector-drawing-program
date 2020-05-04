@@ -1,8 +1,17 @@
 <template>
-<div>
-  Stroke Width: 
-  <q-input class='bg-white text-black' v-model.number="editor.strokeWidth" type="number" filled style="max-width: 200px" />
-</div>
+  <div>
+    Stroke Width:
+    <q-input
+      hide-bottom-space
+      style="max-width: 50px; display:inline-block; height:30px;"
+      dense
+      class="bg-white text-black"
+      v-model.number="editor.strokeWidth"
+      type="number"
+      filled
+      input-style="height:30px;"
+    />
+  </div>
 </template>
 
 <script>
@@ -17,3 +26,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.q-field__control{
+  height:30px !important;
+}
+</style>

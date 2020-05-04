@@ -13,7 +13,10 @@ describe('Polygon Tests', () => {
             {
                 x: 50, y: 50
             }
-        ]
+        ],
+        strokeColor:'green',
+        fillColor:'red',
+        strokeWidth:9
     };
 
     it('initializes correctly', () => {
@@ -76,10 +79,6 @@ describe('Polygon Tests', () => {
 
         //move the ellipse to a place where the point would be inside it.
         polygon.Translate({ x: 120, y: 120 });
-        
-        console.log(polygon);
-        console.log(polygon.points);
-        console.log(polygon.GetBoundingBox());
 
         expect(polygon.CollidesWithPoint(pointOutsidePolygon)).toBe(true);
     });

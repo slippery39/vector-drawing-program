@@ -1,17 +1,18 @@
 <template>
   <div style="display:flex;width:100%;justify-content:center;">
-    <q-card style="width:225px;" class="bg-primary">
+    <q-card v-if="editor.shapesListVisible" style="width:225px;" class="bg-primary">
       <ShapeList
         @item-clicked="HandleListItemClick"
         @delete-item-clicked="HandleDeleteClicked"
         @visibility-clicked="HandleVisibilityClicked"
         @lock-clicked="HandleLockClicked"
         :shapes="editor.shapes"
+        :selectedShapeId="editor.selectedShapeId"
       />
     </q-card>
     <div
       class="canvas-container"
-      style="max-width:80%;height:100%;display:inline-block;overflow:scroll;"
+      style="max-width:99%;height:100%;display:inline-block;overflow:scroll;"
     >
       <MainCanvas
         :shapes="editor.shapes"
@@ -50,7 +51,7 @@
         </q-list>
       </q-menu>
     </div>
-    <ShapeAttributesSidebar :shape="editor.GetSelectedShape()" />
+    <ShapeAttributesSidebar v-if="editor.shapeAttributesVisible" :shape="editor.GetSelectedShape()" />
   </div>
 </template>
 

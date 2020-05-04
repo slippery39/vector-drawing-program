@@ -23,6 +23,8 @@ describe('Ellipse Tests', () => {
         expect(ellipse.position).toStrictEqual({ x: 50, y: 75 });
         expect(ellipse.radius.x).toBe(50);
         expect(ellipse.radius.y).toBe(75);
+        expect(ellipse.fillColor).toBe('blue');
+        expect(ellipse.strokeColor).toBe('red');
         expect(ellipse.strokeWidth).toBe(10);
     });
     it('translates correctly', () => {

@@ -7,9 +7,6 @@ class Ellipse extends Shape {
         this.type = 'ellipse';
         this.InitName();
         this.radius = { ...config.radius };
-        this.fillColor = config.fillColor;
-        this.strokeColor = config.strokeColor;
-        this.strokeWidth = config.strokeWidth;
     }
     CollidesWithPoint(point) {
         // checking the equation of  

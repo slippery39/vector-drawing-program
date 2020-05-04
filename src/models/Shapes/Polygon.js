@@ -7,9 +7,6 @@ class Polygon extends Shape {
         this.type = 'polygon'
         this.InitName();
         this.id = config.id;
-        this.fillColor = config.fillColor;
-        this.strokeColor = config.strokeColor;
-        this.strokeWidth = config.strokeWidth;
         //original points?
         this._points = config.points.slice();
 

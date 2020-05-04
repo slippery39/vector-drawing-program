@@ -1,47 +1,49 @@
 class TransformShapeCommand {
     #editor
     #shape
-    #position
-    #scaling
-    #rotation
-    #positionBefore
-    #scaleBefore
-    #rotationBefore
+    #transforms
+    #snapshotBefore
+    #hasExecuted;
 
-    //i think we should be able to grab a snapshot of the shapes transform via a shape.GetTransform() function;
-    //that would reduce the code needed for here. 
     constructor(editor, shape, transforms) {
         this.#editor = editor;
         this.#shape = shape;
-
-        //Do we want this or do we want just the resulting shape?
-        this.#position = Object.assign({}, transforms.position);
-        this.#scaling = Object.assign({}, transforms.scale);
-        this.#rotation = transforms.rotation;
-
-        this.#positionBefore = Object.assign({}, shape.position);
-        this.#scaleBefore = Object.assign({}, shape.scale);
-        this.#rotationBefore = shape.rotation;
+        this.#snapshotBefore = shape.GetSnapshot();
+        this.#transforms = { ...transforms };
+        this.#hasExecuted = false;
     }
     Execute() {
-        if (this.#position) {
-            this.#shape.position = this.#position;
+        if (this.#transforms.position) {
+            this.#shape.position = { ...this.#transforms.position };
         }
-        if (this.#scaling) {
-            this.#shape.scale = this.#scaling;
+        if (this.#transforms.scale) {
+            this.#shape.scale = { ...this.#transforms.scale };
         }
-        if (this.#rotation) {
-            this.#shape.rotation = this.#rotation;
+        if (this.#transforms.rotation) {
+            this.#shape.rotation = this.#transforms.rotation;
         }
-        this.#editor.SaveCommandHistory(this);
+        if (this.#transforms.fillColor) {
+            this.#shape.fillColor = this.#transforms.fillColor;
+        }
+        if (this.#transforms.strokeColor) {
+            this.#shape.strokeColor = this.#transforms.strokeColor;
+        }
+        if (this.#transforms.strokeWidth) {
+            this.#shape.strokeWidth = this.#transforms.strokeWidth;
+        }
+        //right here is why its fucking up.
+        //lets add some tests first.
+        if (!this.#hasExecuted) {
+            this.#editor.SaveCommandHistory(this);
+        }
+        this.#hasExecuted = true;
+
     }
     Redo() {
         this.Execute();
     }
     Undo() {
-        this.#shape.rotation = this.#rotationBefore;
-        this.#shape.position = this.#positionBefore
-        this.#shape.scale = this.#scaleBefore;
+        this.#shape.RestoreSnapshot(this.#snapshotBefore);
     }
 }
 export default TransformShapeCommand;

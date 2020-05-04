@@ -24,6 +24,7 @@ describe('Path Tests', () => {
         expect(path.type).toBe('path');
         expect(path.data).toBe("M 10,150 L 70,10 L 130,150 z");
         expect(path.fillColor).toBe('blue');
+        expect(path.strokeColor).toBe('red');
         expect(path.strokeWidth).toBe(2);
         expect(path.position.x).toBe(100);
         expect(path.position.y).toBe(150);

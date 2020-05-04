@@ -8,9 +8,6 @@ class Rectangle extends Shape {
         this.position = { ...config.position };
         this.width = config.width;
         this.height = config.height;
-        this.fillColor = config.fillColor;
-        this.strokeColor = config.strokeColor;
-        this.strokeWidth = config.strokeWidth;
     }
     GetPoints() {
         //top left corner

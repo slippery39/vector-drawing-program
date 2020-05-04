@@ -6,7 +6,9 @@ describe('Line Tests', () => {
         x1: 0,
         y1: 0,
         x2: 100,
-        y2: 100
+        y2: 100,
+        strokeColor:'red',
+        strokeWidth:5
     };
 
     it('initializes correctly', () => {
@@ -16,6 +18,9 @@ describe('Line Tests', () => {
         expect(line.y1).toBe(0);
         expect(line.x2).toBe(100);
         expect(line.y2).toBe(100);
+
+        expect(line.strokeColor).toBe('red');
+        expect(line.strokeWidth).toBe(5);
 
         //lines have a position now, lets test that.
         expect(line.position.x).toBe(0);

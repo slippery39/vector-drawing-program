@@ -24,13 +24,16 @@ class Editor {
         this.strokeColor = "#000000";
         this.strokeWidth = 2;
 
+        this.shapesListVisible = true;
+        this.shapeAttributesVisible = true;
+
         //Command Objects
         this.commandHistory = []; //temp variable to track the history of our commands;
         this.commandHistoryIndex = -1;
 
         if (data.objects) {
-            data.objects.foreach((el, ind) => {
-                this.AddShape(el); //dont save the history for this initialization.
+            data.objects.forEach((el, ind) => {
+                this.AddShape(el);
             });
         }
     }

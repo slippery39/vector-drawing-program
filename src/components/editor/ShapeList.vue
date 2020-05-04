@@ -53,7 +53,7 @@
 <script>
 import VisibilityIcon from "src/components/toggleIcons/VisibilityIcon";
 import LockedIcon from "src/components/toggleIcons/LockedIcon";
-import state from "src/state/state";
+//import state from "src/state/state";
 
 export default {
   name: "ShapesList",
@@ -67,16 +67,22 @@ export default {
       default: function() {
         return [];
       }
+    },
+    selectedShapeId: {
+      type: Number,
+      default: function() {
+        return undefined;
+      }
     }
   },
   methods: {
     IsSelected(shape) {
-      return state.editor.selectedShapeId === shape.id;
+      return shape.id === this.selectedShapeId;
     },
     HandleItemClicked: function(shape) {
       this.$emit("item-clicked", shape);
     },
-   HandleDeleteClicked: function(shape) {
+    HandleDeleteClicked: function(shape) {
       this.$emit("delete-item-clicked", shape);
     },
     HandleVisibilityClicked: function(shape) {
