@@ -27,6 +27,11 @@ class Editor {
         this.shapesListVisible = true;
         this.shapeAttributesVisible = true;
 
+        //Clipboard for Cut/Copy/Paste
+        this.clipboard = undefined;
+        //when we copy we add a snapshot of the object to the clipboard,
+        //when we paste we instantiate a new object that uses the copied objects parameters.
+
         //Command Objects
         this.commandHistory = []; //temp variable to track the history of our commands;
         this.commandHistoryIndex = -1;
@@ -178,6 +183,23 @@ class Editor {
     RestoreSnapshot(snapshot) {
         this.shapes = snapshot.shapes;
         this.selectedShapeId = snapshot.selectedShapeId;
+    }
+    Copy(shape) {
+        if (shape === undefined) {
+            return;
+        }
+        this.clipboard = shape.Clone();
+    }
+    Paste(position) {
+        if (this.clipboard === undefined) {
+            return;
+        }
+        this.clipboard.id = this.uniqueIdCounter++;
+        this.clipboard.position = {
+            x: position.x,
+            y: position.y
+        };
+        this.shapes.push(this.clipboard.Clone());
     }
 }
 

@@ -37,7 +37,6 @@ class TransformShapeCommand {
             this.#editor.SaveCommandHistory(this);
         }
         this.#hasExecuted = true;
-
     }
     Redo() {
         this.Execute();

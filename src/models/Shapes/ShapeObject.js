@@ -1,5 +1,8 @@
 //Base Shape class for all the different types of shapes we will use.
 //Note that each shape has its own GetBoundingBox() function, but this function does not take into account rotation at the moment.
+
+import _ from 'lodash';
+
 class Shape {
     constructor(config) {
         //Deep copy of the config for debugging purposes.
@@ -48,6 +51,12 @@ class Shape {
         this.position = { ...snapshot.position };
         this.scale = { ...snapshot.scale };
         this.rotation = snapshot.rotation;
+    }
+
+    //this is a bit different from snapshot, with the snapshot we want to be able to save and restore certain state,
+    //with a clone we just want a whole brand new object.
+    Clone() {
+        return _.cloneDeep(this);
     }
 }
 

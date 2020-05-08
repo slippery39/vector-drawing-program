@@ -19,7 +19,21 @@
           @click="editor.Redo()"
         >
           <q-item-section>Redo</q-item-section>
-          <q-item-section side>Ctrl + X</q-item-section>
+          <q-item-section side>Ctrl + Y</q-item-section>
+        </q-item>
+        <q-item clickable @click="editor.Copy(editor.GetSelectedShape())">
+          <q-item-section>Copy</q-item-section>
+          <q-item-section side>Ctrl + C</q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          @click="editor.Paste({
+          x:0,
+          y:0
+        })"
+        >
+          <q-item-section>Paste</q-item-section>
+          <q-item-section side>Ctrl + V</q-item-section>
         </q-item>
       </q-list>
     </q-menu>

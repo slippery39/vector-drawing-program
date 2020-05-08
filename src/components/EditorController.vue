@@ -13,12 +13,14 @@
     <div
       class="canvas-container"
       style="max-width:99%;height:100%;display:inline-block;overflow:scroll;"
+      @contextmenu="SaveClickCoordinates"
     >
       <MainCanvas
         :shapes="editor.shapes"
         :allowTransforms="true"
         :selectedShape="editor.selectedShapeId"
         @shape-selected="(id)=>editor.selectedShapeId = id"
+        ref="drawing"
       />
       <ToolController
         @shapeCompleted="HandleShapeComplete"
@@ -27,31 +29,73 @@
         style="position:absolute;left:0px;top:0px;"
       />
       <!--Right Click Context Menu-->
-      <q-menu v-if="editor.selectedShapeId!=undefined" touch-position context-menu>
+      <q-menu touch-position context-menu>
         <q-list dense style="min-width: 100px">
-          <q-item @click="HandleSendToFront()" clickable v-close-popup>
+          <q-item
+            v-if="editor.selectedShapeId!=undefined"
+            @click="HandleSendToFront()"
+            clickable
+            v-close-popup
+          >
             <q-item-section>Send to Front</q-item-section>
           </q-item>
-          <q-item @click="HandleSendToBack()" clickable v-close-popup>
+          <q-item
+            v-if="editor.selectedShapeId!=undefined"
+            @click="HandleSendToBack()"
+            clickable
+            v-close-popup
+          >
             <q-item-section>Send to Back</q-item-section>
           </q-item>
-          <q-item @click="HandleDeleteClicked(editor.GetSelectedShape())" clickable v-close-popup>
+
+          <!-- add copy and paste here-->
+          <q-item
+            v-if="editor.selectedShapeId!=undefined"
+            @click="HandleCopyClicked"
+            clickable
+            v-close-popup
+          >
+            <q-item-section>Copy</q-item-section>
+          </q-item>
+          <q-item
+            @click="HandlePasteClicked"
+            clickable
+            v-close-popup
+          >
+            <q-item-section>Paste</q-item-section>
+          </q-item>
+
+          <q-item
+            v-if="editor.selectedShapeId!=undefined"
+            @click="HandleDeleteClicked(editor.GetSelectedShape())"
+            clickable
+            v-close-popup
+          >
             <q-item-section>Delete</q-item-section>
           </q-item>
           <q-item
+            v-if="editor.selectedShapeId!=undefined"
             @click="HandleVisibilityClicked(editor.GetSelectedShape())"
             clickable
             v-close-popup
           >
             <q-item-section>Hide</q-item-section>
           </q-item>
-          <q-item @click="HandleLockClicked(editor.GetSelectedShape())" clickable v-close-popup>
+          <q-item
+            v-if="editor.selectedShapeId!=undefined"
+            @click="HandleLockClicked(editor.GetSelectedShape())"
+            clickable
+            v-close-popup
+          >
             <q-item-section>Lock</q-item-section>
           </q-item>
         </q-list>
       </q-menu>
     </div>
-    <ShapeAttributesSidebar v-if="editor.shapeAttributesVisible" :shape="editor.GetSelectedShape()" />
+    <ShapeAttributesSidebar
+      v-if="editor.shapeAttributesVisible"
+      :shape="editor.GetSelectedShape()"
+    />
   </div>
 </template>
 
@@ -86,17 +130,26 @@ export default {
       if (event.ctrlKey && event.key === "z") {
         this.editor.Undo();
       }
-      if (event.ctrlKey && event.key === "x") {
+      if (event.ctrlKey && event.key === "y") {
         this.editor.Redo();
       }
     });
   },
   data: function() {
     return {
-      editor: state.editor
+      editor: state.editor,
+      contextClickCoordinates: undefined
     };
   },
   methods: {
+    //This method is for saving the coordinates when we right click, we will need to know where
+    //the user clicked in order to be able to paste the shape in the right position.
+    SaveClickCoordinates(evt) {
+      this.contextClickCoordinates = {
+        x: evt.pageX,
+        y: evt.pageY
+      };
+    },
     HandleShapeComplete: function(data) {
       const createShapeCommand = new CreateShapeCommand(this.editor, data);
       createShapeCommand.Execute();
@@ -127,6 +180,19 @@ export default {
         this.editor.GetSelectedShape().id
       );
       sendToBackCommand.Execute();
+    },
+    HandleCopyClicked: function() {
+      this.editor.Copy(this.editor.GetSelectedShape());
+    },
+    HandlePasteClicked: function(evt) {
+      const canvasRect = this.$refs.drawing.$el.getBoundingClientRect();
+
+      const pastedPosition = {
+        x: this.contextClickCoordinates.x - canvasRect.x,
+        y: this.contextClickCoordinates.y - canvasRect.y
+      };
+
+      this.editor.Paste(pastedPosition);
     }
   }
 };
