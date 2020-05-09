@@ -25,13 +25,7 @@
           <q-item-section>Copy</q-item-section>
           <q-item-section side>Ctrl + C</q-item-section>
         </q-item>
-        <q-item
-          clickable
-          @click="editor.Paste({
-          x:0,
-          y:0
-        })"
-        >
+        <q-item clickable @click="HandlePaste()">
           <q-item-section>Paste</q-item-section>
           <q-item-section side>Ctrl + V</q-item-section>
         </q-item>
@@ -42,6 +36,7 @@
 
 <script>
 import state from "src/state/state";
+import PasteCommand from "src/models/Commands/PasteCommand";
 
 export default {
   name: "EditMenu",
@@ -55,6 +50,10 @@ export default {
       return {
         color: "lightgrey"
       };
+    },
+    HandlePaste() {
+      const pasteCommand = new PasteCommand(this.editor, { x: 0, y: 0 });
+      pasteCommand.Execute();
     }
   }
 };

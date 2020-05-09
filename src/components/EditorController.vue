@@ -57,11 +57,7 @@
           >
             <q-item-section>Copy</q-item-section>
           </q-item>
-          <q-item
-            @click="HandlePasteClicked"
-            clickable
-            v-close-popup
-          >
+          <q-item @click="HandlePasteClicked" clickable v-close-popup>
             <q-item-section>Paste</q-item-section>
           </q-item>
 
@@ -105,17 +101,11 @@ import state from "src/state/state.js";
 import { MainCanvas, ShapeList, ShapeAttributesSidebar } from "./editor";
 import ToolController from "./tools/ToolController";
 
-/*
-import MainLayer from "src/components/editor/MainCanvas";
-import ShapeList from "src/components/editor/ShapeList";
-import ToolController from "src/components/tools/ToolController";
-import ShapeAttributesSidebar from "src/components/editor/ShapeAttributesSidebar";
-*/
-
 import CreateShapeCommand from "src/models/Commands/CreateShapeCommand";
 import DeleteShapeCommand from "src/models/Commands/DeleteShapeCommand";
 import SendToFrontCommand from "src/models/Commands/SendToFrontCommand";
 import SendToBackCommand from "src/models/Commands/SendToBackCommand";
+import PasteCommand from "src/models/Commands/PasteCommand";
 
 export default {
   name: "PageIndex",
@@ -126,12 +116,41 @@ export default {
     ShapeAttributesSidebar
   },
   mounted: function() {
+    //we need to track which keys have been pressed for pasting
+    //otherwise it will constantly paste on keydown.
+
+    const currentKeys = {
+      ctrl: false,
+      v: false
+    };
+
+    window.addEventListener("keyup", event => {
+      currentKeys.ctrl = false;
+      currentKeys.v = false;
+    });
+
     window.addEventListener("keydown", event => {
       if (event.ctrlKey && event.key === "z") {
         this.editor.Undo();
       }
       if (event.ctrlKey && event.key === "y") {
         this.editor.Redo();
+      }
+      if (event.ctrlKey && event.key === "c") {
+        //copy
+        this.editor.Copy(this.editor.GetSelectedShape());
+      }
+      if (event.ctrlKey && event.key === "v") {
+        //keys down ctrl and v
+        if (currentKeys.ctrl === false && currentKeys.v === false) {
+          const pasteCommand = new PasteCommand(this.editor, {
+            x: 0,
+            y: 0
+          });
+          pasteCommand.Execute();
+          currentKeys.ctrl = true;
+          currentKeys.v = true;
+        }
       }
     });
   },
@@ -191,8 +210,8 @@ export default {
         x: this.contextClickCoordinates.x - canvasRect.x,
         y: this.contextClickCoordinates.y - canvasRect.y
       };
-
-      this.editor.Paste(pastedPosition);
+      const pasteCommand = new PasteCommand(this.editor, pastedPosition);
+      pasteCommand.Execute();
     }
   }
 };

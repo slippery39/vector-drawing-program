@@ -199,7 +199,11 @@ class Editor {
             x: position.x,
             y: position.y
         };
-        this.shapes.push(this.clipboard.Clone());
+
+        const pastedShape = this.clipboard.Clone(); //we need to clone again, or else everything single pasted object will
+        //be using the same reference.
+        this.shapes.push(pastedShape);
+        this.selectedShapeId = pastedShape.id;
     }
 }
 
