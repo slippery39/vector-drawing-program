@@ -5,7 +5,6 @@ class Rectangle extends Shape {
         super(config);
         this.type = 'rectangle'
         this.InitName();
-        this.position = { ...config.position };
         this.width = config.width;
         this.height = config.height;
     }

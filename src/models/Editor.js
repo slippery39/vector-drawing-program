@@ -67,7 +67,7 @@ class Editor {
                 return new Path(data)
             }
             default: {
-                console.error('Unknown shape type in call to create shape. Please check the Editor.js file');
+                console.error(`Unknown shape type in call to create shape (${data.type}). Please check the Editor.js file`);
                 return new Shape(data);
             }
         }

@@ -115,6 +115,34 @@ describe('Editor Tests', () => {
 
         expect(editor.shapes.length).toBe(4);
     });
+
+    it('copy and pastes correctly', ()=>{
+        //details:
+
+        const editor = new Editor();       
+        //make a shape,
+        const shape = editor.AddShape(createTestRectangle());
+        //copy a shape
+        editor.Copy(shape);
+        //paste the shape
+        editor.Paste({
+            x:300,y:300
+        });
+
+        expect(editor.shapes.length).toBe(2);
+        expect(editor.shapes[1].position.x).toBe(300);
+        expect(editor.shapes[1].position.y).toBe(300);
+
+        //paste the shape again
+        editor.Paste({
+            x:300,
+            y:300
+        })
+
+        //we had a bug where the instance was the same when pasted, this should catch that bug.
+        expect(editor.shapes[1]===editor.shapes[2]).toBe(false);
+
+    });
 });
 
 describe('Editor Commands / Undo / Redo Tests', () => {
@@ -224,7 +252,11 @@ describe('Editor Commands / Undo / Redo Tests', () => {
             type: 'rectangle'
         });
         const line = editor.AddShape({
-            type: 'line'
+            type: 'line',
+            x1:0,
+            y1:0,
+            x2:100,
+            y2:100
         });
 
         editor.SendToBack(line);
@@ -238,7 +270,11 @@ describe('Editor Commands / Undo / Redo Tests', () => {
             type: 'rectangle'
         });
         const line = editor.AddShape({
-            type: 'line'
+            type: 'line',
+            x1:0,
+            y1:0,
+            x2:100,
+            y2:100
         });
 
         editor.SendToFront(rectangle);
@@ -274,7 +310,11 @@ describe('Editor Commands / Undo / Redo Tests', () => {
                     ]
                 },
                 {
-                    type: 'line'
+                    type: 'line',
+                    x1:0,
+                    y1:0,
+                    x2:100,
+                    y2:100
                 }
             ]
         });

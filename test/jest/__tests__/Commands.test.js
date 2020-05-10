@@ -10,10 +10,10 @@ describe('ClearCanvasCommand Tests', () => {
         const editor = new Editor();
         //the type of shape doesn't matter here so we will just call it a 'mock'
         editor.AddShape({
-            type: 'mock'
+            type: 'rectangle'
         });
         editor.AddShape({
-            type: 'mock'
+            type: 'rectangle'
         });
 
         //sanity check to make sure he objects are added in 
@@ -39,7 +39,7 @@ describe('CreateShapeCommand Tests', () => {
         //create an editor, add a couple shapes, execute a ClearCanvasCommand();
         const editor = new Editor();
         //the type of shape doesn't matter here so we will just call it a 'mock'
-        const createShapeCommand = new CreateShapeCommand(editor, { type: 'mock' });
+        const createShapeCommand = new CreateShapeCommand(editor, { type: 'rectangle' });
         createShapeCommand.Execute();
         expect(editor.shapes.length).toBe(1);
         createShapeCommand.Undo();
@@ -53,10 +53,10 @@ describe('Delete Shape Command Tests', () => {
         const editor = new Editor();
         //the type of shape doesn't matter here so we will just call it a 'mock'
         const shape1 = editor.AddShape({
-            type: 'mock'
+            type: 'rectangle'
         });
         const shape2 = editor.AddShape({
-            type: 'mock'
+            type: 'rectangle'
         });
 
         const deleteShapeCommand = new DeleteShapeCommand(editor, shape1.id);
@@ -82,9 +82,9 @@ describe('Delete Shape Command Tests', () => {
 describe('Transform Shape Command Tests', () => {
     it('Transforms Correctly', () => {
         const editor = new Editor();
-        //the type of shape doesn't matter here so we will just call it a 'mock'
+
         const shape1 = editor.AddShape({
-            type: 'mock'
+            type: 'rectangle'
         });
 
         //sanity check to make sure defaults are in place.
@@ -137,7 +137,7 @@ describe('Transform Shape Command Tests', () => {
         const editor = new Editor();
         //the type of shape doesn't matter here so we will just call it a 'mock'
         const shape1 = editor.AddShape({
-            type: 'mock',
+            type: 'rectangle',
             position: {
                 x: 1,
                 y: 1
@@ -240,10 +240,11 @@ describe('SendToBack-SendToFront Tests', () => {
         const editor = new Editor();
         //the type of shape doesn't matter here so we will just call it a 'mock'
         const shape1 = editor.AddShape({
-            type: 'mock',
+            type: 'rectangle',
 
         });
         const shape2 = editor.AddShape({
+            type:'rectangle'
         });
 
         //i don't like how we have to pass the id and not the shape itself.         
