@@ -31,8 +31,7 @@ class TransformShapeCommand {
         if (this.#transforms.strokeWidth) {
             this.#shape.strokeWidth = this.#transforms.strokeWidth;
         }
-        //right here is why its fucking up.
-        //lets add some tests first.
+
         if (!this.#hasExecuted) {
             this.#editor.SaveCommandHistory(this);
         }
