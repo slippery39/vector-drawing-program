@@ -13,7 +13,7 @@ import SVGDynamicShape from "../svg/SVGDynamicShape";
 import ToolMixIn from "./ToolMixIn";
 
 export default {
-  name: "SVGEllipseDrawingCanvas",
+  name: "SVGRectangleDrawingCanvas",
   components: {
     SVGDynamicShape
   },

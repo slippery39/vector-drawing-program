@@ -1,44 +1,8 @@
 <template>
-  <!--Todo, we have a lot of repeated handlers here, lets use dynamic components and stuff-->
-  <EllipseTool
-    @shapeCompleted="HandleShapeComplete"
-    v-if="editor.selectedTool==='ellipse'"
-    :strokeColor="editor.strokeColor"
-    :strokeWidth="editor.strokeWidth"
-    :fillColor="editor.fillColor"
-    :width="editor.width"
-    :height="editor.height"
-  />
-  <RectangleTool
-    @shapeCompleted="HandleShapeComplete"
-    v-else-if="editor.selectedTool === 'rectangle'"
-    :strokeColor="editor.strokeColor"
-    :strokeWidth="editor.strokeWidth"
-    :fillColor="editor.fillColor"
-    :width="editor.width"
-    :height="editor.height"
-  />
-  <LineTool
-    @shapeCompleted="HandleShapeComplete"
-    v-else-if="editor.selectedTool === 'line'"
-    :strokeColor="editor.strokeColor"
-    :strokeWidth="editor.strokeWidth"
-    :fillColor="editor.fillColor"
-    :width="editor.width"
-    :height="editor.height"
-  />
-  <PolygonTool
-    @shapeCompleted="HandleShapeComplete"
-    v-else-if="editor.selectedTool==='polygon'"
-    :strokeColor="editor.strokeColor"
-    :strokeWidth="editor.strokeWidth"
-    :fillColor="editor.fillColor"
-    :width="editor.width"
-    :height="editor.height"
-  />
+  <!-- For whatever reason this tool does not work with our dynamic setup, for now lets keep it like this until we can figure out why-->
   <PremadePathTool
     @shapeCompleted="HandleShapeComplete"
-    v-else-if="IsPathTool(editor.selectedTool)"
+    v-if="IsPathTool(editor.selectedTool)"
     :strokeColor="editor.strokeColor"
     :strokeWidth="editor.strokeWidth"
     :fillColor="editor.fillColor"
@@ -47,14 +11,11 @@
     :pathData="GetPathData(editor.selectedTool)"
     :pathName="GetPathName(editor.selectedTool)"
   />
-  <FreePathTool
+  <component
+    v-else-if="GetCurrentTool()!=undefined"
+    :is="GetCurrentTool()"
+    :props="GetCurrentProps()"
     @shapeCompleted="HandleShapeComplete"
-    v-else-if="editor.selectedTool==='free-draw'"
-    :strokeColor="editor.strokeColor"
-    :strokeWidth="editor.strokeWidth"
-    :fillColor="editor.fillColor"
-    :width="editor.width"
-    :height="editor.height"
   />
 </template>
 
@@ -103,6 +64,41 @@ export default {
     },
     GetPathName: function(name) {
       return name.split("-")[1];
+    },
+    GetCurrentProps: function() {
+      const props = {
+        strokeColor: this.editor.strokeColor,
+        strokeWidth: this.editor.strokeWidth,
+        fillColor: this.editor.fillColor,
+        width: this.editor.width,
+        height: this.editor.height
+      };
+
+      if (this.IsPathTool(this.editor.selectedTool)) {
+        props.pathData = this.GetPathData(this.editor.selectedTool);
+        props.pathName = this.GetPathName(this.editor.selectedTool);
+      }
+      return props;
+    },
+    GetCurrentTool: function() {
+      const selectedTool = this.editor.selectedTool;
+      if (selectedTool === undefined) {
+        return;
+      }
+
+      //first check if its a path tool
+      if (this.IsPathTool(selectedTool)) {
+        return PremadePathTool;
+      } else {
+        const toolMap = {
+          ellipse: EllipseTool,
+          rectangle: RectangleTool,
+          line: LineTool,
+          polygon: PolygonTool,
+          "free-draw": FreePathTool
+        };
+        return toolMap[selectedTool];
+      }
     }
   }
 };

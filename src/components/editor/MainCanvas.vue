@@ -154,7 +154,6 @@ export default {
       const transformerNode = this.$refs.transformer.getNode();
 
       if (this.selectedShapeName === undefined) {
-        console.log('testing selected shape name detach');
         transformerNode.detach();
         transformerNode.getLayer().batchDraw();
         return;
