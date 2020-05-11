@@ -119,6 +119,12 @@ export default {
     //we need to track which keys have been pressed for pasting
     //otherwise it will constantly paste on keydown.
 
+    //hide the sidebars for medium and small devices
+    if (this.$q.screen.lt.md) {
+      this.editor.shapesListVisible = false;
+      this.editor.shapeAttributesVisible = false;
+    }
+
     const currentKeys = {
       ctrl: false,
       v: false

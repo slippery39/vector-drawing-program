@@ -4,6 +4,7 @@
     push
     glossy
     toggle-color="teal"
+    style='flex-wrap:wrap'
     :options="[
           {value: 'move', slot: 'move'},
           {value: 'ellipse', slot: 'ellipse'},
