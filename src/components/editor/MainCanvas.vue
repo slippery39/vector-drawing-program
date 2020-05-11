@@ -4,7 +4,7 @@
     @mousedown="HandleStageMouseDown"
     @touchstart="HandleStageMouseDown"
     id="shapes-canvas"
-    style="border:1px solid black;width:640px;height:480px;"
+    style="border:1px solid black;width:640px;height:480px;background-color:white;"
   >
     <v-layer>
       <template v-for="shape in shapes">

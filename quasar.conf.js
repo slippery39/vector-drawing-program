@@ -108,8 +108,8 @@ module.exports = function (ctx) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar App',
+        name: 'Drawing App',
+        short_name: 'Drawing App',
         description: 'A vector image drawing app',
         display: 'standalone',
         orientation: 'portrait',

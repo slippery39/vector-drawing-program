@@ -2,7 +2,7 @@
   "name": "vector-image-draw",
   "version": "0.0.1",
   "description": "A vector image drawing app",
-  "productName": "Quasar App",
+  "productName": "Drawing App",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Shayne Quinton <shayne_quinton@hotmail.com>",
