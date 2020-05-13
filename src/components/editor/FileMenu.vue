@@ -23,7 +23,7 @@ import state from "src/state/state";
 
 import MainCanvas from "src/components/editor/MainCanvas";
 
-import ClearCanvasCommand from "src/models/commands/ClearCanvasCommand";
+import ClearCanvasCommand from "src/models/Commands/ClearCanvasCommand";
 
 export default {
   name: "FileMenu",

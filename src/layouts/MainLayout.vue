@@ -2,12 +2,12 @@
   <div class="q-pa-md" style="height:100vh">
     <q-layout view="lHh lpr lFf" container class="shadow-2 rounded-borders">
       <q-header elevated>
-        <div style='display:flex;margin-left:10px;'>
+        <div class='m-a-sm' style='display:flex;'>
         <FileMenu class='top-menu' />
         <EditMenu class='top-menu'/>
         <ViewMenu class='top-menu'/>
         </div>
-        <div class="q-pa-sm q-pl-md row items-center">
+        <div class="q-pa-xs q-pl-md row items-center">
           <ToolsButtonGroup class='menu-margin' />
           <StrokeWidthInput class='menu-margin'/>
           <AppColorPicker class='menu-margin' />

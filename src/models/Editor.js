@@ -19,7 +19,7 @@ class Editor {
 
         //UI State 
         this.selectedShapeId = undefined;
-        this.selectedTool = 'path-heart'; //we need something for the different paths now?
+        this.selectedTool = 'rectangle'; //we need something for the different paths now?
         this.fillColor = "#FFFFFF";
         this.strokeColor = "#000000";
         this.strokeWidth = 2;
