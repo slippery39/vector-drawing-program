@@ -1,5 +1,6 @@
 <template>
   <v-stage
+    ref="stage"
     :config="stageConfig"
     @mousedown="HandleStageMouseDown"
     @touchstart="HandleStageMouseDown"
@@ -85,8 +86,8 @@ export default {
   data: function() {
     return {
       stageConfig: {
-        width: state.editor.width,
-        height: state.editor.height
+        width: state.editor.width + 500,
+        height: state.editor.height + 500
       },
       selectedShapeName: undefined,
       editor: state.editor
@@ -119,6 +120,14 @@ export default {
         transform
       );
       transformShapeCommand.Execute();
+    },
+
+    //other components can include this component and get back the data url here.
+    GetDrawingDataUrl() {
+      const stage = this.$refs.stage.getNode();
+      const layer = stage.getLayers()[0];
+      const dataurl = layer.toDataURL();
+      return dataurl;
     },
     HandleStageMouseDown(e) {
       // clicked on stage - clear selection

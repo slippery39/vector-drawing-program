@@ -8,7 +8,7 @@
         </q-item>
         <q-item clickable v-close-popup @click="RemoveAllShapes">
           <q-item-section>Clear Canvas</q-item-section>
-        </q-item>       
+        </q-item>
       </q-list>
     </q-menu>
     <!-- this main layer is generated because it is an easy way for us to grab the image to save-->
@@ -65,11 +65,8 @@ export default {
         .querySelector("canvas");
 
       var img = new Image();
-      img.onload = function() {
-        var imgURI = canvas
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream");
-
+      img.onload = () => {
+        var imgURI = this.$refs.imageCanvas.GetDrawingDataUrl();
         triggerDownload(imgURI);
       };
 
