@@ -1,4 +1,6 @@
 
+//refactoring this to use a konva tool setup and not svg.
+
 // this isn't for all tools, just for the creation tools. perhaps we should change the name of this.
 var ToolMixIn = {
     props: {
@@ -13,9 +15,50 @@ var ToolMixIn = {
         strokeWidth: {
             type: Number,
             default: 2
+        },
+        width: {
+            type: Number,
+            default: 640
+        },
+        height: {
+            type: Number,
+            default: 480
+        }
+    },
+    data: function () {
+        const stagePadding = 500;
+        const stageWidth = this.width + stagePadding;
+        const stageHeight = this.height + stagePadding;
+
+        return {
+            stageConfig: {
+                width: stageWidth,
+                height: stageHeight
+            },
+            layerConfig: {
+                x: stageWidth / 2 - this.width / 2,
+                y: stageHeight / 2 - this.height / 2
+            }
         }
     },
     methods: {
+        GetDrawingLayer() {
+            return this.$refs.stage.getNode().getLayers()[0];
+        },
+        GetRelativePointerCoordinates(data) {
+            console.log(data);
+            const layer = this.GetDrawingLayer();
+            layer.getStage().setPointersPositions(data.evt);
+            var transform = layer.getAbsoluteTransform().copy();
+            // to detect relative position we need to invert transform
+            transform.invert();
+
+            // get pointer (say mouse or touch) position
+            var pos = layer.getStage().getPointerPosition();
+
+            // now we can find relative point
+            return transform.point(pos);
+        },
         //requires an svg element with the ref of 'svg'
         GetRelativeCoordinates: function (data) {
             //there seems to be a bug that happens sometimes where this thing fires but the

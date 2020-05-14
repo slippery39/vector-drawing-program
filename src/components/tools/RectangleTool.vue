@@ -1,22 +1,17 @@
 <template>
-  <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
-    <SVGDynamicShape
-      v-if="currentRectangle!=undefined"
-      :data-id="currentRectangle.id"
-      :data="currentRectangle"
-    />
-  </svg>
+  <v-stage ref="stage" :config="stageConfig" v-touch-pan.prevent.mouse="HandlePan">
+    <v-layer :config="layerConfig">
+      <v-rect v-if="currentRectangle!=undefined" :config="currentRectangle.GetKonvaConfig()" />
+    </v-layer>
+  </v-stage>
 </template>
 
 <script>
-import SVGDynamicShape from "../svg/SVGDynamicShape";
 import ToolMixIn from "./ToolMixIn";
+import Rectangle from "src/models/Shapes/Rectangle";
 
 export default {
-  name: "SVGRectangleDrawingCanvas",
-  components: {
-    SVGDynamicShape
-  },
+  name: "RectangleTool",
   mixins: [ToolMixIn],
   data: function() {
     return {
@@ -26,7 +21,7 @@ export default {
   },
   methods: {
     CreateStartingRectangle: function(data) {
-      return {
+      return new Rectangle({
         type: "rectangle",
         position: {
           x: 0,
@@ -37,10 +32,10 @@ export default {
         fillColor: this.fillColor,
         strokeColor: this.strokeColor,
         strokeWidth: this.strokeWidth
-      };
+      });
     },
     HandlePan: function(data) {
-      const relativeCoordinates = this.GetRelativeCoordinates(data);
+      const relativeCoordinates = this.GetRelativePointerCoordinates(data);
 
       if (data.isFirst) {
         this.currentRectangle = this.CreateStartingRectangle();

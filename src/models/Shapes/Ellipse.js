@@ -1,4 +1,3 @@
-import Rectangle from "./Rectangle"
 import Shape from "./ShapeObject";
 
 class Ellipse extends Shape {
@@ -8,6 +7,7 @@ class Ellipse extends Shape {
         this.InitName();
         this.radius = { ...config.radius };
     }
+    /*
     CollidesWithPoint(point) {
         // checking the equation of  
         // ellipse with the given point     
@@ -16,20 +16,7 @@ class Ellipse extends Shape {
         const check = (Math.pow((point.x - this.position.x), 2) / Math.pow(this.radius.x, 2)) +
             (Math.pow((point.y - this.position.y), 2) / Math.pow(this.radius.y, 2));
         return check <= 1
-    }
-    GetBoundingBox() {
-        const leftMostPoint = this.position.x - this.radius.x;
-        const rightMostPoint = this.position.x + this.radius.x;
-        const topMostPoint = this.position.y - this.radius.y;
-        const bottomMostPoint = this.position.y + this.radius.y;
-        return new Rectangle({
-            position: {
-                x: leftMostPoint, y: topMostPoint
-            },
-            width: Math.abs(rightMostPoint - leftMostPoint),
-            height: Math.abs(topMostPoint - bottomMostPoint)
-        });
-    }
+    }*/
     GetKonvaConfig() {
         return {
             id: this.id,

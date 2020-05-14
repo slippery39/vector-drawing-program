@@ -72,25 +72,4 @@ describe('Rectangle Tests', () => {
             })
         );
     });
-    it('collides with point correctly', () => {
-        const rectangle = new Rectangle(rectangleData);
-
-        var pointOutsideRectangle = { x: 99, y: 149 };
-        expect(rectangle.CollidesWithPoint(pointOutsideRectangle)).toBe(false);
-        //move the rectangle so that the point is now inside
-        rectangle.Translate({ x: -1, y: -1 });
-        expect(rectangle.CollidesWithPoint(pointOutsideRectangle)).toBe(true);
-    });
-
-    it('initializes bounding box correctly', () => {
-        const rectangle = new Rectangle(rectangleData);
-
-        const boundingBox = rectangle.GetBoundingBox();
-
-        expect(boundingBox.position.x).toBe(100);
-        expect(boundingBox.position.y).toBe(150);
-
-        expect(boundingBox.width).toBe(50);
-        expect(boundingBox.height).toBe(60);
-    });
 });

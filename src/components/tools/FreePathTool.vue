@@ -1,6 +1,6 @@
 <template>
   <v-stage ref="stage" :config="stageConfig" v-touch-pan.prevent.mouse="HandlePan">
-    <v-layer>
+    <v-layer :config="layerConfig">
       <v-path v-if="currentPath!=undefined" :config="currentPath" />
     </v-layer>
   </v-stage>
@@ -32,12 +32,12 @@ export default {
     };
   },
   methods: {
-    HandlePan: function(data) {
+    HandlePan: function(data, evt) {
+      console.log(data);
       if (!data) {
         return;
       }
-      //is there a way to handle drags on the stage?
-      const relativeCoordinates = this.GetRelativeCoordinates(data);
+      const relativeCoordinates = this.GetRelativePointerCoordinates(data);
 
       if (data.isFirst) {
         this.currentPath = "";
@@ -46,6 +46,7 @@ export default {
           `M ${this.firstClickPoint.x},${this.firstClickPoint.y}`
         );
       }
+      console.log(relativeCoordinates);
       this.pathArr.push(`L ${relativeCoordinates.x},${relativeCoordinates.y}`);
       //update the current path.
       this.currentPath = {

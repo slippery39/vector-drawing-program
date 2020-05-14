@@ -3,10 +3,10 @@ import Line from "src/models/Shapes/Line";
 describe('Line Tests', () => {
 
     const lineData = {
-        x1: 0,
-        y1: 0,
-        x2: 100,
-        y2: 100,
+        points:[
+            {x:0,y:0},
+            {x:100,y:100}
+        ],
         strokeColor:'red',
         strokeWidth:5
     };
@@ -28,10 +28,16 @@ describe('Line Tests', () => {
 
         //trying another non 0 based line.
         const lineData2 = {
-            x1: 100,
-            y1: 100,
-            x2: 200,
-            y2: 200
+            points:[
+                {
+                    x:100,
+                    y:100
+                },
+                {
+                    x:200,
+                    y:200
+                }
+            ]
         };
         const line2 = new Line(lineData2);
         expect(line2.x1).toBe(100);
@@ -42,51 +48,6 @@ describe('Line Tests', () => {
         expect(line2.position.x).toBe(100);
         expect(line2.position.y).toBe(100);
     });
-    it('translates correctly', () => {
-        const line = new Line(lineData);
-
-        line.Translate({ x: 50, y: 75 });
-        expect(line.x1).toBe(50);
-        expect(line.y1).toBe(75);
-        expect(line.x2).toBe(150);
-        expect(line.y2).toBe(175);
-
-        line.Translate({ x: -25, y: -50 });
-        expect(line.x1).toBe(25);
-        expect(line.y1).toBe(25);
-        expect(line.x2).toBe(125);
-        expect(line.y2).toBe(125);
-
-        //trying another translae without 0 based values
-        const lineData2 = {
-            x1: 100,
-            y1: 100,
-            x2: 200,
-            y2: 200
-        };
-        const line2 = new Line(lineData2);
-        line2.Translate({ x: 50, y: 100 });
-        expect(line2.x1).toBe(150);
-        expect(line2.y1).toBe(200);
-        expect(line2.x2).toBe(250);
-        expect(line2.y2).toBe(300);
-    });
-
-    it('collides with point correctly', () => {
-
-        const line = new Line(lineData);
-
-        var pointOutsideLine = {
-            x: 150,
-            y: 150
-        }
-        expect(line.CollidesWithPoint(pointOutsideLine)).toBe(false);
-
-        //move the ellipse to a place where the point would be inside it.
-        line.Translate({ x: 125, y: 125 });
-        expect(line.CollidesWithPoint(pointOutsideLine)).toBe(true);
-    });
-
     it('gets points correctly', () => {
         const line = new Line(lineData);
 

@@ -1,24 +1,17 @@
 <template>
-  <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
-    <SVGDynamicShape
-      v-if="currentEllipse!=undefined"
-      :data-id="currentEllipse.id"
-      :data="currentEllipse"
-    />
-  </svg>
+  <v-stage ref="stage" :config="stageConfig" v-touch-pan.prevent.mouse="HandlePan">
+    <v-layer :config="layerConfig">
+      <v-ellipse v-if="currentEllipse!=undefined" :config="currentEllipse.GetKonvaConfig()" />
+    </v-layer>
+  </v-stage>
 </template>
 
 <script>
-import SVGDynamicShape from "../svg/SVGDynamicShape";
 import ToolMixIn from "./ToolMixIn";
-
-//import Ellipse from "../../models/Shapes/Ellipse";
+import Ellipse from "src/models/Shapes/Ellipse";
 
 export default {
-  name: "SVGEllipseDrawingCanvas",
-  components: {
-    SVGDynamicShape
-  },
+  name: "EllipseTool",
   mixins: [ToolMixIn],
   data: function() {
     return {
@@ -28,7 +21,7 @@ export default {
   },
   methods: {
     CreateStartingEllipse: function() {
-      return {
+      return new Ellipse({
         type: "ellipse",
         position: {
           x: 0,
@@ -41,10 +34,10 @@ export default {
         fillColor: this.fillColor,
         strokeColor: this.strokeColor,
         strokeWidth: this.strokeWidth
-      };
+      });
     },
     HandlePan: function(data) {
-      const relativeCoordinates = this.GetRelativeCoordinates(data);
+      const relativeCoordinates = this.GetRelativePointerCoordinates(data);
 
       if (data.isFirst) {
         this.currentEllipse = this.CreateStartingEllipse();

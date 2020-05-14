@@ -26,19 +26,6 @@ class Rectangle extends Shape {
 
         return points;
     }
-    //this does not work with rotations.
-    CollidesWithPoint(point) {
-        return this.position.x <= point.x && this.position.x + this.width >= point.x && this.position.y <= point.y && this.position.y + this.height >= point.y
-    }
-    //note that currently this bounding box just returns another rectangle
-    //that is more or less exactly the same.
-    GetBoundingBox() {
-        return new Rectangle({
-            position: Object.assign({}, this.position),
-            width: this.width,
-            height: this.height
-        });
-    }
     GetKonvaConfig() {
         return {
             id: this.id,

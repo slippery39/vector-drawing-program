@@ -85,10 +85,16 @@ describe('Konva Shape Config Tests', () => {
     it('creates correct line config', () => {
         const line = new Line({
             id: 1,
-            x1: 100,
-            y1: 150,
-            x2: 300,
-            y2: 350,
+            points:[
+                {
+                    x:100,
+                    y:150
+                },
+                {
+                    x:300,
+                    y:350
+                }                
+            ],
             strokeColor: '#000000FF',
             scale: {
                 x: 3,

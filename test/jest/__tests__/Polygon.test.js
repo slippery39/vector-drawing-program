@@ -67,21 +67,4 @@ describe('Polygon Tests', () => {
         );
     });
 
-    it('collides with point correctly', () => {
-
-        const polygon = new Polygon(polygonData);
-
-        var pointOutsidePolygon = {
-            x: 150,
-            y: 150
-        }
-        expect(polygon.CollidesWithPoint(pointOutsidePolygon)).toBe(false);
-
-        //move the ellipse to a place where the point would be inside it.
-        polygon.Translate({ x: 120, y: 120 });
-
-        expect(polygon.CollidesWithPoint(pointOutsidePolygon)).toBe(true);
-    });
-
-
 });

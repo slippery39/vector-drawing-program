@@ -1,53 +1,60 @@
 <template>
-  <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
-    <SVGDynamicShape v-if="currentLine!=undefined" :data-id="currentLine.id" :data="currentLine" />
-  </svg>
+  <v-stage ref="stage" :config="stageConfig" v-touch-pan.prevent.mouse="HandlePan">
+    <v-layer :config="layerConfig">
+      <v-line v-if="currentLine!=undefined" :config="currentLine.GetKonvaConfig()" />
+    </v-layer>
+  </v-stage>
 </template>
 
 <script>
-import SVGDynamicShape from "../svg/SVGDynamicShape";
 import ToolMixIn from "./ToolMixIn";
+import Line from "src/models/Shapes/Line";
 
 export default {
-  name: "SVGLineDrawingCanvas",
-  components: {
-    SVGDynamicShape
-  },
+  name: "LineTool",
   mixins: [ToolMixIn],
   data: function() {
     return {
-      currentLine: undefined
+      currentLine: undefined,
+      currentPointerCoordinates: undefined
     };
   },
   methods: {
     CreateStartingLine: function() {
-      var line = {
+      return new Line({
         id: 1,
         type: "line",
-        x1: 0,
-        y1: 0,
-        x2: 0,
-        y2: 0,
+        position: {
+          x: 0,
+          y: 0
+        },
+        points: [
+          {
+            x: 0,
+            y: 0
+          },
+          {
+            x: 0,
+            y: 0
+          }
+        ],
         strokeColor: this.strokeColor,
         strokeWidth: this.strokeWidth
-      };
-
-      return line;
+      });
     },
-
     HandlePan: function(data) {
-      const relativeCoordinates = this.GetRelativeCoordinates(data);
+      const relativeCoordinates = this.GetRelativePointerCoordinates(data);
 
       if (data.isFirst) {
         this.currentLine = this.CreateStartingLine();
-
-        //the first point on the line is the first point that is clicked.
-        this.currentLine.x1 = relativeCoordinates.x;
-        this.currentLine.y1 = relativeCoordinates.y;
+        this.currentLine.SetPoint(0, Object.assign({}, relativeCoordinates));
       }
-
-      this.currentLine.x2 = relativeCoordinates.x;
-      this.currentLine.y2 = relativeCoordinates.y;
+      //for some reason the relativeCoordinates from the konva stage do not get updated in our panning function. I don't know
+      //why at the moment so I am using an interval to grab the updated ones.
+      const newPoint = Object.assign({}, this.currentLine.points[0]);
+      newPoint.x += data.offset.x;
+      newPoint.y += data.offset.y;
+      this.currentLine.SetPoint(1, Object.assign({}, newPoint));
 
       if (data.isFinal) {
         this.$emit("shapeCompleted", this.currentLine);

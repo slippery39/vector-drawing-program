@@ -1,4 +1,3 @@
-import Rectangle from "./Rectangle"
 import Shape from "./ShapeObject";
 
 class Polygon extends Shape {
@@ -34,33 +33,6 @@ class Polygon extends Shape {
         //return an array of the relative points + the current position.
         return this.relativePoints.map(point => {
             return { x: point.x + this.position.x, y: point.y + this.position.y }
-        });
-    }
-
-    CollidesWithPoint(point) {
-        return this.GetBoundingBox().CollidesWithPoint(point);
-    }
-    GetBoundingBox() {
-        const xValues = this.points.map(el => el.x);
-        const yValues = this.points.map(el => el.y);
-
-        const minX = Math.min(...xValues);
-        const maxX = Math.max(...xValues);
-        const minY = Math.min(...yValues);
-        const maxY = Math.max(...yValues);
-
-        const topLeftPoint = {
-            x: minX,
-            y: minY
-        }
-
-        const width = maxX - minX;
-        const height = maxY - minY;
-
-        return new Rectangle({
-            position: topLeftPoint,
-            width: width,
-            height: height
         });
     }
     GetKonvaConfig() {

@@ -45,58 +45,7 @@ describe('Editor Tests', () => {
         vectorDrawing.RemoveAllShapes();
         expect(vectorDrawing.shapes.length).toBe(0);
 
-    });
-    it('gets a shape at a point correctly', () => {
-        const vectorDrawing = new Editor();
-        const rectangle = vectorDrawing.AddShape(createTestRectangle());
-
-        const shapesAtPoint = vectorDrawing.GetShapesAtPoint({
-            x: 110,
-            y: 160
-        });
-
-        expect(shapesAtPoint.length).toBe(1);
-        expect(shapesAtPoint[0].id).toBe(1);
-
-        //test exclude hidden
-        rectangle.isVisible = false;
-
-        const shapesAtPoint2 = vectorDrawing.GetShapesAtPoint({
-            x: 110,
-            y: 160
-        },
-            { excludeHidden: true });
-
-        expect(shapesAtPoint2.length).toBe(0);
-
-
-        //test exclude locked
-        rectangle.isLocked = true;
-        const shapesAtPoint3 = vectorDrawing.GetShapesAtPoint({
-            x: 110,
-            y: 160
-        },
-            { excludeLocked: true });
-
-        expect(shapesAtPoint3.length).toBe(0);
-
-
-    });
-
-    it('creates a snapshot correctly', () => {
-        const editor = new Editor();
-        editor.AddShape(createTestRectangle());
-        editor.AddShape(createTestRectangle());
-        editor.AddShape(createTestRectangle());
-        editor.AddShape(createTestRectangle());
-
-        const snapshot = editor.GetSnapshot();
-        expect(snapshot.shapes.length).toBe(4);
-
-        editor.selectedShapeId = 2;
-        const snapshot2 = editor.GetSnapshot();
-        expect(snapshot2.selectedShapeId).toBe(2);
-    });
+    }); 
 
     it('restores a snapshot correctly', () => {
         const editor = new Editor();
@@ -253,10 +202,16 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         });
         const line = editor.AddShape({
             type: 'line',
-            x1:0,
-            y1:0,
-            x2:100,
-            y2:100
+            points:[
+                {
+                    x:0,
+                    y:0
+                },
+                {
+                    x:100,
+                    y:100
+                }
+            ]
         });
 
         editor.SendToBack(line);
@@ -271,10 +226,16 @@ describe('Editor Commands / Undo / Redo Tests', () => {
         });
         const line = editor.AddShape({
             type: 'line',
-            x1:0,
-            y1:0,
-            x2:100,
-            y2:100
+            points:[
+                {
+                x:0,
+                y:0
+                },
+                {
+                    x:100,
+                    y:100
+                }
+            ]
         });
 
         editor.SendToFront(rectangle);
@@ -311,10 +272,16 @@ describe('Editor Commands / Undo / Redo Tests', () => {
                 },
                 {
                     type: 'line',
-                    x1:0,
-                    y1:0,
-                    x2:100,
-                    y2:100
+                    points:[
+                        {
+                            x:0,
+                            y:0
+                        },
+                        {
+                            x:100,
+                            y:100
+                        }
+                    ]
                 }
             ]
         });

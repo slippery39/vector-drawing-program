@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="height:100vh">
     <q-layout view="lHh lpr lFf" container class="shadow-2 rounded-borders">
       <q-header elevated>
-        <div class='m-a-sm' style='display:flex;'>
+        <div class='q-ma-sm' style='display:flex;'>
         <FileMenu class='top-menu' />
         <EditMenu class='top-menu'/>
         <ViewMenu class='top-menu'/>

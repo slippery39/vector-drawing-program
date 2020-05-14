@@ -11,8 +11,9 @@
       />
     </q-card>
     <div
+      ref="canvasContainer"
       class="canvas-container"
-      style="max-width:99%;height:100%;display:inline-block;overflow:scroll;"
+      style="max-width:99%;display:inline-block;overflow:scroll;"
       @contextmenu="SaveClickCoordinates"
     >
       <MainCanvas
@@ -29,7 +30,7 @@
         style="position:absolute;left:0px;top:0px;"
       />
       <!--Right Click Context Menu-->
-      <q-menu touch-position context-menu>
+      <q-menu touch-position context-menu transition-hide="none" auto-close>
         <q-list dense style="min-width: 100px">
           <q-item
             v-if="editor.selectedShapeId!=undefined"
@@ -57,7 +58,7 @@
           >
             <q-item-section>Copy</q-item-section>
           </q-item>
-          <q-item @click="HandlePasteClicked" clickable v-close-popup>
+          <q-item @click="HandlePasteClicked" v-if="editor.clipboard!=undefined" clickable v-close-popup>
             <q-item-section>Paste</q-item-section>
           </q-item>
 
@@ -120,6 +121,15 @@ export default {
     //otherwise it will constantly paste on keydown.
 
     //hide the sidebars for medium and small devices
+
+    this.$nextTick(() => {
+      this.AutoScrollToCenter();
+    });
+
+    window.addEventListener("resize", event => {
+      this.AutoScrollToCenter();
+    });
+
     if (this.$q.screen.lt.md) {
       this.editor.shapesListVisible = false;
       this.editor.shapeAttributesVisible = false;
@@ -169,11 +179,19 @@ export default {
   methods: {
     //This method is for saving the coordinates when we right click, we will need to know where
     //the user clicked in order to be able to paste the shape in the right position.
+    AutoScrollToCenter() {
+      //we want the parent to auto scroll our canvas to the center.
+      const container = this.$refs.canvasContainer;
+      const canvas = container.getElementsByClassName("konvajs-content")[0];
+      container.scroll(
+        (canvas.clientWidth - container.clientWidth) / 2,
+        (canvas.clientHeight - container.clientHeight) / 2
+      );
+    },
     SaveClickCoordinates(evt) {
-      this.contextClickCoordinates = {
-        x: evt.pageX,
-        y: evt.pageY
-      };
+      //we need to save based on the canvas position not the page position.
+      const coordinates = this.$refs.drawing.GetRelativePointerCoordinates(evt);
+      this.contextClickCoordinates = coordinates;
     },
     HandleShapeComplete: function(data) {
       const createShapeCommand = new CreateShapeCommand(this.editor, data);
@@ -210,11 +228,9 @@ export default {
       this.editor.Copy(this.editor.GetSelectedShape());
     },
     HandlePasteClicked: function(evt) {
-      const canvasRect = this.$refs.drawing.$el.getBoundingClientRect();
-
       const pastedPosition = {
-        x: this.contextClickCoordinates.x - canvasRect.x,
-        y: this.contextClickCoordinates.y - canvasRect.y
+        x: this.contextClickCoordinates.x,
+        y: this.contextClickCoordinates.y
       };
       const pasteCommand = new PasteCommand(this.editor, pastedPosition);
       pasteCommand.Execute();

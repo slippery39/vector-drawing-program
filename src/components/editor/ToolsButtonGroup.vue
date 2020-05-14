@@ -10,7 +10,7 @@
           {value: 'ellipse', slot: 'ellipse'},
           {value: 'rectangle', slot: 'rectangle'},
           {value:'line',slot:'line'},
-          {value:'polygon',slot:'polygon'},
+          //{value:'polygon',slot:'polygon'},
           {value:'free-draw',slot:'free-draw'},
           {value:'path-heart',slot:'path-heart'},
           {value:'path-lightning',slot:'path-lightning'},

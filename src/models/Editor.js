@@ -126,30 +126,6 @@ class Editor {
         this.shapes.unshift(shape);
     }
 
-    GetShapesAtPoint(point, options) {
-        /*
-            options: 
-            excludeHidden,
-            excludeLocked
-
-            In case the case that the UI calling this function does not want to include
-            hidden or locked objects, they can add these arguments to exlude them.
-            
-        */
-        if (options === undefined) {
-            options = {};
-        }
-        let shapesAtPoint = this.shapes.filter(el => el.CollidesWithPoint(point)).reverse();
-
-        if (options.excludeHidden) {
-            shapesAtPoint = shapesAtPoint.filter(el => el.isVisible)
-        }
-        if (options.excludeLocked) {
-            shapesAtPoint = shapesAtPoint.filter(el => !el.isLocked);
-        }
-        return shapesAtPoint;
-    }
-
     Undo() {
         if (this.CanUndo()) {
             this.commandHistory[this.commandHistoryIndex].Undo();

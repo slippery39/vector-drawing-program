@@ -5,9 +5,21 @@
     @mousedown="HandleStageMouseDown"
     @touchstart="HandleStageMouseDown"
     id="shapes-canvas"
-    style="border:1px solid black;width:640px;height:480px;background-color:white;"
+    style="max-width:100%;height:500px;background-color:white;"
   >
-    <v-layer>
+    <v-layer :config="layerConfig">
+      <v-rect
+        :config="{
+          x:0,
+          y:0,
+          width:editor.width,
+          height:editor.height,
+          stroke:'black',
+          fill:'rgba(0,0,0,0)'
+          }"
+      />
+    </v-layer>
+    <v-layer :config="layerConfig">
       <template v-for="shape in shapes">
         <template v-if="shape.isVisible">
           <v-rect
@@ -84,19 +96,23 @@ export default {
     }
   },
   data: function() {
+    const stagePadding = 500;
+    const stageWidth = state.editor.width + stagePadding;
+    const stageHeight = state.editor.height + stagePadding;
     return {
       stageConfig: {
-        width: state.editor.width + 500,
-        height: state.editor.height + 500
+        width: stageWidth,
+        height: stageHeight
+      },
+      layerConfig: {
+        x: stageWidth / 2 - state.editor.width / 2,
+        y: stageHeight / 2 - state.editor.height / 2
       },
       selectedShapeName: undefined,
       editor: state.editor
     };
   },
   methods: {
-    TestingSelectedShapeName: function() {
-      return this.selectedShapeName !== undefined;
-    },
     HandleTransformEnd(e) {
       // shape is transformed, let us save new attrs back to the node
       // find element in our state
@@ -121,13 +137,32 @@ export default {
       );
       transformShapeCommand.Execute();
     },
-
+    GetDrawingLayer() {
+      return this.$refs.stage.getNode().getLayers()[1];
+    },
     //other components can include this component and get back the data url here.
     GetDrawingDataUrl() {
-      const stage = this.$refs.stage.getNode();
-      const layer = stage.getLayers()[0];
-      const dataurl = layer.toDataURL();
+      const layer = this.GetDrawingLayer();
+
+      //learned that layers cannot have their own width and heights, which makes sense after you think of it,
+      //but now we need to specify the cutoff point here when we save the image (in case shapes are out of the drawing area bounds)
+      const dataurl = layer.toDataURL({
+        width: this.editor.width,
+        height: this.editor.height
+      });
       return dataurl;
+    },
+    GetRelativePointerCoordinates() {
+      const layer = this.GetDrawingLayer();
+      var transform = layer.getAbsoluteTransform().copy();
+      // to detect relative position we need to invert transform
+      transform.invert();
+
+      // get pointer (say mouse or touch) position
+      var pos = layer.getStage().getPointerPosition();
+
+      // now we can find relative point
+      return transform.point(pos);
     },
     HandleStageMouseDown(e) {
       // clicked on stage - clear selection
