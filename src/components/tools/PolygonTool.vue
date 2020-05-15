@@ -1,5 +1,11 @@
 <template>
   <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
+  <v-stage ref="stage" :config="stageConfig" v-touch-pan.prevent.mouse="HandlePan">
+    <v-layer :config="layerConfig">
+      <v-line v-if="currentPolygon!=undefined" :config="currentPolygon.GetKonvaConfig()" />
+    </v-layer>
+  </v-stage>
+  <!--
   <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
     <g v-if="currentPolygon!=undefined">
       <line
@@ -24,10 +30,12 @@
       />
     </g>
   </svg>
+  -->
 </template>
 
 <script>
 import ToolMixIn from "./ToolMixIn";
+import Polygon from "src/models/Shapes/Polygon";
 
 export default {
   name: "PolygonCanvas",
@@ -39,14 +47,14 @@ export default {
   },
   methods: {
     CreateStartingPolygon: function() {
-      var polygon = {
+      var polygon = new Polygon({
         id: 1,
         type: "polygon",
         points: [],
         fillColor: this.fillColor,
         strokeColor: this.strokeColor,
         strokeWidth: this.strokeWidth
-      };
+      });
       return polygon;
     },
     // Converts the points from the current polygon into an array of lines.
@@ -73,10 +81,11 @@ export default {
       );
     },
     GetLastPoint: function() {
+      console.log(this.currentPolygon);
       return this.currentPolygon.points[this.currentPolygon.points.length - 1];
     },
     HandlePan: function(data) {
-      const relativePosition = this.GetRelativeCoordinates(data);
+      const relativePosition = this.GetRelativePointerCoordinates(data);
 
       if (data.isFirst) {
         //if no points have been created yet

@@ -5,9 +5,10 @@
         <v-path :config="currentPath" />
       </v-group>
     </v-layer>
-    <v-layer :config="{name:'hidden-layer',opacity:0}"> <!--hidden layer for calculating scaling-->
-    <!-- we need this layer or else there will be a slight bug of the premade path showing up unscaled for a split second to start-->
-        <v-path :config="CreateStartingPath()" />
+    <v-layer :config="{name:'hidden-layer',opacity:0}">
+      <!--hidden layer for calculating scaling-->
+      <!-- we need this layer or else there will be a slight bug of the premade path showing up unscaled for a split second to start-->
+      <v-path :config="CreateStartingPath()" />
     </v-layer>
   </v-stage>
 </template>
@@ -24,12 +25,6 @@ export default {
     },
     pathName: {
       default: "path"
-    },
-    width: {
-      default: 640
-    },
-    height: {
-      default: 480
     }
   },
   data: function() {
@@ -91,7 +86,10 @@ export default {
     },
     HandlePathScaling: function(data) {
       //the path may not show on the first click, so we have to make sure it exists.
-      const path = this.$refs.stage.getNode().find(".hidden-layer")[0].find("Path")[0];
+      const path = this.$refs.stage
+        .getNode()
+        .find(".hidden-layer")[0]
+        .find("Path")[0];
       if (path) {
         //for some reason the path needs to be in a v-group or else we can't get this clientRect properly...
         //not sure why.

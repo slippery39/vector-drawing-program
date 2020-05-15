@@ -12,23 +12,11 @@ import ToolMixIn from "./ToolMixIn";
 export default {
   name: "FreePathTool",
   mixins: [ToolMixIn],
-  props: {
-    width: {
-      default: 640
-    },
-    height: {
-      default: 480
-    }
-  },
   data: function() {
     return {
       firstClickPoint: undefined,
       currentPath: undefined,
-      pathArr: [],
-      stageConfig: {
-        width: this.width,
-        height: this.height
-      }
+      pathArr: []
     };
   },
   methods: {
@@ -46,7 +34,6 @@ export default {
           `M ${this.firstClickPoint.x},${this.firstClickPoint.y}`
         );
       }
-      console.log(relativeCoordinates);
       this.pathArr.push(`L ${relativeCoordinates.x},${relativeCoordinates.y}`);
       //update the current path.
       this.currentPath = {

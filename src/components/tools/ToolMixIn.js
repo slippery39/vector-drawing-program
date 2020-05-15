@@ -46,8 +46,7 @@ var ToolMixIn = {
             return this.$refs.stage.getNode().getLayers()[0];
         },
         GetRelativePointerCoordinates(data) {
-            console.log(data);
-            const layer = this.GetDrawingLayer();
+               const layer = this.GetDrawingLayer();
             layer.getStage().setPointersPositions(data.evt);
             var transform = layer.getAbsoluteTransform().copy();
             // to detect relative position we need to invert transform
