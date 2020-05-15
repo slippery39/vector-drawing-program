@@ -82,8 +82,6 @@ export default {
         props.pathData = this.GetPathData(this.editor.selectedTool);
         props.pathName = this.GetPathName(this.editor.selectedTool);
       }
-      console.log('current props');
-      console.log(props);
       return props;
     },
     GetCurrentTool: function() {

@@ -2,35 +2,28 @@
   <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
   <v-stage ref="stage" :config="stageConfig" v-touch-pan.prevent.mouse="HandlePan">
     <v-layer :config="layerConfig">
-      <v-line v-if="currentPolygon!=undefined" :config="currentPolygon.GetKonvaConfig()" />
+      <v-line
+        v-if="currentPolygon!=undefined"
+        :config="currentPolygon.GetKonvaConfig()"
+      />
+      <template v-if="currentPolygon!=undefined">
+        <v-ellipse
+          v-for="(point,index) in currentPolygon.points"
+          :key="index"
+          :config="{
+        x:point.x,
+        y:point.y,
+        radius:{
+          x:10,
+          y:10
+        },
+        fill:index===0?'red':'white',
+        stroke:'blue'
+        }"
+        />
+      </template>
     </v-layer>
   </v-stage>
-  <!--
-  <svg ref="svg" v-touch-pan.prevent.mouse="HandlePan" width="640" height="480">
-    <g v-if="currentPolygon!=undefined">
-      <line
-        v-for="(line,index) in ConvertPointsToLines(currentPolygon)"
-        :key="'li'+index"
-        :x1="line.point1.x"
-        :y1="line.point1.y"
-        :x2="line.point2.x"
-        :y2="line.point2.y"
-        :stroke="currentPolygon.strokeColor"
-        :stroke-width="currentPolygon.strokeWidth"
-      />
-      <ellipse
-        v-for="(point,index) in currentPolygon.points"
-        :key="'el'+index"
-        :cx="point.x"
-        :cy="point.y"
-        :rx="4+currentPolygon.strokeWidth/2"
-        :ry="4+currentPolygon.strokeWidth/2"
-        :fill="index===0? 'blue': 'white'"
-        stroke="black"
-      />
-    </g>
-  </svg>
-  -->
 </template>
 
 <script>
@@ -81,7 +74,6 @@ export default {
       );
     },
     GetLastPoint: function() {
-      console.log(this.currentPolygon);
       return this.currentPolygon.points[this.currentPolygon.points.length - 1];
     },
     HandlePan: function(data) {
@@ -96,13 +88,16 @@ export default {
 
         if (!this.IsPolygonInProgress()) {
           this.currentPolygon = this.CreateStartingPolygon();
-          this.currentPolygon.points.push(Object.assign({}, relativePosition));
+          this.currentPolygon.AddPoint(Object.assign({}, relativePosition));
         }
-        this.currentPolygon.points.push(Object.assign({}, relativePosition));
+        this.currentPolygon.AddPoint(Object.assign({}, relativePosition));
       }
 
-      this.GetLastPoint().x = relativePosition.x;
-      this.GetLastPoint().y = relativePosition.y;
+      const lastPointIndex = this.currentPolygon.points.length - 1;
+      this.currentPolygon.SetPoint(
+        lastPointIndex,
+        Object.assign({}, relativePosition)
+      );
 
       if (data.isFinal) {
         //check if click is within 6 units of the first point.
@@ -114,10 +109,6 @@ export default {
           Math.abs(relativePosition.y - firstPoint.y) <=
             this.currentPolygon.strokeWidth + 4
         ) {
-          // connecting the first and last points together.
-          this.GetLastPoint().x = firstPoint.x;
-          this.GetLastPoint().y = firstPoint.y;
-
           this.$emit("shapeCompleted", this.currentPolygon);
           this.currentPolygon = undefined;
         }
