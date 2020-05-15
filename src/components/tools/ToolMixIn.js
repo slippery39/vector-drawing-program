@@ -29,7 +29,7 @@ var ToolMixIn = {
         const stagePadding = 500;
         const stageWidth = this.width + stagePadding;
         const stageHeight = this.height + stagePadding;
-
+        
         return {
             stageConfig: {
                 width: stageWidth,

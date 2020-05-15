@@ -39,6 +39,8 @@ export default {
 
       if (data.isFirst) {
         this.currentRectangle = this.CreateStartingRectangle();
+        console.log(this.$props);
+        console.log(this.currentRectangle);
         this.firstClickPoint = Object.assign({}, relativeCoordinates);
       }
 

@@ -35,13 +35,13 @@ class Polygon extends Shape {
             return { x: el.x - this.position.x, y: el.y - this.position.y }
         });
     }
-    AddPoint(point){
-        this._points.push(Object.assign({},point));
+    AddPoint(point) {
+        this._points.push(Object.assign({}, point));
         this.CalculatePosition();
         this.CalculateRelativePoints();
     }
-    SetPoint(index,point){
-        this._points[index] = Object.assign({},point);
+    SetPoint(index, point) {
+        this._points[index] = Object.assign({}, point);
         this.CalculatePosition();
         this.CalculateRelativePoints();
     }

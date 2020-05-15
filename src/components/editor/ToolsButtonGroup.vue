@@ -3,6 +3,7 @@
     v-model="editor.selectedTool"
     push
     glossy
+    size="sm"
     toggle-color="teal"
     style='flex-wrap:wrap'
     :options="[
@@ -27,37 +28,37 @@
     </template>
 
     <template v-slot:rectangle>
-      <q-icon name="far fa-square"></q-icon>
+      <q-icon class='button-icon' name="far fa-square"></q-icon>
       <q-tooltip>Rectangle</q-tooltip>
     </template>
     <template v-slot:line>
-      <svg style="width:25px;height:25px;" preserveAspectRatio="none" viewBox="0 0 25 25">
+      <svg class='button-icon' preserveAspectRatio="none" viewBox="0 0 25 25">
         <line x1="0" y1="0" x2="25" y2="25" stroke="white" stroke-width="5"/>
       </svg>
       <q-tooltip>Line</q-tooltip>
     </template>
     <template v-slot:polygon>
-      <q-icon name="fas fa-draw-polygon"></q-icon>
+      <q-icon class='button-icon' name="fas fa-draw-polygon"></q-icon>
       <q-tooltip>Polygon</q-tooltip>
     </template>
     <template slot="free-draw">
-      <q-icon name="fas fa-pencil-alt"></q-icon>
+      <q-icon class='button-icon' name="fas fa-pencil-alt"></q-icon>
       <q-tooltip>Free Draw</q-tooltip>
     </template>
     <template slot="path-heart">
-      <svg style="width:25px;height:25px;" preserveAspectRatio="none" viewBox="0 0 500 500">
+      <svg class='button-icon' preserveAspectRatio="none" viewBox="0 0 500 500">
         <path fill="white" :d="customPaths.find(e=>e.name=='heart').path" />
       </svg>
       <q-tooltip>Heart</q-tooltip>
     </template>
     <template slot="path-lightning">
-      <svg style="width:25px;height:25px;" preserveAspectRatio="none" viewBox="0 0 50 50">
+      <svg class='button-icon' preserveAspectRatio="none" viewBox="0 0 50 50">
         <path fill="white" :d="customPaths.find(e=>e.name=='lightning').path" />
       </svg>
       <q-tooltip>Lightning</q-tooltip>
     </template>
     <template slot="path-triangle">
-      <svg style="width:25px;height:25px;" preserveAspectRatio="none" viewBox="0 0 125 125">
+      <svg class='button-icon' preserveAspectRatio="none" viewBox="0 0 125 125">
         <path fill="white" :d="customPaths.find(e=>e.name=='triangle').path" />
       </svg>
       <q-tooltip>Triangle</q-tooltip>
@@ -92,3 +93,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+.button-icon{
+  width:15px;
+  height:15px;
+}
+
+</style>

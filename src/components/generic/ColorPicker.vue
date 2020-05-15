@@ -3,6 +3,7 @@
     :style="StyleColorInput(selectedColorData)"
     style="min-width:40px;margin-right:10px;"
     label="   "
+    size="sm"
   >
     <q-popup-proxy transition-show="scale" transition-hide="scale">
       <q-color

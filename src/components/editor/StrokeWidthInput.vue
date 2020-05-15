@@ -9,6 +9,7 @@
       v-model.number="editor.strokeWidth"
       type="number"
       filled
+      size="sm"
       input-style="height:30px;"
     />
   </div>

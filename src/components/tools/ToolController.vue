@@ -14,7 +14,11 @@
   <component
     v-else-if="GetCurrentTool()!=undefined"
     :is="GetCurrentTool()"
-    :props="GetCurrentProps()"
+    :strokeColor="editor.strokeColor"
+    :strokeWidth="editor.strokeWidth"
+    :fillColor="editor.fillColor"
+    :width="editor.width"
+    :height="editor.height"
     @shapeCompleted="HandleShapeComplete"
   />
 </template>
@@ -78,6 +82,8 @@ export default {
         props.pathData = this.GetPathData(this.editor.selectedTool);
         props.pathName = this.GetPathName(this.editor.selectedTool);
       }
+      console.log('current props');
+      console.log(props);
       return props;
     },
     GetCurrentTool: function() {
