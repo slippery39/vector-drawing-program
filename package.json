@@ -29,6 +29,7 @@
     "@quasar/quasar-app-extension-testing": "^1.0.0",
     "@quasar/quasar-app-extension-testing-unit-jest": "^1.0.0",
     "babel-eslint": "^10.0.1",
+    "@babel/compat-data": "^7.9.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",
