@@ -1,7 +1,6 @@
 <template>
   <q-card
-    style="width:20%;max-width:200px;"
-    v-if="shape!=undefined"
+    v-if="shape != undefined"
     color="primary"
     class="q-pa-md bg-primary text-white"
   >
@@ -9,21 +8,32 @@
     <div>
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
         Name:
-        <q-input filled v-model="shape.name" dense class="bg-white text-black" />
+        <q-input
+          filled
+          v-model="shape.name"
+          dense
+          class="bg-white text-black"
+        />
       </q-card>
     </div>
     <!--<BackgroundContainer>-->
     <div>
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
         Fill:
-        <ColorPicker @color-changed="FillColorChanged" :selectedColor="shape.fillColor" />
+        <ColorPicker
+          @color-changed="FillColorChanged"
+          :selectedColor="shape.fillColor"
+        />
       </q-card>
     </div>
     <!--</BackgroundContainer>-->
     <div>
       <q-card style="text-align:center;" class="q-pa-md bg-primary text-white">
         Border:
-        <ColorPicker @color-changed="BorderColorChanged" :selectedColor="shape.strokeColor" />
+        <ColorPicker
+          @color-changed="BorderColorChanged"
+          :selectedColor="shape.strokeColor"
+        />
       </q-card>
     </div>
     <div>
@@ -47,7 +57,8 @@
         color="primary"
         class="q-pa-md bg-primary text-white"
         style="text-align:center"
-      >Dimensions</q-card>
+        >Dimensions</q-card
+      >
       <q-card style="display:flex;" class="bg-primary">
         <q-input
           type="number"
@@ -78,7 +89,8 @@
         color="primary"
         class="q-pa-md bg-primary text-white"
         style="text-align:center"
-      >Position</q-card>
+        >Position</q-card
+      >
       <q-card style="display:flex;flex: 1 1 0;" class="bg-primary">
         <q-input
           type="number"
@@ -112,12 +124,9 @@
       </q-card>
     </div>
   </q-card>
-  <q-card
-    v-else
-    style="width:20%;max-width:200px;"
-    color="primary"
-    class="q-pa-md bg-primary text-white"
-  >A shape has not been selected</q-card>
+  <q-card v-else color="primary" class="q-pa-md bg-primary text-white"
+    >A shape has not been selected</q-card
+  >
 </template>
 
 <script>

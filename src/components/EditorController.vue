@@ -1,6 +1,9 @@
 <template>
-  <div style="display:flex;width:100%;justify-content:center;">
-    <q-card v-if="editor.shapesListVisible" style="width:225px;" class="bg-primary">
+  <div
+    style="display: grid;
+    grid-template-columns: 20% 60% 20%; height: 900px;max-height: 90vh;"
+  >
+    <q-card v-if="editor.shapesListVisible" class="bg-primary">
       <ShapeList
         @item-clicked="HandleListItemClick"
         @delete-item-clicked="HandleDeleteClicked"
@@ -13,14 +16,14 @@
     <div
       ref="canvasContainer"
       class="canvas-container"
-      style="max-width:99%;display:inline-block;overflow:scroll;"
+      style="overflow:scroll;"
       @contextmenu="SaveClickCoordinates"
     >
       <MainCanvas
         :shapes="editor.shapes"
         :allowTransforms="true"
         :selectedShape="editor.selectedShapeId"
-        @shape-selected="(id)=>editor.selectedShapeId = id"
+        @shape-selected="id => (editor.selectedShapeId = id)"
         ref="drawing"
       />
       <ToolController
@@ -33,7 +36,7 @@
       <q-menu touch-position context-menu transition-hide="none" auto-close>
         <q-list dense style="min-width: 100px">
           <q-item
-            v-if="editor.selectedShapeId!=undefined"
+            v-if="editor.selectedShapeId != undefined"
             @click="HandleSendToFront()"
             clickable
             v-close-popup
@@ -41,7 +44,7 @@
             <q-item-section>Send to Front</q-item-section>
           </q-item>
           <q-item
-            v-if="editor.selectedShapeId!=undefined"
+            v-if="editor.selectedShapeId != undefined"
             @click="HandleSendToBack()"
             clickable
             v-close-popup
@@ -51,19 +54,24 @@
 
           <!-- add copy and paste here-->
           <q-item
-            v-if="editor.selectedShapeId!=undefined"
+            v-if="editor.selectedShapeId != undefined"
             @click="HandleCopyClicked"
             clickable
             v-close-popup
           >
             <q-item-section>Copy</q-item-section>
           </q-item>
-          <q-item @click="HandlePasteClicked" v-if="editor.clipboard!=undefined" clickable v-close-popup>
+          <q-item
+            @click="HandlePasteClicked"
+            v-if="editor.clipboard != undefined"
+            clickable
+            v-close-popup
+          >
             <q-item-section>Paste</q-item-section>
           </q-item>
 
           <q-item
-            v-if="editor.selectedShapeId!=undefined"
+            v-if="editor.selectedShapeId != undefined"
             @click="HandleDeleteClicked(editor.GetSelectedShape())"
             clickable
             v-close-popup
@@ -71,7 +79,7 @@
             <q-item-section>Delete</q-item-section>
           </q-item>
           <q-item
-            v-if="editor.selectedShapeId!=undefined"
+            v-if="editor.selectedShapeId != undefined"
             @click="HandleVisibilityClicked(editor.GetSelectedShape())"
             clickable
             v-close-popup
@@ -79,7 +87,7 @@
             <q-item-section>Hide</q-item-section>
           </q-item>
           <q-item
-            v-if="editor.selectedShapeId!=undefined"
+            v-if="editor.selectedShapeId != undefined"
             @click="HandleLockClicked(editor.GetSelectedShape())"
             clickable
             v-close-popup

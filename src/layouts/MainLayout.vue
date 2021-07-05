@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md" style="height:100vh">
-    <q-layout view="lHh lpr lFf" container class="shadow-2 rounded-borders">
+    <q-layout style='min-height:0px !important;' view="lHh lpr lFf" container class="shadow-2 rounded-borders">
       <q-header elevated>
         <div class='q-ma-sm' style='display:flex;'>
         <FileMenu class='top-menu' />

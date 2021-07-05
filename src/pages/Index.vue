@@ -1,7 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
-    <EditorController/>
-  </q-page>
+   <EditorController/>
 </template>
 
 <script>
